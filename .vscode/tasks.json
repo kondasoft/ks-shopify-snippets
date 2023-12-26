@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "theme watch",
+      "type": "shell",
+      "command": "theme watch --allow-live",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "group": "1"
+      },
+      "runOptions": { "runOn": "folderOpen" }
+    }
+  ]
+}
