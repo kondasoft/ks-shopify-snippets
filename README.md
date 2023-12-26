@@ -10,9 +10,6 @@ https://www.kondasoft.com/collections/shopify-snippets
 ## Premium Shopify Themes
 https://www.kondasoft.com/collections/shopify-themes
 
-## Snippet list
-- Contact Form Builder
-
 ## Support
 Please submit a [new issue](https://github.com/kondasoft/ks-bootshop/issues/new) in case you want to submit a bug or feature request. Additionally, you may visit our [website](https://www.kondasoft.com/) for further help.
 
