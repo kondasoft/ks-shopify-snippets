@@ -1,11 +1,11 @@
 # Shopify Snippets
 Shopify Theme Snippets that you may use on the Dawn theme or any other Shopify theme.
 
-## Demo (Password: ks)
-https://ks-snippets.myshopify.com
-
 ## Snippet list and download
 - [KS Contact Form Builder](https://www.kondasoft.com/collections/shopify-snippets/product/ks-contact-form-builder)
+
+## Demo (Password: ks)
+https://ks-snippets.myshopify.com
 
 ## View all snippets
 https://www.kondasoft.com/collections/shopify-snippets
