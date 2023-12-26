@@ -8,7 +8,7 @@ https://ks-snippets.myshopify.com
 - [KS Contact Form Builder](https://www.kondasoft.com/collections/shopify-snippets/product/ks-contact-form-builder)
 
 ## View all snippets
-(https://www.kondasoft.com/collections/shopify-snippets
+https://www.kondasoft.com/collections/shopify-snippets
 
 ## Premium Shopify Themes
 Premium Shopify Themes For The Aspiring Entrepreneur
