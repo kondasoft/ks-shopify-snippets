@@ -1,7 +1,7 @@
 # Shopify Snippets
 Shopify Theme Snippets that you may use on the Dawn theme or any other Shopify theme.
 
-## Demo for all snippets (Password: ks)
+## Demo (Password: ks)
 https://ks-snippets.myshopify.com
 
 ## Snippet list and download
