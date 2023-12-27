@@ -5,6 +5,7 @@ Shopify Theme Snippets that you may use on the Dawn theme or any other Shopify t
 https://ks-snippets.myshopify.com
 
 ## Snippet list and download
+- KS Countdown Sale [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/product/ks-countdown-sale) - [Demo](https://ks-snippets.myshopify.com/pages/ks-countdown-sale)
 - KS Contact Form Builder [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/product/ks-contact-form-builder) - [Demo](https://ks-snippets.myshopify.com/pages/ks-contact-form-builder)
 
 ## View all snippets
