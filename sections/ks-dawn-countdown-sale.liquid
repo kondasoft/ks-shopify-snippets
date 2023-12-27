@@ -1,0 +1,428 @@
+{% liquid 
+  # KS Coundown Sale
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{%- style -%}
+ .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .ks-countdown-sale {
+  }
+
+  .ks-countdown-sale-inner {
+  }
+
+  .ks-countdown-sale-countdown {
+    text-align: center;
+  }
+  
+  .ks-countdown-sale-text {
+  }
+
+  .ks-countdown-sale-text .title {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .ks-countdown-sale-text .description {
+    margin-top: 0;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 749px) {
+    .ks-countdown-sale-countdown {
+      padding: 1rem 0 0;
+    }
+    .ks-countdown-sale-text {
+      text-align: center;
+      padding: 2rem;
+    }
+  }
+
+  @media (min-width: 750px) {
+    .ks-countdown-sale-inner {
+      display: flex;
+      align-items: center;
+    }
+    .ks-countdown-sale-countdown {
+      width: 50%;
+    }
+    .ks-countdown-sale-text {
+      width: 50%;
+      padding: 7rem;
+    }
+  }
+
+.ks-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ks-countdown span {
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--bs-border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50rem;
+  line-height: 1;
+}
+
+.ks-countdown span em {
+  display: block;
+  margin-bottom: .5rem;
+  opacity: 1;
+  font-style: normal;
+}
+
+@media (max-width: 749px) {
+  .ks-countdown span {
+    width: 7rem;
+    height: 7rem;
+    margin: .5rem;
+    font-size: 3.5rem;
+  }
+  .ks-countdown span em {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 750px) {
+  .ks-countdown span {
+    width: 10rem;
+    height: 10rem;
+    margin: .75rem;
+    font-size: 5rem;
+  }
+  .ks-countdown span em {
+    font-size: 1.4rem;
+  }
+}
+
+{%- endstyle -%}
+
+{%- javascript -%}
+class KsCountdown extends HTMLElement {
+  constructor () {
+    super()
+
+    if (!this.dataset.time.length) {
+      this.innerHTML = 'Please add the unix time in the settings'
+    }
+
+    let countDownDate = Number(this.dataset.time) * 1000
+
+    if (window.location.href.includes('ks-')) {
+      countDownDate = Date.now() + 1.728e+8
+    }
+
+    const x = setInterval(() => {
+      const now = new Date().getTime()
+      const distance = countDownDate - now
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      const sec = Math.floor((distance % (1000 * 60)) / 1000)
+
+      this.querySelector('[data-days]').innerHTML = `${days} <em>${this.dataset.textDays}</em>`
+      this.querySelector('[data-hours]').innerHTML = `${hours} <em>${this.dataset.textHours}</em>`
+      this.querySelector('[data-min]').innerHTML = `${min} <em>${this.dataset.textMin}</em>`
+      this.querySelector('[data-sec]').innerHTML = `${sec} <em>${this.dataset.textSec}</em>`
+
+      if (distance < 0) {
+        clearInterval(x)
+        this.innerHTML = this.dataset.textExpired
+      }
+    }, 1000)
+  }
+}
+customElements.define('ks-countdown', KsCountdown)
+
+{%- endjavascript -%}
+ 
+<div 
+  id="ks-countdown-sale-{{ section.id }}"
+  class="ks-countdown-sale color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width page-width section-{{ section.id }}-padding {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+
+    <div class="ks-countdown-sale-inner">
+      {% for block in section.blocks %}
+        {% if block.type == 'countdown' %}
+          <div class="ks-countdown-sale-countdown" {{ block.shopify_attributes }}>
+            <ks-countdown
+              class="ks-countdown {{ block.settings.text_color }} "
+              data-time="{{ block.settings.time }}" 
+              data-text-days="{{ block.settings.text_days }}"
+              data-text-hours="{{ block.settings.text_hours }}"
+              data-text-min="{{ block.settings.text_minutes }}"
+              data-text-sec="{{ block.settings.text_seconds }}"
+              data-text-expired="{{ block.settings.text_expired }}"
+              role="timer">
+              <span 
+                class=""
+                style="
+                  background-color: {{ block.settings.bg_color }};
+                  color: {{ block.settings.text_color }};
+                  border-width: {{ block.settings.border_width }}px;
+                  border-color: {{ block.settings.border_color }};
+                "
+                data-days>
+              </span>
+              <span 
+                class=""
+                style="
+                  background-color: {{ block.settings.bg_color }};
+                  color: {{ block.settings.text_color }};
+                  border-width: {{ block.settings.border_width }}px;
+                  border-color: {{ block.settings.border_color }};
+                "
+                data-hours>
+              </span>
+              <span 
+                class=""
+                style="
+                  background-color: {{ block.settings.bg_color }};
+                  color: {{ block.settings.text_color }};
+                  border-width: {{ block.settings.border_width }}px;
+                  border-color: {{ block.settings.border_color }};
+                "
+                data-min>
+              </span>
+              <span 
+                class=""
+                style="
+                  background-color: {{ block.settings.bg_color }};
+                  color: {{ block.settings.text_color }};
+                  border-width: {{ block.settings.border_width }}px;
+                  border-color: {{ block.settings.border_color }};
+                "
+                data-sec>
+              </span>
+            </ks-countdown>
+          </div>
+        {% else %}
+          <div class="ks-countdown-sale-text" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h2 class="title inline-richtext {{ block.settings.heading_size }}">
+                {{ block.settings.heading }}
+              </h2>
+            {%- endif -%}
+            {%- if block.settings.description != blank %}
+              <div class="description rte">
+                {{ block.settings.description }}
+              </div>
+            {% endif %}
+            {%- if block.settings.button_label != blank -%}
+              <a
+                href="{{ block.settings.button_link }}"
+                class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">
+                {{ block.settings.button_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        {% endif %}
+      {% endfor %}  
+    </div>
+    
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KS - Countdown Sale",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "countdown",
+      "name": "Countdown",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "time",
+          "label": "Time",
+          "info": "Based on the unix time in seconds. [Learn more](https://www.epochconverter.com/)."
+        },
+        {
+          "type": "header",
+          "content": "Styling"
+        },
+        {
+          "type": "header",
+          "content": "Translation"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#121212"
+        },
+        {
+          "type": "range",
+          "id": "border_width",
+          "label": "Border width",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border color",
+          "default": "#121212"
+        },
+        {
+          "type": "header",
+          "content": "Translation"
+        },
+        {
+          "type": "text",
+          "id": "text_days",
+          "label": "Days",
+          "default": "Days"
+        },
+        {
+          "type": "text",
+          "id": "text_minutes",
+          "label": "Minutes",
+          "default": "Minutes"
+        },
+        {
+          "type": "text",
+          "id": "text_hours",
+          "label": "Hours",
+          "default": "Hours"
+        },
+        {
+          "type": "text",
+          "id": "text_seconds",
+          "label": "Seconds",
+          "default": "Seconds"
+        },
+        {
+          "type": "text",
+          "id": "text_expired",
+          "label": "Expired",
+          "default": "Offer has expired!"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Countdown Sale"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+            { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+            { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" }
+          ],
+          "default": "h2",
+          "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "default": "<p>Use this section to showcase your offers that require a sense of urgency.</p>",
+          "info": "Leave empty to disable",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Shop now",
+          "label": "t:sections.image-with-text.blocks.button.settings.button_label.label",
+          "info": "t:sections.image-with-text.blocks.button.settings.button_label.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.image-with-text.blocks.button.settings.button_link.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_secondary",
+          "default": false,
+          "label": "t:sections.image-with-text.blocks.button.settings.outline_button.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Countdown Sale",
+      "blocks": [
+        {
+          "type": "countdown"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
