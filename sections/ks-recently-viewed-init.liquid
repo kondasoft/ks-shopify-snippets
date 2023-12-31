@@ -1,0 +1,168 @@
+{% liquid 
+  # KS Recently Viewed
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+
+  # Edit these settings if necessary
+  assign limit = 40
+%}
+
+{%- stylesheet -%}
+#cart-icon-recently-viewed-mobile {
+  display: flex;
+  align-items: center;
+  padding: 1.1rem 3rem;
+}
+
+#cart-icon-recently-viewed-mobile svg {
+  margin-right: 1rem;
+}
+
+@media (max-width: 989px) {
+  #cart-icon-recently-viewed-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 990px) {
+  #cart-icon-recently-viewed-mobile {
+    display: none !important;
+  }
+}
+{%- endstylesheet -%}
+
+<script>
+  window.ks_recently_viewed = {
+    limit: {{- section.settings.limit -}},
+    pageUrl: '{{- pages[section.settings.page].url -}}',
+    label: '{{- section.settings.label -}}',
+    {% if request.page_type == 'product' %}
+      product: {
+        url: '{{- product.url -}}',
+        id: {{- product.id -}},
+        handle: '{{- product.handle -}}',
+        title: '{{- product.title -}}',
+        img_src: '{{- product.featured_image.src | image_url -}}',
+        img_alt: '{{- product.featured_image.alt | slice: 0, 40 -}}',
+        compare_at_price: {{- product.compare_at_price | default: 'null' -}},
+        price: {{- product.price }},
+        price_varies: {{- product.price_varies -}}
+      }
+    {% endif %}
+  }
+</script>
+
+{%- javascript -%}
+  (function () {
+    document.querySelector('.menu-drawer__menu').insertAdjacentHTML('afterend', `
+      <a 
+        href="${window.ks_recently_viewed.pageUrl}" 
+        class="link focus-inset" 
+        id="cart-icon-recently-viewed-mobile">
+        <svg width="18" height="18" viewBox="0 0 52 52" class="icon" aria-hidden="true">
+          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g transform="translate(-6, 0.2896)" fill="currentColor" fill-rule="nonzero">
+              <g transform="translate(6.1445, 0)">
+                <path d="M25.8554688,-8.8817842e-16 C17.3200074,-8.8817842e-16 9.5266724,4.0849609 4.6824341,11.0106812 L4.7016602,0.7124024 L2.7016602,0.7084962 L2.6757813,14.4692383 L16.4365235,14.4951172 L16.4404297,12.4951172 L6.1115723,12.4758301 C10.5645142,5.8973999 17.8535157,2 25.8554688,2 C39.0092774,2 49.7109376,12.7011719 49.7109376,25.8549805 C49.7109376,39.0087891 39.0092774,49.7104492 25.8554688,49.7104492 C12.7016602,49.7104492 2,39.008789 2,25.8549804 L0,25.8549804 C0,40.1118164 11.5986329,51.7104492 25.8554688,51.7104492 C40.1123047,51.7104492 51.7109376,40.1118164 51.7109376,25.8549804 C51.7109376,11.5986328 40.1123047,-8.8817842e-16 25.8554688,-8.8817842e-16 Z"></path>
+                <polygon points="24.8554688 7.102539 24.8554688 26.2880859 34.0483399 34.9067383 35.416504 33.4477539 26.8554688 25.421875 26.8554688 7.102539"></polygon>
+              </g>
+            </g>
+          </g>
+        </svg>
+        ${window.ks_recently_viewed.label}
+      </a>
+    `)
+
+    document.querySelector('#cart-icon-bubble').insertAdjacentHTML('beforebegin', `
+      <a 
+        href="${window.ks_recently_viewed.pageUrl}" 
+        class="header__icon link focus-inset" 
+        id="cart-icon-recently-viewed-desktop"
+        aria-label="${window.ks_recently_viewed.label}">
+        <svg width="20" height="20" viewBox="0 0 52 52" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
+          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="noun-recent-1518831" transform="translate(-6, 0.2896)" fill="currentColor" fill-rule="nonzero">
+              <g transform="translate(6.1445, 0)">
+                <path d="M25.8554688,-8.8817842e-16 C17.3200074,-8.8817842e-16 9.5266724,4.0849609 4.6824341,11.0106812 L4.7016602,0.7124024 L2.7016602,0.7084962 L2.6757813,14.4692383 L16.4365235,14.4951172 L16.4404297,12.4951172 L6.1115723,12.4758301 C10.5645142,5.8973999 17.8535157,2 25.8554688,2 C39.0092774,2 49.7109376,12.7011719 49.7109376,25.8549805 C49.7109376,39.0087891 39.0092774,49.7104492 25.8554688,49.7104492 C12.7016602,49.7104492 2,39.008789 2,25.8549804 L0,25.8549804 C0,40.1118164 11.5986329,51.7104492 25.8554688,51.7104492 C40.1123047,51.7104492 51.7109376,40.1118164 51.7109376,25.8549804 C51.7109376,11.5986328 40.1123047,-8.8817842e-16 25.8554688,-8.8817842e-16 Z"></path>
+                <polygon points="24.8554688 7.102539 24.8554688 26.2880859 34.0483399 34.9067383 35.416504 33.4477539 26.8554688 25.421875 26.8554688 7.102539"></polygon>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </a>
+    `)
+  })();
+
+  (async function () {
+    if (!window.ks_recently_viewed.product) return
+
+    let recentlyViewed = JSON.parse(localStorage.getItem('ks-recently-viewed')) || []
+    const product = window.ks_recently_viewed.product
+    const limit = window.ks_recently_viewed.limit
+
+    const isViewed = recentlyViewed.some((elem) => elem.url === product.url)
+
+    if (isViewed) {
+      recentlyViewed = recentlyViewed.filter((elem) => elem.url !== product.url)
+    }
+
+    recentlyViewed.push({
+      url: product.url,
+      id: product.id,
+      handle: product.handle,
+      title: product.title,
+      img_src: product.img_src,
+      img_alt: product.img_alt,
+      compare_at_price: product.compare_at_price,
+      price: product.price,
+      price_varies: product.price_varies,
+      added_at: Date.now()
+    })
+
+    function keepLastXItemsInArray(arr, x) {
+      if (x >= 0 && x <= arr.length) {
+        return arr.slice(-x)
+      } else {
+        return arr
+      }
+    }
+
+    recentlyViewed = keepLastXItemsInArray(recentlyViewed, Number(limit))
+    localStorage.setItem('ks-recently-viewed', JSON.stringify(recentlyViewed))
+  })();
+{%- endjavascript -%}
+
+{% schema %}
+{
+  "name": "KS - Recently Viewed Init",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Limit products",
+      "default": 40,
+      "min": 10,
+      "max": 100
+    },
+    {
+      "type": "page",
+      "id": "page",
+      "label": "Page",
+      "info": "The page to show the recently viewed products."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Recently Viewed"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Recently Viewed Init"
+    }
+  ]
+}
+{% endschema %}
