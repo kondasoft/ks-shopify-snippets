@@ -55,21 +55,109 @@
         "view_all_style": "solid",
         "enable_desktop_slider": false,
         "color_scheme": "background-1",
-        "image_ratio": "adapt",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": false,
-        "enable_quick_add": false,
+        "show_rating": true,
+        "enable_quick_add": true,
         "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "4251c938-1071-4845-b7d6-50cba489a8f1": {
+      "type": "ks-dawn-countdown-sale",
+      "blocks": {
+        "template--21834473799986__4251c938-1071-4845-b7d6-50cba489a8f1-countdown-1": {
+          "type": "countdown",
+          "settings": {
+            "time": "1704041639",
+            "bg_color": "#ffffff",
+            "text_color": "#121212",
+            "border_width": 2,
+            "border_color": "#121212",
+            "text_days": "Days",
+            "text_minutes": "Minutes",
+            "text_hours": "Hours",
+            "text_seconds": "Seconds",
+            "text_expired": "Offer has expired!"
+          }
+        },
+        "template--21834473799986__4251c938-1071-4845-b7d6-50cba489a8f1-text-1": {
+          "type": "text",
+          "settings": {
+            "heading": "Countdown Sale",
+            "heading_size": "h1",
+            "description": "<p>Use this section to showcase your offers that require a sense of urgency.<\/p>",
+            "button_label": "Shop now",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "template--21834473799986__4251c938-1071-4845-b7d6-50cba489a8f1-countdown-1",
+        "template--21834473799986__4251c938-1071-4845-b7d6-50cba489a8f1-text-1"
+      ],
+      "settings": {
+        "color_scheme": "background-2",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "34b4951a-fbeb-469a-813d-2c1e017ad1c3": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21834473799986__34b4951a-fbeb-469a-813d-2c1e017ad1c3-heading-1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text",
+            "heading_size": "h1"
+          }
+        },
+        "template--21834473799986__34b4951a-fbeb-469a-813d-2c1e017ad1c3-text-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "text_style": "body"
+          }
+        },
+        "template--21834473799986__34b4951a-fbeb-469a-813d-2c1e017ad1c3-button-1": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "template--21834473799986__34b4951a-fbeb-469a-813d-2c1e017ad1c3-heading-1",
+        "template--21834473799986__34b4951a-fbeb-469a-813d-2c1e017ad1c3-text-1",
+        "template--21834473799986__34b4951a-fbeb-469a-813d-2c1e017ad1c3-button-1"
+      ],
+      "settings": {
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
         "padding_bottom": 36
       }
     }
   },
   "order": [
     "image_banner",
-    "featured_collection"
+    "featured_collection",
+    "4251c938-1071-4845-b7d6-50cba489a8f1",
+    "34b4951a-fbeb-469a-813d-2c1e017ad1c3"
   ]
 }
