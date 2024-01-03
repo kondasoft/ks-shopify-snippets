@@ -8,6 +8,7 @@ https://ks-snippets.myshopify.com
 - KS Countdown Sale [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-countdown-sale) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/pages/ks-countdown-sale)
 - KS Contact Form Builder [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-contact-form-builder) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/pages/ks-contact-form-builder)
 - KS Recently Viewed [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-recently-viewed) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/pages/ks-recently-viewed)
+- KS Product Custom Properties [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-product-custom-properties) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/products/ks-product-custom-properties)
 
 ## View all snippets
 https://www.kondasoft.com/collections/shopify-snippets
