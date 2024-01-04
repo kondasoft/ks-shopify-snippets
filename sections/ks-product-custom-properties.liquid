@@ -1,0 +1,319 @@
+{% liquid 
+%}
+
+{% if request.page_type == 'product' %}
+  <style>
+    .ks-product-custom-property {
+      margin: 1.5rem 0;
+    }
+
+    body .product-form__buttons {
+      margin-top: 2.5rem;
+    }
+
+    .field__input[type="file"] {
+      padding: 3rem 2.125rem 3rem;
+      font-size: 14px;
+    }
+
+    .field__input[type="file"] + label {
+      font-size: 13px !important;
+    }
+
+    .field__input[type="file"]::file-selector-button {
+      border: 1px solid rgb(var(--color-foreground));
+      color: rgb(var(--color-foreground));
+      font-size: 13px;
+      background: transparent;
+      margin-right: 7px;
+    }
+    
+    .ks-custom-property-info-text {
+      font-size: 1.3rem;
+      line-height: calc(1 + .5 / var(--font-body-scale));
+      font-style: italic;
+      padding-top: 0.25rem;
+    }
+    
+    .ks-product-custom-properties-wrapper {
+      margin: 2rem;
+    }
+
+    .ks-product-custom-properties-wrapper #ks-product-custom-properties-notice {
+      display: block !important;
+      padding: 1rem;
+      background: #f8d7da;
+      border: 1px solid #f1aeb5;
+      color: #58151c;
+    }
+  </style>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.querySelector('#ks-product-custom-properties')
+      const buttons = document.querySelector('.product .product-form__buttons')
+      const atcButton = buttons.querySelector('button[name="add"]')
+      
+      buttons.insertAdjacentElement('beforebegin', wrapper)
+
+      document.querySelectorAll('#ks-product-custom-properties .field__input').forEach(fieldInput => {
+        if (fieldInput.hasAttribute('required') && !fieldInput.value.length) {
+          atcButton.disabled = true
+        }
+
+        fieldInput.addEventListener('input', (e) => {
+          atcButton.disabled = false
+          document.querySelectorAll('#ks-product-custom-properties .field__input').forEach(fieldInput => {
+            if (fieldInput.hasAttribute('required') && !fieldInput.value.length) {
+              atcButton.disabled = true
+            }
+          })
+        })
+      })
+
+
+      document.querySelectorAll('.ks-product-custom-property[data-type="checkbox"]').forEach(block => {
+        let checkboxValues = []
+
+        block.querySelectorAll('[type="checkbox"]').forEach(checkbox => {
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              checkboxValues.push(checkbox.value)
+            } else {
+              checkboxValues = checkboxValues.filter((item) => item !== checkbox.value)
+            }
+
+            block.querySelector('[type="hidden"]').value = checkboxValues.join(', ')
+          })
+        })
+      })
+
+    })
+  </script>
+
+  <div id="ks-product-custom-properties">
+    {% if request.design_mode %}
+      <p id="ks-product-custom-properties-notice" style="display: none;">
+        Please "Save" the changes after you finish and the custom properties will show within the product form.
+      </p>
+    {% endif %}
+    {% for block in section.blocks %}
+      <div 
+        class="ks-product-custom-property"
+        data-type="{{ block.settings.type }}">
+        {% case block.settings.type %}
+          {% when 'text' or 'date' or 'file' %}
+            {% liquid 
+              assign label_and_required = block.settings.label
+              if block.settings.required and block.settings.required_suffix != blank
+                assign label_and_required = label_and_required | append: ' ' | append: block.settings.required_suffix
+              endif
+            %}
+            <div class="field">
+              <input 
+                id="ks-custom-property-{{ block.id }}"
+                class="field__input"
+                type="{{ block.settings.type }}" 
+                name="properties[{{ block.settings.label }}]"
+                placeholder="{{ label_and_required }}"
+                {% if block.settings.required %}required{% endif %}>
+              <label
+                for="ks-custom-property-{{ block.id }}" 
+                class="field__label">
+                {{ label_and_required }} 
+              </label>
+            </div>
+          {% when 'textarea' %}
+            {% liquid 
+              assign label_and_required = block.settings.label
+              if block.settings.required and block.settings.required_suffix != blank
+                assign label_and_required = label_and_required | append: ' ' | append: block.settings.required_suffix
+              endif
+            %}
+            <div class="field">
+              <textarea
+                id="ks-custom-property-{{ block.id }}"
+                class="text-area field__input"
+                name="properties[{{ block.settings.label }}]"
+                placeholder="{{ label_and_required }}"
+                {% if block.settings.required %}required{% endif %}></textarea>
+              <label 
+                for="ks-custom-property-{{ block.id }}"
+                class="form__label field__label">
+                {{- label_and_required -}}
+              </label>
+            </div>
+          {% when 'select' %}
+            {% assign options = block.settings.options | split: ', ' %}
+            <div class="field-other">
+              <label 
+                for="ks-custom-property-{{ block.id }}"
+                class="form__label">
+                {{ block.settings.label }}
+              </label>
+              <div class="select">
+                <select 
+                  id="ks-custom-property-{{ block.id }}"
+                  class="select__select"
+                  name="properties[{{ block.settings.label }}]">
+                  {% for option in options %}
+                    <option value="{{ option }}">
+                      {{ option }}
+                    </option>
+                  {% endfor %}
+                </select>
+                {% render 'icon-caret' %}
+              </div>
+            </div>
+          {% when 'checkbox' %}
+            {% assign options = block.settings.options | split: ', ' %}
+            <input 
+              name="properties[{{ block.settings.label }}]" 
+              type="hidden"
+              value="">
+            <div class="field-other">
+              <p class="" style="margin: 0 0 .25rem;">
+                {{ block.settings.label }}
+              </p>
+              {% for option in options %}
+                <div class="">
+                  <input 
+                    id="ks-custom-property-{{ block.id }}-{{ forloop.index }}"
+                    class="" 
+                    type="checkbox" 
+                    value="{{ option }}">
+                  <label 
+                    for="ks-custom-property-{{ block.id }}-{{ forloop.index }}" 
+                    class="">
+                    {{ option }}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          {% when 'radio' %}
+            {% assign options = block.settings.options | split: ', ' %}
+            <div class="field-other">
+              <p class="" style="margin: 0 0 .25rem;">
+                {{ block.settings.label }}
+              </p>
+              {% for option in options %}
+                <div class="">
+                  <input 
+                    id="ks-custom-property-{{ block.id }}-{{ forloop.index }}"
+                    class="" 
+                    type="radio" 
+                    name="properties[{{ block.settings.label }}]" 
+                    value="{{ option }}">
+                  <label 
+                    for="ks-custom-property-{{ block.id }}-{{ forloop.index }}" 
+                    class="">
+                    {{ option }}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+        {% endcase %}
+
+        {% if block.settings.info_text != blank %}
+          <div class="ks-custom-property-info-text description rte">
+            {{ block.settings.info_text }}
+          </div>
+        {% endif %}
+
+      </div>
+    {% endfor %}
+  </div>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "KS - Custom Properties",
+  "class": "ks-product-custom-properties-wrapper",
+  "blocks": [
+    {
+      "type": "input",
+      "name": "Input",
+      "settings": [
+        {
+          "type": "select",
+          "id": "type",
+          "label": "Input type",
+          "default": "text",
+          "options": [
+            { "value": "text", "label": "Text" },
+            { "value": "textarea", "label": "Textarea" },
+            { "value": "file", "label": "File Upload" },
+            { "value": "date", "label": "Date" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "City"
+        },
+        {
+          "type": "richtext",
+          "id": "info_text",
+          "label": "Info hext",
+          "info": "Small text to show below the field"
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required property",
+          "default": true,
+          "info": "If enabled, the \"Add to cart\" button will be disabled unless this field is completed."
+        },
+        {
+          "type": "text",
+          "id": "required_suffix",
+          "label": "Required suffix",
+          "default": "(required)"
+        }
+      ]
+    },
+    {
+      "type": "selectable",
+      "name": "Selectable",
+      "settings": [
+        {
+          "type": "select",
+          "id": "type",
+          "label": "Input type",
+          "default": "select",
+          "options": [
+            { "value": "select", "label": "Select" },
+            { "value": "checkbox", "label": "Checkbox" },
+            { "value": "radio", "label": "Radio" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Country"
+        },
+        {
+          "type": "textarea",
+          "id": "options",
+          "label": "Options",
+          "default": "United States, Canada, France"
+        },
+        {
+          "type": "richtext",
+          "id": "info_text",
+          "label": "Info hext",
+          "info": "Small text to show below the field"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Custom Properties"
+    }
+  ]
+}
+{% endschema %}
