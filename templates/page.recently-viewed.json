@@ -1,0 +1,41 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "67661422-165f-460a-9a49-57a51702d6cd": {
+      "type": "ks-dawn-recently-viewed",
+      "settings": {
+        "color_scheme": "",
+        "header_text_align": "center",
+        "title": "Recently Viewed",
+        "title_size": "h1",
+        "description": "<p>Add an optional description for this section<\/p>",
+        "description_style": "body",
+        "empty": "<p>No viewed products yet!<\/p>",
+        "columns_mobile": "2",
+        "columns_desktop": 4,
+        "image_ratio": "square",
+        "text_times_days": "Days",
+        "text_times_day": "Day",
+        "text_times_hours": "Hours",
+        "text_times_hour": "Hour",
+        "text_times_minutes": "Minutes",
+        "text_times_minute": "Minute",
+        "text_times_moments": "Moments",
+        "text_times_ago": "Ago",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "67661422-165f-460a-9a49-57a51702d6cd"
+  ]
+}
