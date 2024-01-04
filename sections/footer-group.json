@@ -2,6 +2,88 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "5e9b7f9e-ceba-4274-b5b6-064526598481": {
+      "type": "ks-product-custom-properties",
+      "blocks": {
+        "cd149fe3-f72a-4ac7-903f-a841d8bec1c3": {
+          "type": "input",
+          "settings": {
+            "type": "text",
+            "label": "City",
+            "info_text": "<p>Some optional info text for this field<\/p>",
+            "required": true,
+            "required_suffix": "(required)"
+          }
+        },
+        "c74e8a61-dee6-4b26-bd24-40b5f40496e8": {
+          "type": "input",
+          "settings": {
+            "type": "textarea",
+            "label": "Message",
+            "info_text": "",
+            "required": true,
+            "required_suffix": "(required)"
+          }
+        },
+        "92f2b50b-7d31-4494-a53c-042dd26e21ac": {
+          "type": "input",
+          "settings": {
+            "type": "file",
+            "label": "Sample File upload",
+            "info_text": "",
+            "required": true,
+            "required_suffix": "(required)"
+          }
+        },
+        "7bec3972-6465-47b6-838c-2890509cd865": {
+          "type": "input",
+          "settings": {
+            "type": "date",
+            "label": "Date",
+            "info_text": "",
+            "required": true,
+            "required_suffix": "(required)"
+          }
+        },
+        "b6e24bf3-8708-4c35-acee-c1fb54d1198b": {
+          "type": "selectable",
+          "settings": {
+            "type": "select",
+            "label": "Country",
+            "options": "United States, Canada, France",
+            "info_text": ""
+          }
+        },
+        "0aa22638-2b75-4730-bcf6-a14d87ed4543": {
+          "type": "selectable",
+          "settings": {
+            "type": "checkbox",
+            "label": "Planets",
+            "options": "Mars, Venus, Jupiter",
+            "info_text": ""
+          }
+        },
+        "fbe7ba86-5492-4eb6-8557-9549885837e3": {
+          "type": "selectable",
+          "settings": {
+            "type": "radio",
+            "label": "Stars",
+            "options": "Sol, Polaris, Sirius",
+            "info_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "cd149fe3-f72a-4ac7-903f-a841d8bec1c3",
+        "c74e8a61-dee6-4b26-bd24-40b5f40496e8",
+        "92f2b50b-7d31-4494-a53c-042dd26e21ac",
+        "7bec3972-6465-47b6-838c-2890509cd865",
+        "b6e24bf3-8708-4c35-acee-c1fb54d1198b",
+        "0aa22638-2b75-4730-bcf6-a14d87ed4543",
+        "fbe7ba86-5492-4eb6-8557-9549885837e3"
+      ],
+      "settings": {}
+    },
     "footer": {
       "type": "footer",
       "settings": {
@@ -18,9 +100,19 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "aefd030f-7d61-49f9-b87a-c5782b56f65c": {
+      "type": "ks-recently-viewed-init",
+      "settings": {
+        "limit": 40,
+        "page": "ks-recently-viewed",
+        "label": "Recently Viewed"
+      }
     }
   },
   "order": [
-    "footer"
+    "5e9b7f9e-ceba-4274-b5b6-064526598481",
+    "footer",
+    "aefd030f-7d61-49f9-b87a-c5782b56f65c"
   ]
 }
