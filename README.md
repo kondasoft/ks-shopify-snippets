@@ -9,6 +9,7 @@ https://ks-snippets.myshopify.com
 - KS Contact Form Builder [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-contact-form-builder) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/pages/ks-contact-form-builder)
 - KS Recently Viewed [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-recently-viewed) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/pages/ks-recently-viewed)
 - KS Product Custom Properties [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-product-custom-properties) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/products/ks-product-custom-properties)
+- KS Cart Drawer Upsell [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-cart-drawer-upsell) - [Demo (pass: ks)](https://ks-snippets.myshopify.com)
 
 ## View all snippets
 https://www.kondasoft.com/collections/shopify-snippets
