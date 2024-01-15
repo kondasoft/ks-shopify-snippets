@@ -1,0 +1,299 @@
+{% liquid 
+  # KS Dawn Cart Drawer Upsell
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% liquid 
+%}
+
+{%- stylesheet -%}
+.cart-drawer-items-wrapper {
+  overflow: auto;
+  flex: 1;
+}
+
+@media (max-height: 650px) {
+  .cart-drawer-items-wrapper {
+    overflow: visible;
+  }
+}
+
+.cart-drawer-items-wrapper::-webkit-scrollbar {
+  width: 3px;
+}
+
+.cart-drawer-items-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--color-foreground), 0.7);
+  border-radius: 100px;
+}
+
+.cart-drawer-items-wrapper::-webkit-scrollbar-track-piece {
+  margin-top: 31px;
+}
+ 
+#ks-cart-drawer-upsell-wrapper {
+  display: none;
+}
+
+.ks-cart-drawer-upsell-title {
+  opacity: .85;
+  padding-bottom: 6px;
+  border-bottom: .1rem solid rgba(var(--color-foreground), .08);
+}
+
+.ks-cart-drawer-upsell-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+} 
+
+.ks-cart-drawer-upsell-list-item {
+  display: flex;
+  padding: 6px 0;
+}
+
+.ks-cart-drawer-upsell-list-item-left {
+  width: 29%;
+  margin-right: 4%;
+}
+
+.ks-cart-drawer-upsell-list-item-left img {
+}
+
+.ks-cart-drawer-upsell-list-item-right {
+  flex: 1;
+}
+
+.ks-cart-drawer-upsell-list-item .cart-item__name {
+  margin: 0 0 .5rem;
+}
+
+.ks-cart-drawer-upsell-list-item .product-option {
+  margin-bottom: 1rem;
+}
+
+.ks-cart-drawer-upsell-list-item .product-option s {
+  margin-right: .5rem;
+  opacity: .75;
+}
+
+.ks-cart-drawer-upsell-list-item .field-wrapper {
+  padding-top: .1rem;
+  margin-bottom: 1rem;
+  width: 99%;
+}
+
+.ks-cart-drawer-upsell-list-item .field-wrapper .select__select {
+  height: auto;
+  padding: 6px 12px;
+}
+
+.ks-cart-drawer-upsell-list-item button[name="add"] {
+  padding: 8px;
+  min-height: auto;
+  width: 99%;
+}
+{%- endstylesheet -%}
+
+
+{%- javascript -%}
+   (function () {  
+    async function insertSection() {
+      if (document.querySelector('#CartDrawer .cart-drawer-items-wrapper')) return
+
+      var cartDrawerItems = document.querySelector('#CartDrawer cart-drawer-items')
+      if (cartDrawerItems.classList.contains('is-empty')) return
+
+      var wrapper = document.createElement('div')
+      wrapper.classList.add('cart-drawer-items-wrapper')
+      cartDrawerItems.parentNode.insertBefore(wrapper, cartDrawerItems)
+      wrapper.appendChild(cartDrawerItems)
+
+      const upsells = document.querySelector('#ks-cart-drawer-upsell-wrapper')
+      wrapper.insertAdjacentHTML('beforeend', upsells.innerHTML)
+    }
+    insertSection()
+    
+    window.onChangeKsUpsellVariantSelector = function( select, event) {
+      event.preventDefault()
+      const imgSrc = select.options[select.selectedIndex].dataset.variantImg
+
+      if (imgSrc) {
+        const img = select.closest('.ks-cart-drawer-upsell-list-item').querySelector('.ks-cart-drawer-upsell-list-item-left img')
+        img.src = imgSrc
+      }
+    }
+
+    function listenCartDrawer() {
+      const element = document.querySelector('cart-drawer')
+      let timer
+      
+      const observer = new MutationObserver((mutations) => { 
+        if (timer) clearTimeout(timer)
+
+        timer = setTimeout(async () => {
+          const respoonse = await fetch(window.location.href)
+          const text = await respoonse.text()
+          const newDocument = new DOMParser().parseFromString(text, 'text/html')
+
+          document.querySelector('#ks-cart-drawer-upsell-wrapper')
+            .replaceWith(newDocument.querySelector('#ks-cart-drawer-upsell-wrapper'))
+
+          insertSection()
+        }, 250)
+      })
+
+      observer.observe(element, { 
+        attributes: true, 
+        childList: true, 
+        subtree: true
+      });
+    }
+    listenCartDrawer()
+  })();
+{%- endjavascript -%}
+
+<div id="ks-cart-drawer-upsell-wrapper">
+  <div id="ks-cart-drawer-upsell">
+    <h3 class="ks-cart-drawer-upsell-title">
+      <span>
+        {{ section.settings.title }}
+      </span>
+    </h3>
+    <ul class="ks-cart-drawer-upsell-list">
+      {% for product in section.settings.collection.products limit: section.settings.limit %}
+        {% liquid 
+          assign is_in_cart = false
+          for line_item in cart.items
+            if line_item.product.id == product.id
+              assign is_in_cart = true
+            endif
+          endfor
+        %}
+        {% if is_in_cart == false and product.available %}
+          <li class="ks-cart-drawer-upsell-list-item">
+            <div class="ks-cart-drawer-upsell-list-item-left">
+              <a href="{{ product.url }}" tabindex="-1"> 
+                <img 
+                  src="{{ product.featured_image | image_url: width: 300 }}"
+                  class="cart-item__image" 
+                  alt="{{ product.featured_image.alt | escape }}" 
+                  width="150" 
+                  height="{{ 150 | divided_by: product.featured_image.aspect_ratio | ceil }}" 
+                  loading="lazy">
+              </a>
+            </div>
+            <div class="ks-cart-drawer-upsell-list-item-right">
+              <a href="{{ product.url }}" class="cart-item__name h4 break">
+                {{ product.title }}
+              </a>
+              <product-form data-section-id="{{ section.id }}">
+                {%- form 'product',
+                  product,
+                  class: 'form',
+                  novalidate: 'novalidate',
+                  data-type: 'add-to-cart-form'
+                -%}
+                  {% if product.has_only_default_variant %}
+                    <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+                    <div class="product-option">
+                      {% if product.compare_at_price > product.price %}
+                        <span class="visually-hidden visually-hidden--inline">
+                          {{ 'products.product.price.regular_price' | t }}
+                        </span>
+                        <s>
+                          {{ product.compare_at_price | money }}
+                        </s>
+                      {% endif %}
+                      {{ product.price | money }}
+                    </div>
+                  {% else %}
+                    <div class="field-wrapper">
+                      <label 
+                        class="form__label" 
+                        for="ks-cart-drawer-upsell-selector-{{ forloop.index }}">
+                        {{ block.settings.label }}
+                      </label>
+                      <div class="select">
+                        <select 
+                          id="ks-cart-drawer-upsell-selector-{{ forloop.index }}"
+                          name="id"
+                          class="select__select"
+                          onchange="onChangeKsUpsellVariantSelector(this, event)">
+                          {% for variant in product.variants %}
+                            <option 
+                              value="{{ variant.id }}"
+                              data-variant-img="{% if variant.image %}{{ variant.image | image_url: width: 300 }}{% endif %}"
+                              {% if variant.available == false %}disabled{% endif %}>
+                              {{ variant.title }} -
+                              {% if variant.available == false %}
+                                {{ 'products.product.sold_out' | t }}
+                              {% else %}
+                                {{ variant.price | money }} 
+                              {% endif %}
+                            </option>
+                          {% endfor %}
+                        </select>
+                        {% render 'icon-caret' %}
+                      </div>
+                    </div>
+                  {% endif %}
+                  <button 
+                    type="submit" 
+                    name="add" 
+                    class="button {{ section.settings.btn_style }}">
+                    <span>{{ 'products.product.add_to_cart' | t}}</span>
+                    {%- render 'loading-spinner' -%}
+                  </button>
+                {% endform %}
+              </product-form>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KS - Cart Drawer Upsell",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Limit products",
+      "min": 2,
+      "max": 24,
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "You might like..."
+    },
+    {
+      "type": "select",
+      "id": "btn_style",
+      "label": "Button style",
+      "options": [
+        { "value": "", "label": "Primary" },
+        { "value": "button--secondary", "label": "Secondary" }
+      ],
+      "default": "button--secondary"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Cart Drawer Upsell"
+    }
+  ]
+}
+{% endschema %}
