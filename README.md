@@ -12,6 +12,7 @@ https://ks-snippets.myshopify.com
 - KS Cart Drawer Upsell [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-cart-drawer-upsell) - [Demo (pass: ks)](https://ks-snippets.myshopify.com)
 - KS Sticky Add To Cart [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-sticky-add-to-cart) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/products/ks-sticky-add-to-cart)
 - KS Color Swatches [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-color-swatches) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/products/ks-color-swatches)
+- KS Quantity Breaks [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-quantity-breaks) - [Demo (pass: ks)](https://ks-snippets.myshopify.com/products/ks-quantity-breaks)
 
 ## View all snippets
 https://www.kondasoft.com/collections/shopify-snippets
