@@ -1,0 +1,208 @@
+{% liquid 
+  # KS Sticky Add To Cart
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% liquid 
+  assign current_variant = product.selected_or_first_available_variant
+  assign image = current_variant.image | default: product.featured_image
+%}
+
+{%- stylesheet -%}
+  .ks-sticky-atc {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 8px 0;
+    transform: translateY(100%);
+    transition: all 0.2s ease-out;
+    visibility: hidden;
+    border-top: .1rem solid rgba(var(--color-foreground), .08);
+  }
+
+  .ks-sticky-atc.show {
+    visibility: visible;
+    z-index: 9;
+    transform: translateY(0);
+  }
+
+  .ks-sticky-atc-left img {
+    display: block;
+    margin-right: 8px;
+  }
+
+  .ks-sticky-atc-left h3 {
+    font-size: calc(var(--font-heading-scale) * 1.3rem);
+    margin: 0
+  }
+
+  .ks-sticky-atc-left-inner {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 749px) {
+    .ks-sticky-atc-left img {
+      max-height: 60px;
+      width: auto;
+    }
+    .ks-sticky-atc-right button {
+      min-height: auto;
+      padding: 9px;
+    }
+    .ks-sticky-atc-right {
+      padding-top: 8px;
+      padding-bottom; 4px;
+    }
+  }
+
+  @media (min-width: 750px) {
+    .ks-sticky-atc-inner {
+      display: flex;
+      align-items: center;
+    }
+    .ks-sticky-atc-left {
+      width: 50%;
+    }
+    .ks-sticky-atc-right {
+      width: 50%;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+{%- endstylesheet -%}
+
+
+{%- javascript -%}
+  class KsStickyAtc extends HTMLElement {
+    constructor () {
+      super()
+
+      new Promise(resolve => setTimeout(resolve, 2000))
+        .then(() => {
+          const top = document.querySelector('product-info product-form').getBoundingClientRect().bottom + window.scrollY
+
+          window.addEventListener('scroll', () => {
+            if (window.scrollY > top) {
+              this.classList.add('show')
+              document.body.style.paddingBottom = this.clientHeight + 'px'
+            } else {
+              this.classList.remove('show')
+              document.body.style.paddingBottom = 0
+            }
+          })
+
+          const btnOptions = this.querySelector('.ks-sticky-atc-btn-choose-options')
+
+          btnOptions?.addEventListener('click', (e) => {
+            document.querySelector('product-info').scrollIntoView({
+              behavior: 'smooth'
+            })
+          })
+        })
+    }
+  }
+  customElements.define('ks-sticky-atc', KsStickyAtc)
+{%- endjavascript -%}
+
+<ks-sticky-atc class="ks-sticky-atc color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width page-width--narrow">
+    <div class="ks-sticky-atc-inner">
+      <div class="ks-sticky-atc-left">
+        <div class="ks-sticky-atc-left-inner">
+          <img
+            src="{{ image | image_url: width: 160 }}"
+            width="80"
+            height="{{ 80 | divided_by: image.aspect_ratio | round }}"
+            loading="lazy">
+          <div class="">
+            <h3 class="">
+              {{ product.title }}
+            </h3>
+            <div class="price">
+              <div class="price__container">
+                {% if current_variant.compare_at_price > current_variant.price %}
+                  <span class="visually-hidden visually-hidden--inline">
+                    {{ 'products.product.price.regular_price' | t }}
+                  </span>
+                  <s>
+                    {{ product.compare_at_price | money }}
+                  </s>
+                {% endif %}
+                {{ current_variant.price | money }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ks-sticky-atc-right">
+        {% if product.available == false %}
+          <button
+            type="button" 
+            class="ks-sticky-atc-btn-choose-options button button--full-width {{ section.settings.btn_style }}"
+            disabled>
+            <span>{{ 'products.product.sold_out' | t}}</span>
+          </button>
+        {% elsif product.has_only_default_variant %}
+          <product-form data-section-id="{{ section.id }}">
+            {%- form 'product',
+              product,
+              class: 'form',
+              novalidate: 'novalidate',
+              data-type: 'add-to-cart-form'
+            -%}
+              <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+              <button 
+                type="submit" 
+                name="add" 
+                class="button button--full-width {{ section.settings.btn_style }}">
+                <span>{{ 'products.product.add_to_cart' | t}}</span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            {% endform %}
+          </product-form>
+        {% else %}
+          <button
+            type="button" 
+            class="ks-sticky-atc-btn-choose-options button button--full-width {{ section.settings.btn_style }}">
+            <span>{{ 'products.product.choose_options' | t}}</span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</ks-sticky-atc>
+
+{% schema %}
+{
+  "name": "KS - Sticky ATC",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "select",
+      "id": "btn_style",
+      "label": "Button style",
+      "options": [
+        { "value": "", "label": "Primary" },
+        { "value": "button--secondary", "label": "Secondary" }
+      ],
+      "default": ""
+    }
+  ],
+  "templates": ["product"],
+  "presets": [
+    {
+      "name": "KS - Sticky ATC"
+    }
+  ]
+}
+{% endschema %}

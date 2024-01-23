@@ -1,0 +1,154 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        },
+        "c7343a15-0299-4bb4-8e28-6824b15e5fe6": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Pairs well with",
+            "make_collapsible_row": false,
+            "icon": "price_tag",
+            "product_list_limit": 10,
+            "products_per_page": 3,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": false
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share",
+        "c7343a15-0299-4bb4-8e28-6824b15e5fe6"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "background-1",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "background-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "ks_dawn_quantity_breaks_gzUPQR": {
+      "type": "ks-dawn-quantity-breaks",
+      "blocks": {
+        "tier_qmbcXC": {
+          "type": "tier",
+          "settings": {
+            "label": "Buy [qty] - Save [discount]",
+            "qty": 5,
+            "discount": 5
+          }
+        },
+        "tier_Xt8ABR": {
+          "type": "tier",
+          "settings": {
+            "label": "Buy [qty] - Save [discount]",
+            "qty": 10,
+            "discount": 10
+          }
+        },
+        "tier_qpgwJR": {
+          "type": "tier",
+          "settings": {
+            "label": "Buy [qty] - Save [discount]",
+            "qty": 20,
+            "discount": 20
+          }
+        }
+      },
+      "block_order": [
+        "tier_qmbcXC",
+        "tier_Xt8ABR",
+        "tier_qpgwJR"
+      ],
+      "settings": {
+        "title": "Buy more & save up to 20%",
+        "title_size": "h3",
+        "btn_animate": "animate__tada",
+        "padding_top": 8,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products",
+    "ks_dawn_quantity_breaks_gzUPQR"
+  ]
+}

@@ -77,7 +77,7 @@
         "media_size": "large",
         "constrain_to_viewport": true,
         "media_fit": "contain",
-        "gallery_layout": "thumbnail_slider",
+        "gallery_layout": "thumbnail",
         "media_position": "left",
         "image_zoom": "lightbox",
         "mobile_thumbnails": "hide",
@@ -105,82 +105,150 @@
         "padding_bottom": 28
       }
     },
-    "0d739f51-9d34-4790-8238-ec6ffd001e18": {
-      "type": "ks-product-custom-properties",
+    "image_banner_WibMx7": {
+      "type": "image-banner",
       "blocks": {
-        "1d83f0f3-69a5-4587-bcde-a13bfda4d5b5": {
-          "type": "input",
+        "heading_AFqL93": {
+          "type": "heading",
           "settings": {
-            "type": "text",
-            "label": "City",
-            "info_text": "<p>Some optional description for this field<\/p>",
-            "required": true,
-            "required_suffix": "(required)"
+            "heading": "Image banner",
+            "heading_size": "h1"
           }
         },
-        "27f4fbf1-2643-4a55-898f-d39cbd0d8005": {
-          "type": "input",
+        "text_cGGdmt": {
+          "type": "text",
           "settings": {
-            "type": "textarea",
-            "label": "Message",
-            "info_text": "",
-            "required": true,
-            "required_suffix": "(required)"
+            "text": "Give customers details about the banner image(s) or content on the template.",
+            "text_style": "body"
           }
         },
-        "dd82171d-8eee-45bb-a0da-704916d37bba": {
-          "type": "input",
+        "buttons_B7UrNq": {
+          "type": "buttons",
           "settings": {
-            "type": "file",
-            "label": "Sample File",
-            "info_text": "",
-            "required": true,
-            "required_suffix": "(required)"
-          }
-        },
-        "0ff11a81-3c96-41cc-bb1e-c6608444cbb8": {
-          "type": "input",
-          "settings": {
-            "type": "date",
-            "label": "Date",
-            "info_text": "",
-            "required": true,
-            "required_suffix": "(required)"
-          }
-        },
-        "f4fd145e-7c51-43ee-bfa4-0aaebbf5b00e": {
-          "type": "selectable",
-          "settings": {
-            "type": "select",
-            "label": "Country",
-            "options": "United States, Canada, France",
-            "info_text": ""
-          }
-        },
-        "91c4a1ad-1365-43e2-9be9-c22a9a243cb1": {
-          "type": "selectable",
-          "settings": {
-            "type": "radio",
-            "label": "Stars",
-            "options": "Sol, Sirius, Polaris",
-            "info_text": ""
+            "button_label_1": "Button label",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
+            "button_label_2": "Button label",
+            "button_link_2": "",
+            "button_style_secondary_2": false
           }
         }
       },
       "block_order": [
-        "1d83f0f3-69a5-4587-bcde-a13bfda4d5b5",
-        "27f4fbf1-2643-4a55-898f-d39cbd0d8005",
-        "dd82171d-8eee-45bb-a0da-704916d37bba",
-        "0ff11a81-3c96-41cc-bb1e-c6608444cbb8",
-        "f4fd145e-7c51-43ee-bfa4-0aaebbf5b00e",
-        "91c4a1ad-1365-43e2-9be9-c22a9a243cb1"
+        "heading_AFqL93",
+        "text_cGGdmt",
+        "buttons_B7UrNq"
       ],
-      "settings": {}
+      "settings": {
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "image_with_text_G4LQaQ": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_JXjXHR": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text",
+            "heading_size": "h1"
+          }
+        },
+        "text_iXCEeV": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "text_style": "body"
+          }
+        },
+        "button_hWDLGE": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_JXjXHR",
+        "text_iXCEeV",
+        "button_hWDLGE"
+      ],
+      "settings": {
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collage_eKGMrt": {
+      "type": "collage",
+      "blocks": {
+        "image_PWPT4p": {
+          "type": "image",
+          "settings": {}
+        },
+        "product_THNzg3": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "second_image": false
+          }
+        },
+        "collection_cxHGq8": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_PWPT4p",
+        "product_THNzg3",
+        "collection_cxHGq8"
+      ],
+      "settings": {
+        "heading": "Multimedia collage",
+        "heading_size": "h1",
+        "desktop_layout": "left",
+        "mobile_layout": "column",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_sticky_add_to_cart_6cAgWb": {
+      "type": "ks-dawn-sticky-add-to-cart",
+      "settings": {
+        "color_scheme": "",
+        "btn_style": ""
+      }
     }
   },
   "order": [
     "main",
     "related-products",
-    "0d739f51-9d34-4790-8238-ec6ffd001e18"
+    "image_banner_WibMx7",
+    "image_with_text_G4LQaQ",
+    "collage_eKGMrt",
+    "ks_dawn_sticky_add_to_cart_6cAgWb"
   ]
 }

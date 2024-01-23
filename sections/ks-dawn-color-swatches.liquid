@@ -1,0 +1,154 @@
+{% liquid 
+  # KS Color Swatches
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% liquid 
+%}
+
+{%- stylesheet -%}
+  .ks-color-swatches.product-form__input  .form__label {
+    margin-bottom: .6rem;
+  }
+
+  .ks-color-swatches.product-form__input input[type=radio] + label {
+    border-radius: 0;
+    padding: 0; 
+    margin: 0.2rem;
+    display: inline-flex; 
+    border-color: transparent;
+  }
+
+  .ks-color-swatches.product-form__input input[type=radio] + label img {
+    display: block;
+    padding: 1px;
+    background: rgb(var(--color-background));
+  }
+
+  .ks-color-swatches.product-form__input[data-img-circle="true"] input[type=radio] + label,
+  .ks-color-swatches.product-form__input[data-img-circle="true"] input[type=radio] + label img {
+    border-radius: 50rem; 
+  }
+
+{%- endstylesheet -%}
+
+
+{%- javascript -%}
+  const injectColorSwatches = () => {
+    const wrapper = document.querySelector('#ks-color-swatches-hidden')
+    const optionNames = wrapper.dataset.optionNames
+  
+    document.querySelectorAll('.product-form__input').forEach(productFormInput => {
+      formLabel = productFormInput.querySelector('.form__label')
+
+      if (optionNames.includes(formLabel.textContent)) {
+        productFormInput.classList.add('ks-color-swatches')
+        productFormInput.setAttribute('data-img-circle', wrapper.dataset.imgCircle) 
+
+        formLabel.textContent = productFormInput.querySelector('input:checked').value
+
+        productFormInput.querySelectorAll('label').forEach((label, index) => {
+          label.innerHTML = wrapper.querySelector(`img:nth-child(${index + 1})`).outerHTML
+        })
+
+        productFormInput.querySelectorAll('input').forEach((input) => {
+          input.addEventListener('change', () => {
+            productFormInput.querySelector('.form__label').textContent = input.value
+          })
+        })
+      }
+    })
+  }
+  injectColorSwatches()
+{%- endjavascript -%}
+
+<div 
+  id="ks-color-swatches-hidden" 
+  data-option-names="{{ section.settings.option_names }}"
+  data-img-circle="{{ section.settings.img_circle }}"
+  hidden>
+  {% for option in product.options_with_values %}
+    {% if section.settings.option_names contains option.name %} 
+      {% for value in option.values %}
+        {% if section.settings.style == 'variant' %}
+          {% liquid
+            for variant in product.variants
+                assign option_position = option.position | minus: 1
+                if variant.options[option_position] == value 
+                    assign variant_image = variant.image 
+                endif
+            endfor 
+          %}
+          <img
+            class=""
+            src="{{ variant_image | image_url: width: section.settings.img_size, height: section.settings.img_size, crop: 'center' }}"
+            alt="{{ value }}"
+            width="{{ section.settings.img_size }}"
+            height="{{ section.settings.img_size }}"
+            loading="lazy">
+        {% else %}
+          {% liquid  
+            assign img_size = section.settings.img_size | append: 'x' | append: section.settings.img_size
+            assign swatch_img = value | handleize | prepend: 'swatch-' | append: '.png' 
+          %}
+          <img
+            class=""
+            src="{{ swatch_img | file_img_url: img_size, crop: 'center' }}"
+            alt="{{ value }}"
+            width="{{ section.settings.img_size }}"
+            height="{{ section.settings.img_size }}"
+            loading="lazy">
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "KS - Color Swatches",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Swatches style",
+      "options": [
+        { "value": "variant", "label": "Variant" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "variant",
+      "info": "\"Variant\" swatches will show the image attached to the corresponding product variant. For the \"Custom\" swatches, you need to upload images for each color option in the (Files)[https://admin.shopify.com/content/files]. E.g. \"swatch-blue.png\""
+    },
+    {
+      "type": "textarea",
+      "id": "option_names",
+      "label": "Option names",
+      "default": "Color, color, Colour, colour",
+      "info": "Comma separated list of product option names to show as color swatches"
+    },
+    {
+      "type": "range",
+      "id": "img_size",
+      "label": "Image size",
+      "default": 60,
+      "min": 20,
+      "max": 150,
+      "step": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "img_circle",
+      "label": "Circle images",
+      "default": false
+    }
+  ],
+  "templates": ["product"],
+  "presets": [
+    {
+      "name": "KS - Color swatches"
+    }
+  ]
+}
+{% endschema %}
