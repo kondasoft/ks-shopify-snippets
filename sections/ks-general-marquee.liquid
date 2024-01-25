@@ -1,0 +1,337 @@
+{% liquid 
+  # KS Marquee
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{%- style -%}
+   #ks-marquee-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    font-size: {{ section.settings.font_size | times: 0.75 | round: 0 }}px;
+  }
+
+  #ks-marquee-{{ section.id }} ul li {
+    padding-left: {{ section.settings.gap | times: 0.75 | round: 0 }}px;
+    padding-right: {{ section.settings.gap | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #ks-marquee-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      font-size: {{ section.settings.font_size }}px;
+    }
+    #ks-marquee-{{ section.id }} ul li {
+      padding-left: {{ section.settings.gap }}px;
+      padding-right: {{ section.settings.gap }}px;
+    }
+  }
+
+  .ks-marquee {
+    display: block;
+  }
+
+  .ks-marquee ul {
+    margin: 0;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ks-marquee ul {
+      animation: none;
+    }
+  }
+
+  .ks-marquee ul:hover {
+    animation-play-state: paused;
+  }
+  
+  .ks-marquee ul li {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .ks-marquee ul li a {
+    transition: all .2s ease-out;
+  }
+
+  .ks-marquee ul li a:hover,
+  .ks-marquee ul li a:focus {
+    opacity: .75;
+  }
+
+{%- endstyle -%}
+
+{%- javascript -%}
+class KsMarquee extends HTMLElement {
+  constructor () {
+    super()
+
+    this.init()
+
+    document.addEventListener('shopify:section:load', (e) => {
+      console.log(e.target) 
+      if (e.target.querySelector('.ks-marquee')) {
+        init()
+      }
+    })
+  }
+
+  init () {
+    const list = this.querySelector('ul')
+    const marqueeWidth = list.scrollWidth
+    const marqueeLength = list.querySelectorAll('li').length
+
+    list.insertAdjacentHTML('beforeEnd', list.innerHTML)
+    list.insertAdjacentHTML('beforeEnd', list.innerHTML)
+
+    list.querySelectorAll('li').forEach((item, index) => {
+      if (index >= marqueeLength) {
+        item.setAttribute('aria-hidden', 'true')
+      }
+    })
+
+    let style = `
+      <style>
+        #ks-marquee-${this.dataset.sectionId} ul {
+          animation-name: ks-marquee-animation-${this.dataset.sectionId};
+          animation-duration: ${this.dataset.animationDuration}s;
+        }
+        @keyframes ks-marquee-animation-${this.dataset.sectionId} {
+          to { transform: translateX(-${marqueeWidth}px); }
+        }
+      </style>
+    `
+    if (this.dataset.marqueeDirection === 'right') {
+      style += `
+        <style>
+          @keyframes ks-marquee-animation-${this.dataset.sectionId} {
+            from { transform: translateX(-${marqueeWidth}px); }    
+            to { transform: 0); }    
+          }
+        </style>
+      `
+    }
+
+    this.insertAdjacentHTML('beforeBegin', style)
+  }
+}
+customElements.define('ks-marquee', KsMarquee)
+
+{%- endjavascript -%}
+ 
+<ks-marquee 
+  id="ks-marquee-{{ section.id }}"
+  class="ks-marquee"
+  data-section-id="{{ section.id }}"
+  data-animation-duration="{{ section.settings.animation_duration }}"
+  data-marquee-direction="{{ section.settings.marquee_direction }}">
+  <ul 
+    class="mb-0"
+    aria-label="{{ section.settings.list_label }}">
+    {% for block in section.blocks %}
+      <li class="" {{ block.shopify_attributes }}>
+        {% if block.settings.url != nil %}
+          <a href="{{ block.settings.url }}">
+        {% endif %}
+          {% if block.type == 'image' %}
+            {% assign img_height_x2 = block.settings.img_height | times: 2 %}
+            <img
+              class=""
+              src="{{ block.settings.img.src | image_url: height: img_height_x2 }}"
+              alt="{{ block.settings.img.alt | escape }}"
+              width="{{ block.settings.img_height | times: block.settings.img.aspect_ratio | round }}"
+              height="{{ block.settings.img_height }}"
+              loading="lazy">
+          {% else %}
+            {{ block.settings.text }}
+          {% endif %}
+        {% if block.settings.url != nil %}
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </div>
+</ks-marquee>
+
+{% schema %}
+{
+  "name": "KS - Marquee",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#f6f6f6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "list_label",
+      "label": "List label",
+      "default": "Features",
+      "info": "It is used for accessibility."
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Marquee"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation duration",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "default": 30,
+      "unit": "sec"
+    },
+    {
+      "type": "select",
+      "id": "marquee_direction",
+      "label": "Marquee direction",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap (between items)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text", 
+          "default": "Announce something here"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "img",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "img_height",
+          "label": "Image height (px)",
+          "default": "40"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Marquee",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

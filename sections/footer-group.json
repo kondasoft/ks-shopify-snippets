@@ -35,11 +35,23 @@
         "title": "You might like...",
         "btn_style": "button--secondary"
       }
+    },
+    "ks_dawn_cart_goal_wMfVkE": {
+      "type": "ks-dawn-cart-goal",
+      "settings": {
+        "goal_value": "100",
+        "icon": "bi-truck",
+        "not_completed_text": "<p>You're <strong>[amount]<\/strong> away from <strong>FREE SHIPPING!<\/strong><\/p>",
+        "not_completed_color": "#ffc107",
+        "completed_text": "<p>Congrats! You're eligible for <strong>FREE SHIPPING!<\/strong><\/p>",
+        "completed_color": "#198754"
+      }
     }
   },
   "order": [
     "footer",
     "aefd030f-7d61-49f9-b87a-c5782b56f65c",
-    "ks_dawn_cart_drawer_upsell_h6BCwW"
+    "ks_dawn_cart_drawer_upsell_h6BCwW",
+    "ks_dawn_cart_goal_wMfVkE"
   ]
 }

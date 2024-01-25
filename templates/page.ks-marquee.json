@@ -1,0 +1,498 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_marquee_X4nqRJ": {
+      "type": "ks-dawn-marquee",
+      "blocks": {
+        "text_yaJcG8": {
+          "type": "text",
+          "settings": {
+            "text": "Developed By KondaSoft"
+          }
+        },
+        "text_QzHFBU": {
+          "type": "text",
+          "settings": {
+            "text": "Premium Shopify Themes"
+          }
+        },
+        "text_pCKJd3": {
+          "type": "text",
+          "settings": {
+            "text": "15+ Years Of Coding Experience"
+          }
+        },
+        "text_zPkMBi": {
+          "type": "text",
+          "settings": {
+            "text": "50k+ Customers Served!"
+          }
+        },
+        "text_86d3Tn": {
+          "type": "text",
+          "settings": {
+            "text": "Mobile-first Approach"
+          }
+        },
+        "text_4UtmGg": {
+          "type": "text",
+          "settings": {
+            "text": "Developed By KondaSoft"
+          }
+        },
+        "text_GQ7MKt": {
+          "type": "text",
+          "settings": {
+            "text": "Premium Shopify Themes"
+          }
+        },
+        "text_ErTNYz": {
+          "type": "text",
+          "settings": {
+            "text": "15+ Years Of Coding Experience"
+          }
+        },
+        "text_WDP8KC": {
+          "type": "text",
+          "settings": {
+            "text": "50k+ Customers Served!"
+          }
+        },
+        "text_WYqLLd": {
+          "type": "text",
+          "settings": {
+            "text": "Mobile-first Approach"
+          }
+        }
+      },
+      "block_order": [
+        "text_yaJcG8",
+        "text_QzHFBU",
+        "text_pCKJd3",
+        "text_zPkMBi",
+        "text_86d3Tn",
+        "text_4UtmGg",
+        "text_GQ7MKt",
+        "text_ErTNYz",
+        "text_WDP8KC",
+        "text_WYqLLd"
+      ],
+      "settings": {
+        "color_scheme": "inverse",
+        "list_label": "Features",
+        "font_size": 16,
+        "animation_duration": 30,
+        "marquee_direction": "left",
+        "gap": 12,
+        "padding_top": 4,
+        "padding_bottom": 4
+      }
+    },
+    "image_with_text_fB7xm8": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_G94EzL": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text",
+            "heading_size": "h1"
+          }
+        },
+        "text_JzaLbK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "text_style": "body"
+          }
+        },
+        "button_aFPFXz": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_G94EzL",
+        "text_JzaLbK",
+        "button_aFPFXz"
+      ],
+      "settings": {
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_marquee_A4cFVK": {
+      "type": "ks-dawn-marquee",
+      "blocks": {
+        "text_yaJcG8": {
+          "type": "text",
+          "settings": {
+            "text": "Developed By KondaSoft"
+          }
+        },
+        "text_QzHFBU": {
+          "type": "text",
+          "settings": {
+            "text": "Premium Shopify Themes"
+          }
+        },
+        "text_pCKJd3": {
+          "type": "text",
+          "settings": {
+            "text": "15+ Years Of Coding Experience"
+          }
+        },
+        "text_zPkMBi": {
+          "type": "text",
+          "settings": {
+            "text": "50k+ Customers Served!"
+          }
+        },
+        "text_86d3Tn": {
+          "type": "text",
+          "settings": {
+            "text": "Mobile-first Approach"
+          }
+        },
+        "text_4UtmGg": {
+          "type": "text",
+          "settings": {
+            "text": "Developed By KondaSoft"
+          }
+        },
+        "text_GQ7MKt": {
+          "type": "text",
+          "settings": {
+            "text": "Premium Shopify Themes"
+          }
+        },
+        "text_ErTNYz": {
+          "type": "text",
+          "settings": {
+            "text": "15+ Years Of Coding Experience"
+          }
+        },
+        "text_WDP8KC": {
+          "type": "text",
+          "settings": {
+            "text": "50k+ Customers Served!"
+          }
+        },
+        "text_WYqLLd": {
+          "type": "text",
+          "settings": {
+            "text": "Mobile-first Approach"
+          }
+        }
+      },
+      "block_order": [
+        "text_yaJcG8",
+        "text_QzHFBU",
+        "text_pCKJd3",
+        "text_zPkMBi",
+        "text_86d3Tn",
+        "text_4UtmGg",
+        "text_GQ7MKt",
+        "text_ErTNYz",
+        "text_WDP8KC",
+        "text_WYqLLd"
+      ],
+      "settings": {
+        "color_scheme": "background-2",
+        "list_label": "Features",
+        "font_size": 32,
+        "animation_duration": 60,
+        "marquee_direction": "right",
+        "gap": 24,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "rich_text_ybBzQh": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_7jXRYn": {
+          "type": "heading",
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "h1"
+          }
+        },
+        "text_DGA9Fy": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+          }
+        },
+        "button_RxK8aQ": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_7jXRYn",
+        "text_DGA9Fy",
+        "button_RxK8aQ"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "ks_dawn_marquee_CE7rzH": {
+      "type": "ks-dawn-marquee",
+      "blocks": {
+        "text_yaJcG8": {
+          "type": "text",
+          "settings": {
+            "text": "Developed By KondaSoft"
+          }
+        },
+        "text_QzHFBU": {
+          "type": "text",
+          "settings": {
+            "text": "Premium Shopify Themes"
+          }
+        },
+        "text_pCKJd3": {
+          "type": "text",
+          "settings": {
+            "text": "15+ Years Of Coding Experience"
+          }
+        },
+        "text_zPkMBi": {
+          "type": "text",
+          "settings": {
+            "text": "50k+ Customers Served!"
+          }
+        },
+        "text_86d3Tn": {
+          "type": "text",
+          "settings": {
+            "text": "Mobile-first Approach"
+          }
+        },
+        "text_4UtmGg": {
+          "type": "text",
+          "settings": {
+            "text": "Developed By KondaSoft"
+          }
+        },
+        "text_GQ7MKt": {
+          "type": "text",
+          "settings": {
+            "text": "Premium Shopify Themes"
+          }
+        },
+        "text_ErTNYz": {
+          "type": "text",
+          "settings": {
+            "text": "15+ Years Of Coding Experience"
+          }
+        },
+        "text_WDP8KC": {
+          "type": "text",
+          "settings": {
+            "text": "50k+ Customers Served!"
+          }
+        },
+        "text_WYqLLd": {
+          "type": "text",
+          "settings": {
+            "text": "Mobile-first Approach"
+          }
+        }
+      },
+      "block_order": [
+        "text_yaJcG8",
+        "text_QzHFBU",
+        "text_pCKJd3",
+        "text_zPkMBi",
+        "text_86d3Tn",
+        "text_4UtmGg",
+        "text_GQ7MKt",
+        "text_ErTNYz",
+        "text_WDP8KC",
+        "text_WYqLLd"
+      ],
+      "settings": {
+        "color_scheme": "accent-2",
+        "list_label": "Features",
+        "font_size": 16,
+        "animation_duration": 30,
+        "marquee_direction": "left",
+        "gap": 12,
+        "padding_top": 4,
+        "padding_bottom": 4
+      }
+    },
+    "image_banner_qVmkwC": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_LAqCHc": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image banner",
+            "heading_size": "h1"
+          }
+        },
+        "text_Gr6UgK": {
+          "type": "text",
+          "settings": {
+            "text": "Give customers details about the banner image(s) or content on the template.",
+            "text_style": "body"
+          }
+        },
+        "buttons_Gf8xjx": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Button label",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
+            "button_label_2": "Button label",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_LAqCHc",
+        "text_Gr6UgK",
+        "buttons_Gf8xjx"
+      ],
+      "settings": {
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "ks_dawn_marquee_df9erd": {
+      "type": "ks-dawn-marquee",
+      "blocks": {
+        "image_yMnqYe": {
+          "type": "image",
+          "settings": {
+            "img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "img_height": "40",
+            "url": "https:\/\/www.kondasoft.com"
+          }
+        },
+        "image_kQEMCN": {
+          "type": "image",
+          "settings": {
+            "img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "img_height": "40",
+            "url": ""
+          }
+        },
+        "image_pGXgkB": {
+          "type": "image",
+          "settings": {
+            "img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "img_height": "40",
+            "url": ""
+          }
+        },
+        "image_fgha8N": {
+          "type": "image",
+          "settings": {
+            "img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "img_height": "40",
+            "url": ""
+          }
+        },
+        "image_CCxNpQ": {
+          "type": "image",
+          "settings": {
+            "img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "img_height": "40",
+            "url": ""
+          }
+        },
+        "image_WhXyWq": {
+          "type": "image",
+          "settings": {
+            "img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "img_height": "40",
+            "url": ""
+          }
+        },
+        "image_gi8AbV": {
+          "type": "image",
+          "settings": {
+            "img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "img_height": "40",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_yMnqYe",
+        "image_kQEMCN",
+        "image_pGXgkB",
+        "image_fgha8N",
+        "image_CCxNpQ",
+        "image_WhXyWq",
+        "image_gi8AbV"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "list_label": "Features",
+        "font_size": 16,
+        "animation_duration": 30,
+        "marquee_direction": "right",
+        "gap": 16,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ks_dawn_marquee_X4nqRJ",
+    "image_with_text_fB7xm8",
+    "ks_dawn_marquee_A4cFVK",
+    "rich_text_ybBzQh",
+    "ks_dawn_marquee_CE7rzH",
+    "image_banner_qVmkwC",
+    "ks_dawn_marquee_df9erd"
+  ]
+}

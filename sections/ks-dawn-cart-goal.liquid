@@ -1,0 +1,261 @@
+{% liquid 
+  # KS Cart Goal
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% liquid
+  assign goal_value_with_cents = section.settings.goal_value | times: 100
+
+  if cart.total_price < goal_value_with_cents
+    assign percentage = cart.total_price | divided_by: section.settings.goal_value
+    assign goal_remaining_money = goal_value_with_cents | minus: cart.total_price | money
+    assign description = section.settings.not_completed_text | replace: '[amount]', goal_remaining_money
+    assign color = section.settings.not_completed_color
+  else
+    assign percentage = 100
+    assign description = section.settings.completed_text
+    assign color = section.settings.completed_color
+  endif
+%}
+
+{%- stylesheet -%}
+  #ks-cart-goal {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  #ks-cart-goal .description {
+    font-size: calc(var(--font-heading-scale) * 1.5rem);
+    margin-bottom: 2px;
+  }
+
+  #ks-cart-goal .progress-wrapper {
+    position: relative;
+  }
+
+  .ks-cart-goal-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    height: auto;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--color-foreground), 0.05);
+    z-index: 1;
+  }
+
+  /* Bootstrap Progress */
+  .progress {
+    --bs-progress-height: 8px;
+    --bs-progress-font-size: 0.75rem;
+    --bs-progress-bar-color: #fff;
+    --bs-progress-bar-transition: width 0.6s ease;
+    display: flex;
+    height: var(--bs-progress-height);
+    overflow: hidden;
+    font-size: var(--bs-progress-font-size);
+    border-radius: 50rem;
+    background-color: rgba(var(--color-foreground), 0.05);
+  }
+
+  .progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--bs-progress-bar-color);
+    text-align: center;
+    white-space: nowrap;
+    transition: var(--bs-progress-bar-transition);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar {
+      transition: none;
+    }
+  }
+
+  .progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: var(--bs-progress-height) var(--bs-progress-height);
+  }
+
+  .progress-stacked > .progress {
+    overflow: visible;
+  }
+
+  .progress-stacked > .progress > .progress-bar {
+    width: 100%;
+  }
+
+  .progress-bar-animated {
+    animation: 1s linear infinite progress-bar-stripes;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar-animated {
+      animation: none;
+    }
+  }
+
+  @keyframes progress-bar-stripes {
+    0% {
+      background-position-x: 1rem;
+    }
+  }
+{%- endstylesheet -%}
+
+{%- javascript -%}
+   (function () {  
+    async function insertSection() {
+
+      const cartDrawerItems = document.querySelector('#CartDrawer cart-drawer-items')
+
+      if (cartDrawerItems.classList.contains('is-empty')) return
+      if (document.querySelector('#CartDrawer #ks-cart-goal')) return
+
+      const wrapper = document.querySelector('#ks-cart-goal-wrapper')
+
+      cartDrawerItems.insertAdjacentHTML('beforebegin', wrapper.innerHTML) 
+
+      setTimeout(() => {
+        const progressBar = document.querySelector('#ks-cart-goal .progress-bar')
+        progressBar.style.width = progressBar.dataset.width
+      }, 250)
+
+    }
+    insertSection()
+    
+    function listenCartDrawer() {
+      const element = document.querySelector('cart-drawer')
+      let timer
+      
+      const observer = new MutationObserver((mutations) => { 
+        if (timer) clearTimeout(timer)
+
+        timer = setTimeout(async () => {
+          const respoonse = await fetch(window.location.href)
+          const text = await respoonse.text()
+          const newDocument = new DOMParser().parseFromString(text, 'text/html')
+
+          document.querySelector('#ks-cart-goal-wrapper')
+            .replaceWith(newDocument.querySelector('#ks-cart-goal-wrapper'))
+
+          insertSection()
+        }, 250)
+      })
+
+      observer.observe(element, { 
+        attributes: true, 
+        childList: true, 
+        subtree: true
+      });
+    }
+    listenCartDrawer()
+  })();
+{%- endjavascript -%}
+
+<div id="ks-cart-goal-wrapper" hidden>
+  <div id="ks-cart-goal" {% if cart.currency.iso_code != shop.currency %}hidden{% endif %}>
+    <div 
+      class="description rte"
+      style="{% if percentage == 100 %}color: {{ color }};{% endif %}">
+      {{ description }}
+    </div>
+    <div class="progress-wrapper">
+      <div 
+        class="progress"  
+        role="progressbar"
+        aria-hidden="true">
+        <div 
+          class="progress-bar progress-bar-striped progress-bar-animated" 
+          data-width="{{ percentage }}%"
+          style="width: 0%; background-color: {{ color }};">
+        </div>
+      </div>
+      {% if section.settings.icon != blank %}
+        <div 
+          class="ks-cart-goal-icon" 
+          style="{% if percentage == 100 %}background-color: {{ color }}; color: white;{% endif %}">
+          {% if section.settings.icon == 'bi-truck' %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+              <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+            </svg>
+          {% elsif section.settings.icon == 'bi-gift' %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gift" viewBox="0 0 16 16">
+              <path d="M3 2.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 5 0v.006c0 .07 0 .27-.038.494H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 14.5V7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.038A3 3 0 0 1 3 2.506zm1.068.5H7v-.5a1.5 1.5 0 1 0-3 0c0 .085.002.274.045.43zM9 3h2.932l.023-.07c.043-.156.045-.345.045-.43a1.5 1.5 0 0 0-3 0zM1 4v2h6V4zm8 0v2h6V4zm5 3H9v8h4.5a.5.5 0 0 0 .5-.5zm-7 8V7H2v7.5a.5.5 0 0 0 .5.5z"/>
+            </svg>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KS - Cart Goal",
+  "settings": [
+    {
+      "type": "text",
+      "id": "goal_value",
+      "label": "Goal value",
+      "default": "100"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "default": "bi-truck",
+      "options": [
+        { "value": "", "label": "No icon" },
+        { "value": "bi-truck", "label": "Truck" },
+        { "value": "bi-gift", "label": "Gift" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Goal not completed"
+    },
+    {
+      "type": "richtext",
+      "id": "not_completed_text",
+      "label": "Text",
+      "default": "<p>You're <strong>[amount]</strong> away from <strong>FREE SHIPPING!</strong>"
+    },
+    {
+      "type": "color",
+      "id": "not_completed_color",
+      "label": "Color",
+      "default": "#ffc107"
+    },
+    {
+      "type": "header",
+      "content": "Goal completed"
+    },
+    {
+      "type": "richtext",
+      "id": "completed_text",
+      "label": "Text",
+      "default": "<p>Congrats! You're eligible for <strong>FREE SHIPPING!</strong>"
+    },
+    {
+      "type": "color",
+      "id": "completed_color",
+      "label": "Color",
+      "default": "#198754"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Cart Goal"
+    }
+  ]
+}
+{% endschema %}
