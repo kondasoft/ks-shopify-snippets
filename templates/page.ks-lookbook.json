@@ -1,0 +1,108 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_lookbook_QFKkW8": {
+      "type": "ks-dawn-lookbook",
+      "blocks": {
+        "point_7ygAEd": {
+          "type": "point",
+          "settings": {
+            "title": "Amazing Watch",
+            "description": "Some description for this product",
+            "product": "ks-color-swatches",
+            "show_image": true,
+            "show_price": true,
+            "btn_text": "View product",
+            "mobile_pos_left": 60,
+            "mobile_pos_top": 66,
+            "desktop_pos_left": 31,
+            "desktop_pos_top": 30
+          }
+        },
+        "point_atxfRK": {
+          "type": "point",
+          "settings": {
+            "title": "Oxygen Snowboard",
+            "description": "Some description for this product",
+            "product": "the-collection-snowboard-oxygen",
+            "show_image": true,
+            "show_price": true,
+            "btn_text": "View product",
+            "mobile_pos_left": 40,
+            "mobile_pos_top": 19,
+            "desktop_pos_left": 78,
+            "desktop_pos_top": 49
+          }
+        },
+        "point_PLQqKB": {
+          "type": "point",
+          "settings": {
+            "title": "Amazing Watch 2",
+            "description": "Some description for this product",
+            "product": "ks-quantity-breaks",
+            "show_image": true,
+            "show_price": true,
+            "btn_text": "View product",
+            "mobile_pos_left": 28,
+            "mobile_pos_top": 61,
+            "desktop_pos_left": 36,
+            "desktop_pos_top": 69
+          }
+        },
+        "point_ntEVPB": {
+          "type": "point",
+          "settings": {
+            "title": "Amazing Snowboard",
+            "description": "Some description for this product",
+            "product": "the-multi-location-snowboard",
+            "show_image": true,
+            "show_price": true,
+            "btn_text": "View product",
+            "mobile_pos_left": 26,
+            "mobile_pos_top": 39,
+            "desktop_pos_left": 59,
+            "desktop_pos_top": 73
+          }
+        }
+      },
+      "block_order": [
+        "point_7ygAEd",
+        "point_atxfRK",
+        "point_PLQqKB",
+        "point_ntEVPB"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "container": true,
+        "container_max_width": "",
+        "header_text_align": "center",
+        "heading": "KS Lookbook",
+        "heading_size": "h1",
+        "description": "<p>Optional description for this section<\/p>",
+        "mobile_image": "shopify:\/\/shop_images\/pmv-chamara-CeQiQxNNdUM-unsplash-mobile.jpg",
+        "desktop_image": "shopify:\/\/shop_images\/pmv-chamara-CeQiQxNNdUM-unsplash.jpg",
+        "image_border_radius": 1,
+        "point_color": "#ffffff",
+        "point_diameter": 1.5,
+        "tooltip_width": 260,
+        "tooltip_text_align": "center",
+        "tooltip_bg_color": "#ffffff",
+        "tooltip_color": "#121212",
+        "tooltip_btn_style": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ks_dawn_lookbook_QFKkW8"
+  ]
+}

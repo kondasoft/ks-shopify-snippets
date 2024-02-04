@@ -1,0 +1,444 @@
+{% liquid 
+  # KS Newsletter Popup
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% liquid 
+  assign backdrop_bg_color_rgb = section.settings.backdrop_bg_color.red | append: ', ' | append: section.settings.backdrop_bg_color.green | append: ', ' | append: section.settings.backdrop_bg_color.blue
+%}
+
+{%- style -%}
+  #ks-newsletter-dialog {
+    padding: 0;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 24px rgba({{ backdrop_bg_color_rgb }}, {{ section.settings.dialog_box_shadow }}%);
+    border-radius: {{ section.settings.dialog_border_radius }}px;
+    width: calc(100% - 4rem);
+    max-width: {{ section.settings.dialog_max_width}}px;
+    text-align: {{ section.settings.dialog_text_align }};
+    opacity: 0;
+    transform: translateY(0);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    transition-delay: .6s;
+  }
+
+  #ks-newsletter-dialog[open] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    #ks-newsletter-dialog[open] {
+      opacity: 0;
+      transform: translateY(15vh);
+    }
+  }
+
+  #ks-newsletter-dialog::backdrop {
+    background: rgba({{ backdrop_bg_color_rgb }}, 0);
+    backdrop-filter: blur({{ section.settings.backdrop_blur }}px);
+    transition: background-color 0.7s;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E") 24 24, pointer;
+  }
+
+  #ks-newsletter-dialog[open]::backdrop {
+    background: rgba({{ backdrop_bg_color_rgb }}, {{ section.settings.backdrop_bg_opacity }}%);
+  }
+
+  @starting-style {
+    #ks-newsletter-dialog[open]::backdrop {
+      background: rgba({{ backdrop_bg_color_rgb }}, 0);
+    }
+  }
+
+  #ks-newsletter-dialog .ks-dialog-inner {
+    padding: {{ section.settings.dialog_padding | times: 0.75 | round: 0 }}px;
+  }
+
+  #ks-newsletter-dialog button[data-dialog-close] {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    padding: 6px;
+    display: flex;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    background: rgba(var(--color-background), 0.75);
+    border-radius: 50rem;
+    transition: all .2s ease-out;
+    color: currentColor;
+  }
+
+  #ks-newsletter-dialog button[data-dialog-close]:hover,
+  #ks-newsletter-dialog button[data-dialog-close]:focus {
+    background: rgba(var(--color-background), 1);
+    transform: rotate(180deg);
+  }
+
+  #ks-newsletter-dialog .title {
+    margin: 0;
+  }
+
+  #ks-newsletter-dialog .description {
+    margin: 4px 0 0;
+  }
+
+  #ks-newsletter-dialog .description-note {
+    margin: 8px 0 0;
+    font-size: .75em;
+  }
+
+  #ks-newsletter-dialog img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    opacity: 0;
+    height: 0;
+    transition: all .6s ease-out;
+    transition-delay: 1s;
+  }
+
+  #ks-newsletter-dialog[open] img {
+    opacity: 1;
+    height: {{ section.settings.image_height | times: 0.75 | round: 0 }}px;
+  }
+
+  @media (min-width: 750px) {
+    #ks-newsletter-dialog[open] img {
+      height: {{ section.settings.image_height }}px;
+    }
+  }
+
+  @starting-style {
+    #ks-newsletter-dialog[open] img {
+      opacity: 0;
+      height: 0;
+    }
+  }
+
+  #ks-newsletter-dialog form {
+    margin: 16px 0 0;
+  }
+
+  @media (min-width: 750px) {
+    #ks-newsletter-dialog .ks-dialog-inner {
+      padding: {{ section.settings.dialog_padding }}px;
+    }
+  }
+
+{%- endstyle -%}
+
+{%- javascript -%} 
+  if (Shopify.designMode) return
+
+  // Create cookie function
+  function createCookie (name, value, days) {
+    let date, expires
+    if (days) {
+      date = new Date()
+      date.setDate(date.getDate() + days)
+      expires = '; expires=' + date.toUTCString()
+    } else {
+      expires = ''
+    }
+    document.cookie = name + '=' + value + expires + '; path=/'
+  }
+
+  const dialog = document.querySelector('#ks-newsletter-dialog')
+
+  // Close dialog if clicked outside
+  dialog.addEventListener('click', (event) => {
+    const withinBoundaries = event.composedPath().includes(dialog.querySelector('.ks-dialog-inner'))
+
+    if (!withinBoundaries) {
+      dialog.close() 
+    }
+  })
+
+  // Close button
+  dialog.querySelector('data-dialog-close')?.addEventListener('click', (event) => {
+    event.preventDefault()
+    dialog.close()
+  })
+
+  // Show the dialog if url contains (www.mystore.com/?ks-newsletter-popup)
+  if (window.location.href.includes('ks-newsletter-popup')) {
+    dialog.showModal() 
+    return
+  }
+
+  // Do not show the dialog if the cookie is still present (config from settings)
+  if (document.cookie.indexOf('ks-newsletter-popup') > -1) {
+    return
+  }
+
+  (async () => {
+    // Show the dialog on page load after some time has passed (config from settings)
+    await new Promise(resolve => setTimeout(resolve, Number(dialog.dataset.configDelay) * 1000))
+
+    // Create a cookie so that we don't show the dialog for some time (config from settings)
+    createCookie('ks-newsletter-popup', true, Number(dialog.dataset.configDaysToWait))
+
+    dialog.showModal()
+  })();
+
+{%- endjavascript -%}
+
+{% if request.design_mode %}
+  <script>
+    // Always show the dialog within the theme editor
+    const showDialog = (event) => {
+      console.log(event)
+      const dialog = document.querySelector('#ks-newsletter-dialog')
+
+      if (event.target.querySelector(`#${dialog.id}`)) {
+        dialog.showModal() 
+      } else {
+        dialog.close() 
+      }
+    }
+
+    document.addEventListener('shopify:section:load', showDialog)
+    document.addEventListener('shopify:section:select', showDialog)
+  </script>
+{% endif %}
+ 
+<dialog 
+  id="ks-newsletter-dialog"
+  class="color-{{ section.settings.dialog_color_scheme }} gradient"
+  data-config-delay="{{ section.settings.config_delay }}"
+  data-config-days-to-wait="{{ section.settings.config_days_to_wait }}">
+  <button data-dialog-close aria-label="Close">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+    </svg>
+  </button>
+  {%- if section.settings.image != nil -%}
+    <img
+      src="{{ section.settings.image | image_url: width: 1200 }}"
+      alt="{{ section.settings.image.alt }}"
+      width="600"
+      height="{{ 600 | divided_by: section.settings.image.aspect_ratio | round }}"
+      loading="lazy">
+  {%- endif -%}
+  <div class="ks-dialog-inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+    {% unless section.settings.description == blank %}
+      <div class="description rte">
+        {{ section.settings.description }}
+      </div>
+    {% endunless %}
+    {%- form 'customer' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="">
+        <div class="field">
+          <input
+            id="NewsletterForm--{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            class="field__input"
+            value="{{ form.email }}"
+            aria-required="true"
+            autofocus
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            placeholder="{{ 'newsletter.label' | t }}"
+            required>
+          <label class="field__label" for="NewsletterForm--{{ section.id }}">
+            {{ 'newsletter.label' | t }}
+          </label>
+          <button
+            type="submit"
+            class="newsletter-form__button field__button"
+            name="commit"
+            id="Subscribe"
+            aria-label="{{ 'newsletter.button_label' | t }}">
+            {% render 'icon-arrow' %}
+          </button>
+        </div>
+      </div>
+    {%- endform -%}
+    {% unless section.settings.note == blank %}
+      <div class="description-note rte">
+        {{ section.settings.note }}
+      </div>
+    {% endunless %}
+  </div>
+</dialog>
+
+{% schema %}
+{
+  "name": "KS - Newsletter Popup",
+  "tag": "section",
+  "limit": 1,
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Config"
+    },
+    {
+      "type": "range",
+      "id": "config_delay",
+      "label": "Delay (sec)",
+      "info": "The time to wait before showing the dialog on page load. (in seconds)",
+      "default": 5,
+      "min": 1,
+      "max": 20,
+      "unit": "sec"
+    },
+    {
+      "type": "range",
+      "id": "config_days_to_wait",
+      "label": "Days to wait",
+      "info": "Days to wait before showing the newsletter popup again.",
+      "default": 3,
+      "min": 1,
+      "max": 30
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_height",
+      "label": "Image height (px)",
+      "default": "300"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Subscribe & get 10% off immediately!"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Be the first to know about our latest offers and other important stuff.</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "richtext",
+      "id": "note",
+      "label": "Note",
+      "default": "<p>By signing up for email, you agree to our <a href=\"/policies/terms-of-service\">Terms of Service</a> and <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Dialog"
+    },
+    {
+      "type": "color_scheme",
+      "id": "dialog_color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "dialog_padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "dialog_max_width",
+      "label": "Max-width (px)",
+      "default": "560"
+    },
+    {
+      "type": "select",
+      "id": "dialog_text_align",
+      "label": "Text align",
+      "options": [
+        { "value": "", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "dialog_border_radius",
+      "label": "Border radius (px)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "dialog_box_shadow",
+      "label": "Box shadow",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Backdrop"
+    },
+    {
+      "type": "color",
+      "id": "backdrop_bg_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "backdrop_bg_opacity",
+      "label": "Background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "backdrop_blur",
+      "label": "Blur",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Newsletter Popup"
+    }
+  ]
+}
+{% endschema %}

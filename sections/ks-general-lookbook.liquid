@@ -1,0 +1,686 @@
+{% liquid 
+  # KS Lookbook
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{%- style-%}
+  .ks-lookbook {
+    display: block
+  }
+
+  .ks-lookbook .container {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ks-lookbook .section-header .title {
+    margin: 0 0 .5rem;
+  }
+
+  .ks-lookbook .section-header .description {
+    margin-bottom: 2rem;
+  }
+
+  .ks-lookbook-inner {
+    position: relative;
+  }
+
+  .ks-lookbook .img-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ section.settings.image_border_radius | append: 'rem' }};
+  }
+
+  .ks-lookbook .img-wrapper-mobile {
+    display: block;
+  }
+
+  .ks-lookbook .img-wrapper-desktop {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ks-lookbook .img-wrapper-mobile { display: none; }
+    .ks-lookbook .img-wrapper-desktop { display: block; }
+  }
+
+  .ks-lookbook-point-list {
+  }
+
+  .ks-lookbook-point-list-item {
+  }
+
+  .ks-lookbook-point-list-item button {
+    position: absolute;
+    cursor: pointer;
+    display: block;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+  }
+
+  .ks-lookbook-point-list-item button > span {
+    display: block;
+    padding: .25rem;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    background-color: transparent;
+    transition: all .2s ease-out;
+    animation: ks-lookbook-point-animation-{{ section.id }} 2s infinite;
+  }
+
+  #ks-lookbook-{{ section.id }} .ks-lookbook-point-list-item button span {
+    border-color: {{ section.settings.point_color }};
+  }
+
+  .ks-lookbook-point-list-item button:hover > span, 
+  .ks-lookbook-point-list-item button:focus > span {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ks-lookbook-point-list-item button > span > span {
+    background: currentColor;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+  }
+
+  #ks-lookbook-{{ section.id }} .ks-lookbook-point-list-item button > span > span {
+    background: {{ section.settings.point_color }};
+    width: {{ section.settings.point_diameter | append: 'rem' }};
+    height: {{ section.settings.point_diameter | append: 'rem' }};
+  }
+
+  @keyframes ks-lookbook-point-animation-{{ section.id }} {
+    0% { box-shadow: 0 0 0 0px rgba({{ section.settings.point_color | color_to_rgb | remove: 'rgb(' | remove: ')' }}, 0.25); }
+    100% { box-shadow: 0 0 0 20px rgba({{ section.settings.point_color | color_to_rgb | remove: 'rgb(' | remove: ')' }}, 0); }
+  }
+
+  @media (max-width: 749px) {
+    {% for block in section.blocks %}
+      #ks-lookbook-{{ section.id }} .ks-lookbook-point-list-item:nth-child({{ forloop.index }}) button {
+        left: {{ block.settings.mobile_pos_left }}%;
+        top: {{ block.settings.mobile_pos_top }}%;
+      }
+    {% endfor %}
+  }
+
+  @media (min-width: 750px) {
+    {% for block in section.blocks %}
+      #ks-lookbook-{{ section.id }} .ks-lookbook-point-list-item:nth-child({{ forloop.index }}) button {
+        left: {{ block.settings.desktop_pos_left }}%;
+        top: {{ block.settings.desktop_pos_top }}%;
+      }
+    {% endfor %}
+  }
+
+  .ks-tooltip {
+    display: none;
+    width: max-content;
+    width: 320px;
+    max-width: 90vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    color: #121212;
+    padding: 1.5rem;
+    border-radius: 4px;
+    line-height: normal;
+    z-index: 9;
+  }
+
+  #ks-lookbook-{{ section.id }}  .ks-tooltip {
+    background: {{ section.settings.tooltip_bg_color }};
+    color: {{ section.settings.tooltip_color }};
+    box-shadow: 0 0 2rem rgba({{ section.settings.tooltip_color | color_to_rgb | remove: 'rgb(' | remove: ')' }}, .2);
+    width: {{ section.settings.tooltip_width | append: 'px' }};
+    text-align: {{ section.settings.tooltip_text_align }};
+  }
+
+  .ks-tooltip.show {
+    display: block;
+    animation: ks_tooltip_animation_showing .4s ease-out both;
+  }
+
+  .ks-tooltip.hiding {
+    display: block;
+    animation: ks_tooltip_animation_hiding .2s ease-out both;
+  }
+
+  @keyframes ks_tooltip_animation_showing {
+    from { opacity: 0; transform: translateY(1rem) }
+    to { opacity: 1; transform: translateY(0)}
+  }
+
+  @keyframes ks_tooltip_animation_hiding {
+    to { opacity: 0; transform: translateY(1rem)}
+  }
+
+  .ks-tooltip .title {
+    font-size: calc(var(--font-heading-scale) * 1.5rem);
+    color: currentColor;
+    margin: 0 0 .75rem;
+  }
+
+  .ks-tooltip .description {
+    font-size: .85em;
+    margin-bottom: 1rem;
+  }
+
+  .ks-tooltip .ks-lookbook-product-img {
+    width: 100%;
+    height: auto;
+    margin: 0 0 1rem;
+  }
+
+  .ks-tooltip .ks-lookbook-product-price {
+    margin: 0 0 .5rem;
+  }
+
+  .ks-tooltip .ks-lookbook-product-price-compare {
+    opacity: .6;
+    margin-right: .5rem;
+  }
+
+  .ks-tooltip a {
+    width: 100%;
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    word-wrap: norma l!important;
+  }
+{%- endstyle -%}
+
+{%- javascript -%} 
+  class KsLookBook extends HTMLElement {
+    constructor () {
+      super()
+
+      this.injectVendorScripts()
+      this.querySelectorAll('.ks-lookbook-point-list-item').forEach((elem) => {
+        this.handleTooltip(elem)
+      })
+    } 
+    
+    async injectVendorScripts () {
+      if (!window.FloatingUICore) {
+        const script = document.createElement('script')
+        script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.0')
+        document.head.appendChild(script) 
+      }
+      if (!window.FloatingUIDOM) {
+        await new Promise(r => setTimeout(r, 500))
+
+        const script = document.createElement('script')
+        script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.1')
+        document.head.appendChild(script)
+      }
+    }
+
+    handleTooltip(elem) {
+      const btn = elem.querySelector('button')
+      const tooltip = elem.querySelector('.ks-tooltip')
+
+      function update() {
+        window.FloatingUIDOM.computePosition(btn, tooltip, {
+          middleware: [
+            window.FloatingUIDOM.offset(0),
+            window.FloatingUIDOM.autoPlacement()
+          ],
+        }).then(({x, y}) => {
+          Object.assign(tooltip.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          })
+        })
+      }
+
+      function showTooltip() {
+        tooltip.classList.add('show')
+        update()
+      }
+      
+      function hideTooltip() {
+        tooltip.classList.remove('show')
+        tooltip.classList.add('hiding')
+        setTimeout(() => {
+          tooltip.classList.remove('hiding')
+        }, 200);
+      }
+      
+      if (window.matchMedia("(pointer: coarse)").matches) {
+        [
+          ['mouseenter', showTooltip],
+          ['mouseleave', hideTooltip],
+          ['focus', showTooltip],
+          ['blur', hideTooltip],
+        ].forEach(([event, listener]) => {
+          btn.addEventListener(event, listener)
+        })
+      } else {
+        [
+          ['focus', showTooltip],
+          ['blur', hideTooltip],
+        ].forEach(([event, listener]) => {
+          btn.addEventListener(event, listener)
+        })
+      }
+    }
+  }
+  customElements.define('ks-lookbook', KsLookBook)
+{%- endjavascript -%}
+
+<ks-lookbook 
+  id="ks-lookbook-{{ section.id }}"
+  class="ks-lookbook"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding-top: {{ section.settings.pt }}rem;
+    padding-bottom: {{ section.settings.pb }}rem;
+  ">
+  <div 
+    class="section-header page-width" 
+    style="text-align: {{ section.settings.header_text_align }};">
+    {%- if section.settings.heading != blank -%}
+      <h2 
+        id="ks-lookbook-heading"
+        class="title inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.description != blank %}
+      <div class="description rte">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div 
+    class="{% if section.settings.container %}container{% endif %}"
+    style="max-width: {{ section.settings.container_max_width | append: 'px' }}">
+
+    <div class="ks-lookbook-inner">
+
+      <div class="img-wrapper img-wrapper-mobile">
+        {% if section.settings.mobile_image == nil %}
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {% else %}
+          <img
+            src="{{ section.settings.mobile_image.src | image_url: width: 800 }}"
+            alt="{{ section.settings.mobile_image.alt | escape }}"
+            class=""
+            width="800"
+            height="{{ 600 | divided_by: section.settings.mobile_image.aspect_ratio | round }}"
+            loading="lazy">
+        {% endif %}
+      </div>
+      <div class="img-wrapper img-wrapper-desktop">
+        {% if section.settings.desktop_image == nil %}
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {% else %}
+          <img
+            src="{{ section.settings.desktop_image.src | image_url: width: 1600 }}"
+            alt="{{ section.settings.desktop_image.alt | escape }}"
+            class=""
+            width="1600"
+            height="{{ 1600 | divided_by: section.settings.desktop_image.aspect_ratio | round }}"
+            loading="lazy">
+        {% endif %}
+      </div>
+
+      <div 
+        class="ks-lookbook-point-list" 
+        aria-labelledby="ks-lookbook-heading"
+        role="list">
+        {% for block in section.blocks %}
+          <div 
+            class="ks-lookbook-point-list-item" 
+            {{ block.shopify_attributes }}
+            role="listitem">
+            {% liquid
+              assign product = block.settings.product 
+            %}
+            <button>
+              <span><span>
+              </span></span>
+            </button>
+            <div class="ks-tooltip" role="tooltip">
+              {% unless block.settings.title == blank %}
+                <h3 class="title">
+                  {{ block.settings.title }}
+                </h3>
+              {% endunless %}
+              {% if product != nil and block.settings.show_image %} 
+                  <img 
+                    class="ks-lookbook-product-img" 
+                    src="{{ product.featured_image | image_url: width: 600 }}" 
+                    width="600"
+                    height="{{ 600 | divided_by: product.featured_image.aspect_ratio | round }}" 
+                    loading="lazy">
+              {% endif %}
+              {% if product != nil and block.settings.show_price %} 
+                <p class="ks-lookbook-product-price">
+                  {% if product.compare_at_price > product.price %}
+                    <span class="ks-lookbook-product-price-compare">
+                      <span class="visually-hidden visually-hidden--inline">
+                        Regular price
+                      </span>
+                      <s>{{ product.compare_at_price | money }}</s>
+                    </span>
+                  {% endif %}
+                  <span class="ks-lookbook-product-price-final">
+                    {{ product.price | money }}
+                  </span>
+                </p>
+              {% endif %}
+              {% unless block.settings.description == blank %}
+                <div class="description rte">
+                  {{ block.settings.description }}
+                </div>
+              {% endunless %}
+              {% if product != nil and block.settings.btn_text != blank %} 
+                <a 
+                  class="button btn button--primary btn-primary"
+                  href="{{ product.url }}"
+                  aria-hidden="true">
+                  {{ block.settings.btn_text }}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</ks-lookbook>
+
+{% schema %}
+{
+  "name": "KS - Lookbook",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#f6f6f6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "checkbox",
+      "id": "container",
+      "label": "Wrap in a container",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "container_max_width",
+      "label": "Container max-width (px)",
+      "default": "1400",
+      "info": "Leave empty to use the default container width"
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "select",
+      "id": "header_text_align",
+      "label": "Text align",
+      "default": "center",
+      "options": [
+        { "value": "", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Lookbook"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Optional description for this section</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border-radius",
+      "min": 0,
+      "max": 5,
+      "step": 0.2,
+      "default": 1,
+      "unit": "rem"
+    },
+    {
+      "type": "header",
+      "content": "Points"
+    },
+    {
+      "type": "color",
+      "id": "point_color",
+      "label": "Point color",
+      "default": "#334fb4"
+    },
+    {
+      "type": "range",
+      "id": "point_diameter",
+      "label": "Point diameter",
+      "unit": "rem",
+      "min": 0.2,
+      "max": 3,
+      "step": 0.1,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Tooltip"
+    },
+    {
+      "type": "range",
+      "id": "tooltip_width",
+      "label": "Tooltip width",
+      "default": 260,
+      "min": 200,
+      "max": 400,
+      "step": 20,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "tooltip_text_align",
+      "label": "Text align",
+      "default": "center",
+      "options": [
+        { "value": "", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "tooltip_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tooltip_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "pt",
+      "label": "Padding top",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "pb",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "Some optional description for this point",
+          "info": "Note: Leave empty to disable"
+        },
+        {
+          "type": "header",
+          "content": "Product",
+          "info": "Optional: Select a product to show on this point"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_image",
+          "label": "Show Image",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_price",
+          "label": "Show price",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button text",
+          "default": "View product"
+        },
+        {
+          "type": "header",
+          "content": "Point position - Mobile"
+        },
+        {
+          "type": "range",
+          "id": "mobile_pos_left",
+          "label": "Left (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "mobile_pos_top",
+          "label": "Top (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Desktop Positioning"
+        },
+        {
+          "type": "range",
+          "id": "desktop_pos_left",
+          "label": "Left (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "desktop_pos_top",
+          "label": "Top (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Lookbook"
+    }
+  ]
+}
+{% endschema %}

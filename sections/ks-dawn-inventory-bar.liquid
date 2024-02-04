@@ -1,0 +1,303 @@
+{% liquid 
+  # KS Inventory Bar
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+
+{% liquid 
+  assign current_variant = product.selected_or_first_available_variant
+
+  if current_variant.available == false
+    assign text = section.settings.text_soldout
+    assign bg_color = ''
+    assign percentage = 0
+  elsif current_variant.inventory_management == nil or current_variant.inventory_policy == 'continue'
+    assign text = section.settings.text_untracked
+    assign bg_color = section.setings.color_has_stock
+    assign percentage = section.settings.bar_width_has_stock
+  elsif current_variant.inventory_quantity <= section.settings.low_stock_threshold
+    if current_variant.inventory_quantity == 1 
+      assign text = section.settings.text_low_one | replace: '[qty]', current_variant.inventory_quantity
+    else
+      assign text = section.settings.text_low_many | replace: '[qty]', current_variant.inventory_quantity
+    endif
+    assign bg_color = section.settings.color_low_stock
+    assign percentage = section.settings.bar_width_low_stock
+  else
+    assign text = section.settings.text_normal | replace: '[qty]', current_variant.inventory_quantity
+    assign bg_color = section.settings.color_has_stock
+    assign percentage = section.settings.bar_width_has_stock
+  endif
+%}
+
+{%- stylesheet -%}
+  #ks-inventory-bar {
+    transition: all .2s ease-out;
+  }
+
+  #ks-inventory-bar-text {
+    margin: 0 0 4px;
+  }
+
+  /* Bootstrap Progress */
+  .progress {
+    --bs-progress-height: 8px;
+    --bs-progress-font-size: 0.75rem;
+    --bs-progress-bar-color: #fff;
+    --bs-progress-bar-transition: width 0.6s ease;
+    display: flex;
+    height: var(--bs-progress-height);
+    overflow: hidden;
+    font-size: var(--bs-progress-font-size);
+    border-radius: 50rem;
+    background-color: rgba(var(--color-foreground), 0.05);
+  }
+
+  .progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--bs-progress-bar-color);
+    text-align: center;
+    white-space: nowrap;
+    transition: var(--bs-progress-bar-transition);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar {
+      transition: none;
+    }
+  }
+
+  .progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: var(--bs-progress-height) var(--bs-progress-height);
+  }
+
+  .progress-bar-animated {
+    animation: 1s linear infinite progress-bar-stripes;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar-animated {
+      animation: none;
+    }
+  }
+
+  @keyframes progress-bar-stripes {
+    0% {
+      background-position-x: 1rem;
+    }
+  }
+
+{%- endstylesheet -%}
+
+
+{%- javascript -%}
+  const injectInventoryBar = () => {
+    const wrapper = document.querySelector('#ks-inventory-bar-hidden')
+
+    const productInfo = document.querySelector('product-info')
+    const buttonsWrapper = productInfo.querySelector('.product-form__buttons')
+    
+    buttonsWrapper.insertAdjacentHTML('beforebegin', `
+      ${wrapper.innerHTML}
+    `)
+
+    function animateProgressBar () {
+      const progressBar = productInfo.querySelector('#ks-inventory-bar .progress-bar')
+
+      setTimeout(() => {
+        progressBar.style.width = progressBar.dataset.width
+      }, 250)
+    }
+    animateProgressBar()
+
+    async function handleVariantChange () {
+      const inventoryBar = productInfo.querySelector('#ks-inventory-bar')
+
+      inventoryBar.style.opacity = '.25' 
+
+      await new Promise(r => setTimeout(r, 200)) 
+
+      const respoonse = await fetch(window.location.href)
+      const text = await respoonse.text()
+      const newDocument = new DOMParser().parseFromString(text, 'text/html')
+
+      inventoryBar.replaceWith(newDocument.querySelector('#ks-inventory-bar'))
+      animateProgressBar()
+    }
+
+    productInfo.querySelectorAll('variant-radios input').forEach(input => {
+      input.addEventListener('change', () => {
+        handleVariantChange()
+      })
+    })
+
+    productInfo.querySelectorAll('variant-selects select').forEach(select => {
+      select.addEventListener('change', () => { 
+        handleVariantChange()
+      })
+    })
+  }
+  injectInventoryBar()
+{%- endjavascript -%}
+
+<div 
+  id="ks-inventory-bar-hidden"
+  hidden>
+  <div 
+    id="ks-inventory-bar"
+    style="
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    ">
+    <p id="ks-inventory-bar-text">
+      {{ text }}
+    </p>
+    <div 
+      class="progress" 
+      style="height: {{ section.settings.progress_height }}px;" 
+      aria-hidden="true">
+      <div 
+        class="progress-bar progress-bar progress-bar-animated progress-bar-striped" 
+        data-width="{{ percentage }}%"
+        style="
+          width: 0%;
+          background-color: {{ bg_color }};
+        ">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KS - Inventory Bar",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock threshold",
+      "info": "Below this number the stock will be marked as low",
+      "default": 10,
+      "min": 2,
+      "max": 200,
+      "step": 2
+    },
+    {
+      "type": "color",
+      "id": "color_low_stock",
+      "label": "Low stock - color",
+      "default": "#ffc107"
+    },
+    {
+      "type": "range",
+      "id": "bar_width_low_stock",
+      "label": "Low stock - width",
+      "default": 6,
+      "min": 2,
+      "max": 40,
+      "step": 2,
+      "unit": "%"
+    },
+    {
+      "type": "color",
+      "id": "color_has_stock",
+      "label": "Has stock - color",
+      "default": "#198754"
+    },
+
+    {
+      "type": "range",
+      "id": "bar_width_has_stock",
+      "label": "Has stock - width",
+      "default": 70,
+      "min": 50,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "progress_height",
+      "label": "Progress bar height",
+      "default": 8,
+      "min": 2,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "text_soldout",
+      "label": "Sold-out",
+      "default": "Unfortunately this item is sold-out!"
+    },
+    {
+      "type": "text",
+      "id": "text_untracked",
+      "label": "Untracked",
+      "default": "Currently this item has stock!"
+    },
+    {
+      "type": "text",
+      "id": "text_low_one",
+      "label": "Low stock - one item",
+      "default": "Hurry up! Only <b>1 item<\/b> is in stock"
+    },
+    {
+      "type": "text",
+      "id": "text_low_many",
+      "label": "Low stock - more than one item",
+      "default": "Hurry up! Only <b>[qty] items<\/b> are in stock."
+    },
+    {
+      "type": "text",
+      "id": "text_normal",
+      "label": "Normal stock",
+      "default": "Currently <b>[qty] items<\/b> are in stock!"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 28
+    }
+  ],
+  "templates": ["product"],
+  "presets": [
+    {
+      "name": "KS - Inventory bar"
+    }
+  ]
+}
+{% endschema %}

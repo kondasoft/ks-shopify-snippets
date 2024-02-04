@@ -46,12 +46,21 @@
         "completed_text": "<p>Congrats! You're eligible for <strong>FREE SHIPPING!<\/strong><\/p>",
         "completed_color": "#198754"
       }
+    },
+    "ks_recently_viewed_init_4b8NBq": {
+      "type": "ks-recently-viewed-init",
+      "settings": {
+        "limit": 40,
+        "page": "ks-recently-viewed",
+        "label": "Recently Viewed"
+      }
     }
   },
   "order": [
     "footer",
     "aefd030f-7d61-49f9-b87a-c5782b56f65c",
     "ks_dawn_cart_drawer_upsell_h6BCwW",
-    "ks_dawn_cart_goal_wMfVkE"
+    "ks_dawn_cart_goal_wMfVkE",
+    "ks_recently_viewed_init_4b8NBq"
   ]
 }

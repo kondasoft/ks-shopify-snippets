@@ -1,0 +1,176 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_fB7xm8": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_G94EzL": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text",
+            "heading_size": "h1"
+          }
+        },
+        "text_JzaLbK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "text_style": "body"
+          }
+        },
+        "button_aFPFXz": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_G94EzL",
+        "text_JzaLbK",
+        "button_aFPFXz"
+      ],
+      "settings": {
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_ybBzQh": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_7jXRYn": {
+          "type": "heading",
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "h1"
+          }
+        },
+        "text_DGA9Fy": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+          }
+        },
+        "button_RxK8aQ": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_7jXRYn",
+        "text_DGA9Fy",
+        "button_RxK8aQ"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "image_banner_qVmkwC": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_LAqCHc": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image banner",
+            "heading_size": "h1"
+          }
+        },
+        "text_Gr6UgK": {
+          "type": "text",
+          "settings": {
+            "text": "Give customers details about the banner image(s) or content on the template.",
+            "text_style": "body"
+          }
+        },
+        "buttons_Gf8xjx": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Button label",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
+            "button_label_2": "Button label",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_LAqCHc",
+        "text_Gr6UgK",
+        "buttons_Gf8xjx"
+      ],
+      "settings": {
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "ks_dawn_newsletter_popup_qABWg9": {
+      "type": "ks-dawn-newsletter-popup",
+      "settings": {
+        "config_delay": 5,
+        "config_days_to_wait": 3,
+        "image": "shopify:\/\/shop_images\/tamanna-rumee-hGLc8L-EcCM-unsplash.jpg",
+        "image_height": "300",
+        "heading": "Subscribe & get 10% off immediately!",
+        "heading_size": "h2",
+        "description": "<p>Be the first to know about our latest offers and other important stuff.<\/p>",
+        "note": "<p>By signing up for email, you agree to our <a href=\"\/policies\/terms-of-service\">Terms of Service<\/a> and <a href=\"\/policies\/privacy-policy\">Privacy Policy<\/a>.<\/p>",
+        "dialog_color_scheme": "",
+        "dialog_padding": 24,
+        "dialog_max_width": "560",
+        "dialog_text_align": "center",
+        "dialog_border_radius": 8,
+        "dialog_box_shadow": 20,
+        "backdrop_bg_color": "#000000",
+        "backdrop_bg_opacity": 60,
+        "backdrop_blur": 10
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_fB7xm8",
+    "rich_text_ybBzQh",
+    "image_banner_qVmkwC",
+    "ks_dawn_newsletter_popup_qABWg9"
+  ]
+}

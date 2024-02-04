@@ -14,7 +14,7 @@
         "template--21837764526386__e64cb587-50f8-4954-8cb0-a1e2bf983069-countdown-1": {
           "type": "countdown",
           "settings": {
-            "time": "1704052186",
+            "time": "1706959397",
             "bg_color": "",
             "text_color": "#121212",
             "border_width": 2,
@@ -65,7 +65,7 @@
         "template--21837764526386__e92309a7-2d9b-4dfc-a78e-926d35533204-countdown-1": {
           "type": "countdown",
           "settings": {
-            "time": "1704052186",
+            "time": "1706959397",
             "bg_color": "#1773b0",
             "text_color": "#ffffff",
             "border_width": 2,
@@ -94,7 +94,7 @@
         "template--21837764526386__843b335a-dc90-498c-af58-b6759e533e6d-countdown-1": {
           "type": "countdown",
           "settings": {
-            "time": "1704052186",
+            "time": "1706959397",
             "bg_color": "",
             "text_color": "#ffffff",
             "border_width": 6,
