@@ -57,17 +57,6 @@
             "image_ratio": "square",
             "enable_quick_add": false
           }
-        },
-        "b7f63a4d-5d9e-4b80-b4d7-6962335a68a4": {
-          "type": "ks-custom-property",
-          "settings": {
-            "property_type": "text",
-            "property_label": "City",
-            "property_options": "blue, green, white",
-            "info_text": "",
-            "property_required": true,
-            "property_required_suffix": "(required)"
-          }
         }
       },
       "block_order": [
@@ -79,8 +68,7 @@
         "buy_buttons",
         "description",
         "share",
-        "c7343a15-0299-4bb4-8e28-6824b15e5fe6",
-        "b7f63a4d-5d9e-4b80-b4d7-6962335a68a4"
+        "c7343a15-0299-4bb4-8e28-6824b15e5fe6"
       ],
       "settings": {
         "enable_sticky_info": true,

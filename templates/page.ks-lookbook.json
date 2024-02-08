@@ -89,7 +89,7 @@
         "mobile_image": "shopify:\/\/shop_images\/pmv-chamara-CeQiQxNNdUM-unsplash-mobile.jpg",
         "desktop_image": "shopify:\/\/shop_images\/pmv-chamara-CeQiQxNNdUM-unsplash.jpg",
         "image_border_radius": 1,
-        "point_color": "#ffffff",
+        "point_color": "#fff",
         "point_diameter": 1.5,
         "tooltip_width": 260,
         "tooltip_text_align": "center",
