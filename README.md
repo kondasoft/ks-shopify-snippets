@@ -24,7 +24,6 @@ https://ks-snippets.myshopify.com
 https://www.kondasoft.com/collections/shopify-snippets
 
 ## Premium Shopify Themes
-Premium Shopify Themes For The Aspiring Entrepreneur
 https://www.kondasoft.com/collections/shopify-themes
 
 ## Support
