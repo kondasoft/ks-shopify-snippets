@@ -5,16 +5,20 @@ Shopify Theme Snippets that you may use on the Dawn theme or any other Shopify t
 https://ks-snippets.myshopify.com
 
 ## Snippet list and download
-- KS Countdown Sale [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-countdown-sale) - [Demo](https://ks-snippets.myshopify.com/pages/ks-countdown-sale)
-- KS Contact Form Builder [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-contact-form-builder) - [Demo](https://ks-snippets.myshopify.com/pages/ks-contact-form-builder)
-- KS Recently Viewed [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-recently-viewed) - [Demo](https://ks-snippets.myshopify.com/pages/ks-recently-viewed)
-- KS Product Custom Properties [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-product-custom-properties) - [Demo](https://ks-snippets.myshopify.com/products/ks-product-custom-properties)
-- KS Cart Drawer Upsell [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-cart-drawer-upsell) - [Demo](https://ks-snippets.myshopify.com)
-- KS Sticky Add To Cart [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-sticky-add-to-cart) - [Demo](https://ks-snippets.myshopify.com/products/ks-sticky-add-to-cart)
-- KS Color Swatches [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-color-swatches) - [Demo](https://ks-snippets.myshopify.com/products/ks-color-swatches)
-- KS Quantity Breaks [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-quantity-breaks) - [Demo](https://ks-snippets.myshopify.com/products/ks-quantity-breaks)
-- KS Cart Goal [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-cart-goal) - [Demo](https://ks-snippets.myshopify.com)
-- KS Marquee [Learn more and Download](https://www.kondasoft.com/collections/shopify-snippets/products/ks-marquee) - [Demo](https://ks-snippets.myshopify.com/pages/ks-marquee)
+1. [KS Countdown Sale](https://www.kondasoft.com/collections/shopify-snippets/products/ks-countdown-sale)
+2. [KS Contact Form Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-contact-form-builder)
+3. [KS Recently Viewed](https://www.kondasoft.com/collections/shopify-snippets/products/ks-recently-viewed)
+4. [KS Product Custom Properties](https://www.kondasoft.com/collections/shopify-snippets/products/ks-product-custom-properties)
+5. [KS Cart Drawer Upsell](https://www.kondasoft.com/collections/shopify-snippets/products/ks-cart-drawer-upsell)
+6. [KS Sticky Add To Cart](https://www.kondasoft.com/collections/shopify-snippets/products/ks-sticky-add-to-cart)
+7. [KS Color Swatches](https://www.kondasoft.com/collections/shopify-snippets/products/ks-color-swatches)
+8. [KS Quantity Breaks](https://www.kondasoft.com/collections/shopify-snippets/products/ks-quantity-breaks)
+9. [KS Cart Goal](https://www.kondasoft.com/collections/shopify-snippets/products/ks-cart-goal)
+10. [KS Marquee](https://www.kondasoft.com/collections/shopify-snippets/products/ks-marquee)
+11. [KS Testimonials Slider](https://www.kondasoft.com/collections/shopify-snippets/products/ks-testimonials-slider)
+12. [KS Inventory Bar](https://www.kondasoft.com/collections/shopify-snippets/products/ks-inventory-bar)
+13. [KS Newsletter Popup](https://www.kondasoft.com/collections/shopify-snippets/products/ks-newsletter-popup)
+14. [KS LookBook](https://www.kondasoft.com/collections/shopify-snippets/products/ks-lookbook)
 
 ## View all snippets
 https://www.kondasoft.com/collections/shopify-snippets
