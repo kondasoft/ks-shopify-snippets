@@ -1,0 +1,151 @@
+{% liquid 
+  # KS Bundle Builder
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+
+{% liquid 
+%}
+
+{%- style -%}
+  .collection {
+    display: flex;
+  }
+  
+  #product-grid {
+    width: 75%;
+  }
+
+  #ks-bundle-card {
+    flex: 1;
+    margin: 2rem 0 0 2rem;
+  }
+
+  #ks-bundle-card .ks-inner-content {
+    border: 1px solid rgba(var(--color-foreground), .1);
+    padding: 1.5rem;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+{%- endstyle -%}
+
+
+{%- javascript -%}
+  const injectElements = () => {
+    const productGrid = document.querySelector('#product-grid')
+    const bundleCard = document.querySelector('#ks-bundle-card')
+
+    productGrid.insertAdjacentElement('afterend', bundleCard)
+  }
+  injectElements()
+  
+  const adjustProductForms = () => {  
+    document.querySelectorAll('.collection product-form').forEach(productForm => {
+      var newProductForm = document.createElement('ks-bundle-product-form')
+      newProductForm.innerHTML = productForm.innerHTML
+
+      productForm.parentNode.replaceChild(newProductForm, productForm)
+    })
+  }
+  adjustProductForms()
+
+  class KsBundleProductForm extends HTMLElement {
+    constructor () {
+      super()
+
+      this.form = this.querySelector('form')
+      this.btn = this.querySelector('button[name="add"]')
+      this.variantId = Number(this.form.querySelector('[name="id"]').value)
+
+      this.form.addEventListener('submit', this.onSubmit.bind(this))
+      this.adjustBtn()
+    }    
+
+    adjustBtn () {
+      this.btn.querySelector('span').textContent = 'Add to Bundle'
+    }
+
+    async onSubmit (event) {
+      console.log(this.btn)
+      event.preventDefault()
+         
+      this.btn.classList.add('loading')
+      this.btn.querySelector('.loading__spinner').classList.remove('hidden') 
+
+      const bundleContents = JSON.parse(localStorage.getItem('ks-bundle-contents')) || []
+
+      const isInBundleContents = bundleContents.some((item) => item.variant_id === this.variantId)
+
+      console.log(isInBundleContents)
+
+      if (isInBundleContents) {
+        bundleContents.map(item => {
+          if (item.variant_id === this.variantId) {
+            item.quantity += 1
+          }
+          return item
+        })
+      } else {
+        const productLink = this.closest('.card').querySelector('a[href*="products"]').getAttribute('href') 
+
+        const response = await fetch(`${productLink}.js`)
+        const product = await response.json()
+        console.log(product)
+
+        const variant = product.variants.find(variant => variant.id === this.variantId)
+        console.log(variant)
+
+        bundleContents.push({
+          product_id: product.id,
+          product_handle: product.handle,
+          product_title: product.title,
+          product_image: product.featured_image,
+          variant_id: variant.id,
+          variant_title: variant.title,
+          variant_price: variant.price, 
+          variant_compare_at_price: variant.compare_at_price,
+          variant_image: variant.featured_image ? variant.featured_image.src : null,
+          quantity: 1
+        })
+      }
+
+      console.log(bundleContents)
+
+      localStorage.setItem('ks-bundle-contents', JSON.stringify(bundleContents))
+               
+      this.btn.classList.remove('loading')
+      this.btn.querySelector('.loading__spinner').classList.add('hidden') 
+    }
+  }
+  customElements.define('ks-bundle-product-form', KsBundleProductForm)
+
+{%- endjavascript -%}
+
+<div 
+  id="ks-bundle-builder-hidden"
+  hidden>
+  
+  <div id="ks-bundle-card">
+    <div class="ks-inner-content">
+      Bundle Card
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "KS - Bundle Builder",
+  "limit": 1,
+  "settings": [
+  ],
+  "templates": ["collection"],
+  "presets": [
+    {
+      "name": "KS - Bundle Builder"
+    }
+  ]
+}
+{% endschema %}

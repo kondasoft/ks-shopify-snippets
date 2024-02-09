@@ -104,7 +104,7 @@
     
     buttonsWrapper.insertAdjacentHTML('beforebegin', `
       ${wrapper.innerHTML}
-    `)
+    `)  
 
     function animateProgressBar () {
       const progressBar = productInfo.querySelector('#ks-inventory-bar .progress-bar')
@@ -130,7 +130,7 @@
       animateProgressBar()
     }
 
-    productInfo.querySelectorAll('variant-radios input').forEach(input => {
+    productInfo.querySelectorAll('variant-selects input').forEach(input => {
       input.addEventListener('change', () => {
         handleVariantChange()
       })
