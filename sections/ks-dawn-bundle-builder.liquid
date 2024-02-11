@@ -17,20 +17,108 @@
     width: 75%;
   }
 
+  .quick-add-modal product-form {
+    opacity: .2;
+  }
+
+  .quick-add-modal .shopify-payment-button {
+    display: none !important;
+  }
+
+  .quick-add-modal button:disabled {
+    opacity: .5 !important;
+  }
+
   #ks-bundle-card {
     flex: 1;
     margin: 2rem 0 0 2rem;
   }
 
   #ks-bundle-card .ks-inner-content {
-    border: 1px solid rgba(var(--color-foreground), .1);
+    background: transparent;
+    border: 1px solid rgba(var(--color-foreground), 1);
     padding: 1.5rem;
     position: sticky;
     top: 1.5rem;
+    border-radius: var(--product-card-corner-radius);
+  }
+
+  #ks-bundle-card .title {
+    padding-bottom: 1rem;
+    margin: 0 0 1.25rem;
+    border-bottom: 1px solid rgba(var(--color-foreground), .1);
+  }
+
+  #ks-bundle-card ul.progress-tiers {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+  }
+
+  /* Bootstrap Progress */
+  .progress {
+    --bs-progress-height: 8px;
+    --bs-progress-font-size: 0.75rem;
+    --bs-progress-bar-color: #fff;
+    --bs-progress-bar-transition: width 0.6s ease;
+    display: flex;
+    height: var(--bs-progress-height);
+    overflow: hidden;
+    font-size: var(--bs-progress-font-size);
+    border-radius: 50rem;
+    background-color: rgba(var(--color-foreground), 0.05);
+  }
+
+  .progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--bs-progress-bar-color);
+    text-align: center;
+    white-space: nowrap;
+    transition: var(--bs-progress-bar-transition);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar {
+      transition: none;
+    }
+  }
+
+  .progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: var(--bs-progress-height) var(--bs-progress-height);
+  }
+
+  .progress-bar-animated {
+    animation: 1s linear infinite progress-bar-stripes;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar-animated {
+      animation: none;
+    }
+  }
+
+  @keyframes progress-bar-stripes {
+    0% { background-position-x: 1rem; }
   }
 
 {%- endstyle -%}
 
+<script>
+window.ks_bundle_builder = {
+  text: {
+    add_to_bundle: '{{ section.settings.text_add_to_bundle }}',
+    added_to_bundle: '{{ section.settings.text_added_to_bundle }}',
+  }
+}
+</script>
 
 {%- javascript -%}
   const injectElements = () => {
@@ -51,50 +139,129 @@
   }
   adjustProductForms()
 
+  const adjustQuickViewContents = () => {
+    const quickAddModal = document.querySelector('quick-add-modal')
+      
+      const observer = new MutationObserver((mutations) => { 
+        setTimeout(() => {
+          const productForm = quickAddModal.querySelector('product-form')
+
+          var newProductForm = document.createElement('ks-bundle-product-form')
+          newProductForm.innerHTML = productForm.innerHTML
+
+          productForm.parentNode.replaceChild(newProductForm, productForm)
+        }, 500)
+      })
+
+      observer.observe(quickAddModal, { 
+        attributes: true
+      });
+  }
+  adjustQuickViewContents()
+
+  const reInitAfterAjaxLoad = () => {
+    const wrapper = document.querySelector('.collection')
+
+    const observer = new MutationObserver(async (mutations) => { 
+      console.log('mutation-observer')
+      const respoonse = await fetch(window.location.href)
+      const text = await respoonse.text()
+      const newDocument = new DOMParser().parseFromString(text, 'text/html')
+
+      document.querySelector('#ks-bundle-builder-hidden')
+        .replaceWith(newDocument.querySelector('#ks-bundle-builder-hidden'))
+        
+      injectElements()
+      reInitAfterAjaxLoad()
+    })
+
+    observer.observe(wrapper, { 
+      attributes: true,
+      childList: true,
+    });
+  }
+  reInitAfterAjaxLoad()
+
   class KsBundleProductForm extends HTMLElement {
     constructor () {
       super()
 
-      this.form = this.querySelector('form')
-      this.btn = this.querySelector('button[name="add"]')
-      this.variantId = Number(this.form.querySelector('[name="id"]').value)
+      setTimeout(() => {
+        this.form = this.querySelector('form')
+        this.btn = this.querySelector('button[name="add"]')
+        this.quickAddModal = this.closest('.quick-add-modal')
 
-      this.form.addEventListener('submit', this.onSubmit.bind(this))
-      this.adjustBtn()
-    }    
+        this.form.addEventListener('submit', this.onSubmit.bind(this))
+        this.adjustBtn()
+        this.handleVariantChange()
+      }, 50)
+    }
 
     adjustBtn () {
-      this.btn.querySelector('span').textContent = 'Add to Bundle'
+      if (!this.btn.disabled) {
+        this.btn.querySelector('span').textContent = window.ks_bundle_builder.text.add_to_bundle
+      }
+    }
+
+    handleVariantChange () {
+      if (this.quickAddModal) {
+        this.quickAddModal.querySelectorAll('variant-selects input').forEach(input => {
+          input.addEventListener('change', () => {
+            this.btn.style.opacity = '.1'
+
+            setTimeout(() => {
+              this.adjustBtn()
+              this.btn.style.opacity = '1'
+            }, 500)
+          })
+        })
+      }
     }
 
     async onSubmit (event) {
-      console.log(this.btn)
       event.preventDefault()
          
       this.btn.classList.add('loading')
       this.btn.querySelector('.loading__spinner').classList.remove('hidden') 
 
+      const variantId = Number(this.form.querySelector('[name="id"]').value)
+
       const bundleContents = JSON.parse(localStorage.getItem('ks-bundle-contents')) || []
 
-      const isInBundleContents = bundleContents.some((item) => item.variant_id === this.variantId)
+      const isInBundleContents = bundleContents.some((item) => item.variant_id === variantId)
 
-      console.log(isInBundleContents)
+      let qty = 1
+
+      if (this.quickAddModal) {
+        const qtyFeield = this.quickAddModal.querySelector('input[name="quantity"]')
+        console.log(qtyFeield.value)
+
+        if (qtyFeield) {
+          qty = Number(qtyFeield.value)
+        }
+      }
 
       if (isInBundleContents) {
         bundleContents.map(item => {
-          if (item.variant_id === this.variantId) {
-            item.quantity += 1
+          if (item.variant_id === variantId) {
+            item.quantity += qty
           }
           return item
         })
       } else {
-        const productLink = this.closest('.card').querySelector('a[href*="products"]').getAttribute('href') 
+        let productLink 
+      
+        if (this.quickAddModal) {
+          productLink = this.closest('.product').querySelector('a[href*="products"]').getAttribute('href') 
+        } else {
+          productLink = this.closest('.card').querySelector('a[href*="products"]').getAttribute('href') 
+        }
 
         const response = await fetch(`${productLink}.js`)
         const product = await response.json()
         console.log(product)
 
-        const variant = product.variants.find(variant => variant.id === this.variantId)
+        const variant = product.variants.find(variant => variant.id === variantId)
         console.log(variant)
 
         bundleContents.push({
@@ -107,19 +274,40 @@
           variant_price: variant.price, 
           variant_compare_at_price: variant.compare_at_price,
           variant_image: variant.featured_image ? variant.featured_image.src : null,
-          quantity: 1
+          quantity: qty
         })
       }
 
       console.log(bundleContents)
 
       localStorage.setItem('ks-bundle-contents', JSON.stringify(bundleContents))
-               
+
+      this.btn.querySelector('span').textContent = window.ks_bundle_builder.text.added_to_bundle
       this.btn.classList.remove('loading')
       this.btn.querySelector('.loading__spinner').classList.add('hidden') 
+
+      setTimeout(() => {
+        this.btn.querySelector('span').textContent = window.ks_bundle_builder.text.add_to_bundle
+      }, 2000)
     }
   }
   customElements.define('ks-bundle-product-form', KsBundleProductForm)
+
+  class KsBundleCard extends HTMLElement {
+    constructor () {
+      super ()
+
+      this.progressBar = this.querySelector('.progress-bar')
+      this.setProgressBar()
+    }
+
+    setProgressBar () {
+      setTimeout(() => {
+        this.progressBar.style.width = this.progressBar.dataset.width
+      }, 200)
+    }
+  }
+  customElements.define('ks-bundle-card', KsBundleCard)
 
 {%- endjavascript -%}
 
@@ -127,11 +315,37 @@
   id="ks-bundle-builder-hidden"
   hidden>
   
-  <div id="ks-bundle-card">
+  <ks-bundle-card id="ks-bundle-card">
     <div class="ks-inner-content">
-      Bundle Card
+      <h2 class="title inline-richtext {{ section.settings.card_title_size }}">
+        {{ section.settings.card_title }}
+      </h2>
+      <div class="progress-wrapper">
+        <ul class="progress-tiers" aria-hidden="true">
+          {% for block in section.blocks %}
+            {% if block.type == 'tier' %}
+              <li style="left: 33%">
+                {{ block.settings.goal | times: 100 | money_without_trailing_zeros }}
+                <div class="opacity-50 small">
+                  {{ block.settings.discount | prepend: '-' | append: '%' }}
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        <div 
+          class="progress"  
+          role="progressbar"
+          aria-hidden="true">
+          <div 
+            class="progress-bar progress-bar-striped progress-bar-animated" 
+            data-width="20%"
+            style="width: 0%; background-color: {{ section.settings.progress_color_not_completed }};">
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </ks-bundle-card>
 
 </div>
 
@@ -140,11 +354,104 @@
   "name": "KS - Bundle Builder",
   "limit": 1,
   "settings": [
+    {
+      "type": "header",
+      "content": "Bundle Card"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "card_title",
+      "label": "Title",
+      "default": "My Bundle"
+    },
+    {
+      "type": "select",
+      "id": "card_title_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "color",
+      "id": "progress_color_not_completed",
+      "label": "Progress color - not completed",
+      "default": "#ffc107"
+    },
+    {
+      "type": "color",
+      "id": "progress_color_completed",
+      "label": "Progress color - Completed",
+      "default": "#198754"
+    },
+    {
+      "type": "header",
+      "content": "Translation"
+    },
+    {
+      "type": "text",
+      "id": "text_add_to_bundle",
+      "label": "Add to bundle",
+      "default": "Add to bundle"
+    },
+    {
+      "type": "text",
+      "id": "text_added_to_bundle",
+      "label": "Added to bundle",
+      "default": "✓ Added!"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Tier",
+      "settings": [
+        {
+          "type": "text",
+          "id": "goal",
+          "label": "Goal"
+        },
+        {
+          "type": "range",
+          "id": "discount",
+          "label": "Discount",
+          "min": 0,
+          "max": 100,
+          "default": 0,
+          "unit": "%"
+        }
+      ]
+    }
   ],
   "templates": ["collection"],
   "presets": [
     {
-      "name": "KS - Bundle Builder"
+      "name": "KS - Bundle Builder",
+      "blocks": [
+        {
+          "type": "tier",
+          "settings": {
+            "goal": "100",
+            "discount": 10
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "goal": "200",
+            "discount": 20
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "goal": "300",
+            "discount": 30
+          }
+        }
+      ]
     }
   ]
 }
