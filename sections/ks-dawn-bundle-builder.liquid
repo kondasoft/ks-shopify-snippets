@@ -30,6 +30,7 @@
   }
 
   #ks-bundle-card {
+    --bs-progress-height: 8px;
     flex: 1;
     margin: 2rem 0 0 2rem;
   }
@@ -37,10 +38,11 @@
   #ks-bundle-card .ks-inner-content {
     background: transparent;
     border: 1px solid rgba(var(--color-foreground), 1);
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
     position: sticky;
     top: 1.5rem;
     border-radius: var(--product-card-corner-radius);
+    transition: all .15s ease-out;
   }
 
   #ks-bundle-card .title {
@@ -49,19 +51,56 @@
     border-bottom: 1px solid rgba(var(--color-foreground), .1);
   }
 
+  #ks-bundle-card .progress-wrapper {
+    padding-top: 3.5rem;
+  }
+
   #ks-bundle-card ul.progress-tiers {
     list-style: none;
     display: flex;
     justify-content: flex-end;
     position: relative;
-    margin: 0;
-    padding: 0;
+    margin: -3.5rem 0 0;
+    padding: 0 0 3.5rem;
     font-weight: 500;
+  }
+
+  #ks-bundle-card ul.progress-tiers li {
+    position: absolute;
+    transform: translate(-50%);
+    text-align: center;
+    line-height: 1.05;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #ks-bundle-card ul.progress-tiers li:last-child {
+    transform: translate(-80%);
+  }
+
+  #ks-bundle-card ul.progress-tiers li:after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    width: 1px;
+    height: var(--bs-progress-height);
+    background-color: rgba(var(--color-foreground), .5);
+  }
+
+  #ks-bundle-card ul.progress-tiers li small {
+    opacity: .75;
+  }
+
+  #ks-bundle-card .progress-text {
+    text-align: center;
+    margin: 0.3rem 0 1rem;
+    font-size: .9em;
   }
 
   /* Bootstrap Progress */
   .progress {
-    --bs-progress-height: 8px;
     --bs-progress-font-size: 0.75rem;
     --bs-progress-bar-color: #fff;
     --bs-progress-bar-transition: width 0.6s ease;
@@ -113,6 +152,14 @@
 
 <script>
 window.ks_bundle_builder = {
+  max_tier_goal: {{ section.blocks.last.settings.goal | times: 100 }},
+  tiers: [
+    {% for block in section.blocks %}
+      {% if block.type == 'tier' %}
+        { goal: {{ block.settings.goal | times: 100 }}, discount: {{ block.settings.discount }} },
+      {% endif %}
+    {%  endfor %}
+  ],
   text: {
     add_to_bundle: '{{ section.settings.text_add_to_bundle }}',
     added_to_bundle: '{{ section.settings.text_added_to_bundle }}',
@@ -145,6 +192,7 @@ window.ks_bundle_builder = {
       const observer = new MutationObserver((mutations) => { 
         setTimeout(() => {
           const productForm = quickAddModal.querySelector('product-form')
+          if (!productForm) return
 
           var newProductForm = document.createElement('ks-bundle-product-form')
           newProductForm.innerHTML = productForm.innerHTML
@@ -285,9 +333,17 @@ window.ks_bundle_builder = {
       this.btn.querySelector('span').textContent = window.ks_bundle_builder.text.added_to_bundle
       this.btn.classList.remove('loading')
       this.btn.querySelector('.loading__spinner').classList.add('hidden') 
+      
+      window.dispatchEvent(new CustomEvent('ks_bundle_builder_add_to_bundle'))
+
+      setTimeout(() => {
+        this.quickAddModal?.hide()
+      }, 1000)
 
       setTimeout(() => {
         this.btn.querySelector('span').textContent = window.ks_bundle_builder.text.add_to_bundle
+
+        this.quickAddModal?.hide()
       }, 2000)
     }
   }
@@ -296,15 +352,126 @@ window.ks_bundle_builder = {
   class KsBundleCard extends HTMLElement {
     constructor () {
       super ()
+  
+      this.updateContents()
+      this.fixStickyPosition()
 
-      this.progressBar = this.querySelector('.progress-bar')
-      this.setProgressBar()
+      window.addEventListener('ks_bundle_builder_add_to_bundle', () => {
+        this.updateContents()
+      })
     }
 
-    setProgressBar () {
+    getTotalPrice () {
+      const bundleContents = JSON.parse(localStorage.getItem('ks-bundle-contents')) || []
+
+      return bundleContents.reduce((accumulator, currentValue) =>
+        (currentValue.variant_price * currentValue.quantity) + accumulator, 0)
+    }
+
+    updateContents () {
+      const totalPrice = this.getTotalPrice()
+      const progressBar = this.querySelector('.progress-bar') 
+      const progressText = this.querySelector('.progress-text') 
+      const tiers = window.ks_bundle_builder.tiers
+      const maxTierGoal = window.ks_bundle_builder.max_tier_goal
+      let progressWidth = Math.round(totalPrice / maxTierGoal * 100)
+
+      if (progressWidth > 100) progressWidth = 100
+      
       setTimeout(() => {
-        this.progressBar.style.width = this.progressBar.dataset.width
+        progressBar.style.width = `${progressWidth}%`
+
+        if (progressWidth >= 100) {
+          progressBar.style.backgroundColor = progressBar.dataset.colorCompleted
+        } else {
+          progressBar.style.backgroundColor = progressBar.dataset.colorNotCompleted 
+        }
       }, 200)
+
+      if (totalPrice <= maxTierGoal) {
+        const tier = tiers.find(elem => elem.goal > totalPrice)
+        const remaining = this.formatMoney(tier.goal - totalPrice).replace('.00', '')
+        const discount = tier.discount + '%' 
+        let textUncompleted = progressText.dataset.textUncompleted
+        textUncompleted = textUncompleted.replace('[value]', `<b>${remaining}</b>`)
+        textUncompleted = textUncompleted.replace('[discount]', `<b>${discount}</b>`)
+        progressText.innerHTML = textUncompleted
+        progressText.style.color = ''
+      } else {
+        const discount = tiers[tiers.length - 1].discount + '%'
+
+        let textCompleted = progressText.dataset.textCompleted
+        textCompleted = textCompleted.replace('[discount]', `<b>${discount}</b>`)
+        progressText.innerHTML = textCompleted
+        progressText.style.color = progressBar.dataset.colorCompleted
+      }
+    }
+
+    fixStickyPosition () {
+      const elem = this.querySelector('.ks-inner-content')
+      let oldScroll = window.scrollY
+
+      window.addEventListener('scroll', (event) => {
+        if (!document.querySelector('.shopify-section-header-sticky')) return
+  
+        const newScroll = window.scrollY
+
+        if (newScroll > oldScroll) {
+          elem.style.top = '1.5rem'
+        } else if (newScroll < oldScroll) {
+          elem.style.top = 'calc(var(--header-height) + 1.5rem)'
+        }
+
+        oldScroll = Math.max(window.scrollY, 0)
+      })
+    }
+
+    formatMoney (cents, moneyFormat = this.dataset.moneyFormat) {
+      if (typeof cents === 'string') {
+        cents = cents.replace('.', '')
+      }
+
+      let value = ''
+      const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/
+
+      function defaultOption (opt, def) {
+        return (typeof opt === 'undefined' ? def : opt)
+      }
+
+      function formatWithDelimiters (number, precision, thousands, decimal) {
+        precision = defaultOption(precision, 2)
+        thousands = defaultOption(thousands, ',')
+        decimal = defaultOption(decimal, '.')
+
+        if (isNaN(number) || number == null) {
+          return 0
+        }
+
+        number = (number / 100.0).toFixed(precision)
+
+        const parts = number.split('.')
+        const dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands)
+        const cents = parts[1] ? (decimal + parts[1]) : ''
+
+        return dollars + cents
+      }
+
+      switch (moneyFormat.match(placeholderRegex)[1]) {
+      case 'amount':
+        value = formatWithDelimiters(cents, 2)
+        break
+      case 'amount_no_decimals':
+        value = formatWithDelimiters(cents, 0)
+        break
+      case 'amount_with_comma_separator':
+        value = formatWithDelimiters(cents, 2, '.', ',')
+        break
+      case 'amount_no_decimals_with_comma_separator':
+        value = formatWithDelimiters(cents, 0, '.', ',')
+        break
+      }
+
+      return moneyFormat.replace(placeholderRegex, value)
     }
   }
   customElements.define('ks-bundle-card', KsBundleCard)
@@ -315,7 +482,9 @@ window.ks_bundle_builder = {
   id="ks-bundle-builder-hidden"
   hidden>
   
-  <ks-bundle-card id="ks-bundle-card">
+  <ks-bundle-card 
+    id="ks-bundle-card"
+    data-money-format="{{ shop.money_format }}">
     <div class="ks-inner-content">
       <h2 class="title inline-richtext {{ section.settings.card_title_size }}">
         {{ section.settings.card_title }}
@@ -323,12 +492,16 @@ window.ks_bundle_builder = {
       <div class="progress-wrapper">
         <ul class="progress-tiers" aria-hidden="true">
           {% for block in section.blocks %}
+            {% liquid
+              assign max_tier_goal = section.blocks.last.settings.goal
+              assign tier_left = max_tier_goal | minus: block.settings.goal | minus: max_tier_goal | remove: '-' | times: 100 | divided_by: max_tier_goal | round | append: '%' 
+            %}
             {% if block.type == 'tier' %}
-              <li style="left: 33%">
+              <li style="left: {{ tier_left }}">
                 {{ block.settings.goal | times: 100 | money_without_trailing_zeros }}
-                <div class="opacity-50 small">
+                <small>
                   {{ block.settings.discount | prepend: '-' | append: '%' }}
-                </div>
+                </small>
               </li>
             {% endif %}
           {% endfor %}
@@ -339,10 +512,22 @@ window.ks_bundle_builder = {
           aria-hidden="true">
           <div 
             class="progress-bar progress-bar-striped progress-bar-animated" 
-            data-width="20%"
-            style="width: 0%; background-color: {{ section.settings.progress_color_not_completed }};">
+            data-color-not-completed="{{ section.settings.progress_color_not_completed }}"
+            data-color-completed="{{ section.settings.progress_color_completed }}"
+            style="width: 0%;">
           </div>
         </div>
+        <p 
+          class="progress-text" 
+          data-text-uncompleted="{{ section.settings.text_progress_uncompleted }}" 
+          data-text-completed="{{ section.settings.text_progress_completed }}">
+        </p>
+        <button
+          class="btn-bundle-checkout button button--full-width" 
+          type="button"
+          disabled>
+          {{ section.settings.text_add_to_cart }}
+        </button>
       </div>
     </div>
   </ks-bundle-card>
@@ -401,6 +586,24 @@ window.ks_bundle_builder = {
       "id": "text_added_to_bundle",
       "label": "Added to bundle",
       "default": "✓ Added!"
+    },
+    {
+      "type": "text",
+      "id": "text_progress_uncompleted",
+      "label": "Progress - uncompleted",
+      "default": "Add [value] to save [discount]"
+    },
+    {
+      "type": "text",
+      "id": "text_progress_completed",
+      "label": "Progress - completed",
+      "default": "Congrats! You're eligible for [discount] off!"
+    },
+    {
+      "type": "text",
+      "id": "text_add_to_cart",
+      "label": "Add to cart",
+      "default": "Add to cart"
     }
   ],
   "blocks": [
