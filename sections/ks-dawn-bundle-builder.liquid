@@ -99,6 +99,24 @@
     font-size: .9em;
   }
 
+  #ks-bundle-card .ks-bundle-card-prices {
+    margin-bottom: 1.25rem;
+  }
+
+  #ks-bundle-card .ks-bundle-card-prices p {
+    margin: 0;
+    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #ks-bundle-card .ks-bundle-card-prices p s {
+    opacity: .75;
+    font-size: .9em;
+    margin-right: 2px;
+  }
+
   /* Bootstrap Progress */
   .progress {
     --bs-progress-font-size: 0.75rem;
@@ -211,7 +229,6 @@ window.ks_bundle_builder = {
     const wrapper = document.querySelector('.collection')
 
     const observer = new MutationObserver(async (mutations) => { 
-      console.log('mutation-observer')
       const respoonse = await fetch(window.location.href)
       const text = await respoonse.text()
       const newDocument = new DOMParser().parseFromString(text, 'text/html')
@@ -282,7 +299,6 @@ window.ks_bundle_builder = {
 
       if (this.quickAddModal) {
         const qtyFeield = this.quickAddModal.querySelector('input[name="quantity"]')
-        console.log(qtyFeield.value)
 
         if (qtyFeield) {
           qty = Number(qtyFeield.value)
@@ -359,12 +375,18 @@ window.ks_bundle_builder = {
       window.addEventListener('ks_bundle_builder_add_to_bundle', () => {
         this.updateContents()
       })
+
+      this.querySelector('.btn-atc').addEventListener('click', () => {
+        this.onAddToCart()
+      })
+    }
+
+    getBundleContents () {
+      return JSON.parse(localStorage.getItem('ks-bundle-contents')) || []
     }
 
     getTotalPrice () {
-      const bundleContents = JSON.parse(localStorage.getItem('ks-bundle-contents')) || []
-
-      return bundleContents.reduce((accumulator, currentValue) =>
+      return this.getBundleContents().reduce((accumulator, currentValue) =>
         (currentValue.variant_price * currentValue.quantity) + accumulator, 0)
     }
 
@@ -372,6 +394,7 @@ window.ks_bundle_builder = {
       const totalPrice = this.getTotalPrice()
       const progressBar = this.querySelector('.progress-bar') 
       const progressText = this.querySelector('.progress-text') 
+      const btnAtc = this.querySelector('.btn-atc')
       const tiers = window.ks_bundle_builder.tiers
       const maxTierGoal = window.ks_bundle_builder.max_tier_goal
       let progressWidth = Math.round(totalPrice / maxTierGoal * 100)
@@ -405,6 +428,73 @@ window.ks_bundle_builder = {
         progressText.innerHTML = textCompleted
         progressText.style.color = progressBar.dataset.colorCompleted
       }
+
+      document.querySelectorAll('[data-ks-bundle-price]').forEach(elem => {
+        const tier = tiers.slice().reverse().find(elem => elem.goal <= totalPrice)
+
+        if (tier) {
+          const compareAtPrice = this.formatMoney(totalPrice)
+          const price = this.formatMoney((1 - (tier.discount / 100)) * totalPrice)
+          elem.innerHTML = `
+            <span class="visually-hidden visually-hidden--inline">Regular price</span>
+            <s>${compareAtPrice}</s> 
+            <span class="visually-hidden visually-hidden--inline">Sale price</span>
+            <b>${price}</b>
+          `
+        } else {
+          elem.innerHTML = this.formatMoney(totalPrice)
+        }
+      })
+
+      document.querySelectorAll('[data-ks-bundle-discount]').forEach(elem => {
+        const tier = tiers.slice().reverse().find(elem => elem.goal <= totalPrice)
+
+        const tierDiscount = tier?.discount || 0
+
+        const savings = this.formatMoney(tierDiscount / 100 * totalPrice)
+        elem.innerHTML = `${savings} (${tierDiscount}%)`
+      })
+
+      btnAtc.disabled = totalPrice === 0
+    } 
+
+    async onAddToCart () {
+      const btn = this.querySelector('.btn-atc')
+
+      btn.classList.add('loading')
+      btn.querySelector('.loading__spinner').classList.remove('hidden') 
+
+      const items = this.getBundleContents().reduce((accumulator, currentValue) => {
+        accumulator.push({
+          id: currentValue.variant_id,
+          quantity: currentValue.quantity
+        })
+        return accumulator
+      }, []) 
+
+      const cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer')
+      let sections = cart.getSectionsToRender().map((section) => section.id)
+
+      const response = await fetch(`${window.Shopify.routes.root}cart/add.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items, sections })
+      })
+      const responseData = await response.json()
+
+      localStorage.removeItem('ks-bundle-contents')
+      this.updateContents()
+
+      if (btn.dataset.redirectToCheckout === 'true') {
+        window.location.href = '/checkout'
+        return
+      }
+
+      btn.classList.remove('loading')
+      btn.querySelector('.loading__spinner').classList.add('hidden') 
+      
+      cart.renderContents(responseData)
+      if (cart && cart.classList.contains('is-empty')) cart.classList.remove('is-empty')
     }
 
     fixStickyPosition () {
@@ -490,7 +580,7 @@ window.ks_bundle_builder = {
         {{ section.settings.card_title }}
       </h2>
       <div class="progress-wrapper">
-        <ul class="progress-tiers" aria-hidden="true">
+        <ul class="progress-tiers" aria-label="Available discount tiers">
           {% for block in section.blocks %}
             {% liquid
               assign max_tier_goal = section.blocks.last.settings.goal
@@ -522,11 +612,37 @@ window.ks_bundle_builder = {
           data-text-uncompleted="{{ section.settings.text_progress_uncompleted }}" 
           data-text-completed="{{ section.settings.text_progress_completed }}">
         </p>
+        <div class="ks-bundle-card-prices">
+          <p>
+            <span>
+              {{ section.settings.text_bundle_price }}
+            </span>
+            <span data-ks-bundle-price></span>
+          </p>
+          <p>
+            <span>
+              {{ section.settings.text_you_save }}
+            </span>
+            <span data-ks-bundle-discount></span>
+          </p>
+        </div>
         <button
-          class="btn-bundle-checkout button button--full-width" 
+          class="btn-atc button button--full-width" 
           type="button"
+          data-redirect-to-checkout="{{ section.settings.redirect_to_checkout }}"
           disabled>
-          {{ section.settings.text_add_to_cart }}
+          <span>
+            {% if section.settings.redirect_to_checkout %}
+              {{ section.settings.text_checkout }}
+            {% else %}
+              {{ section.settings.text_add_to_cart }}
+            {% endif %}
+          </span>
+          <div class="loading__spinner hidden">
+            <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+            </svg>
+          </div>
         </button>
       </div>
     </div>
@@ -572,6 +688,13 @@ window.ks_bundle_builder = {
       "default": "#198754"
     },
     {
+      "type": "checkbox",
+      "id": "redirect_to_checkout",
+      "label": "Redirect to checkout",
+      "info": "If enabled, the cart drawer will be skipped and the customers will be redirected to the checkout page instead.",
+      "default": false
+    },
+    {
       "type": "header",
       "content": "Translation"
     },
@@ -601,9 +724,27 @@ window.ks_bundle_builder = {
     },
     {
       "type": "text",
+      "id": "text_bundle_price",
+      "label": "Bundle price",
+      "default": "Bundle price"
+    },
+    {
+      "type": "text",
+      "id": "text_you_save",
+      "label": "You save",
+      "default": "You save"
+    },
+    {
+      "type": "text",
       "id": "text_add_to_cart",
       "label": "Add to cart",
       "default": "Add to cart"
+    },
+    {
+      "type": "text",
+      "id": "text_checkout",
+      "label": "Checkout",
+      "default": "Check out"
     }
   ],
   "blocks": [
