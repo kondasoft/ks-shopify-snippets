@@ -4,17 +4,23 @@
   # https://www.kondasoft.com
 %}
 
-
 {% liquid 
 %}
 
 {%- style -%}
-  .collection {
-    display: flex;
+  @media (min-width: 990px) {
+    [class*="__product-grid-padding"] {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    [class*="__product-grid-padding"] > div:last-child {
+      width: 75%;
+    }
   }
-  
-  #product-grid {
-    width: 75%;
+
+  .collection .full-unstyled-link {
+    pointer-events: none;
+    text-decoration: none !important;
   }
 
   .quick-add-modal product-form {
@@ -32,17 +38,25 @@
   #ks-bundle-card {
     --bs-progress-height: 8px;
     flex: 1;
-    margin: 2rem 0 0 2rem;
   }
 
   #ks-bundle-card .ks-inner-content {
-    background: transparent;
+    /* background: transparent; */
     border: 1px solid rgba(var(--color-foreground), 1);
     padding: 1.5rem 2rem;
+    margin: 1rem 0 2rem 2rem;
     position: sticky;
     top: 1.5rem;
     border-radius: var(--product-card-corner-radius);
     transition: all .15s ease-out;
+  }
+
+  @media (max-width: 989px) {
+    #ks-bundle-card .ks-inner-content {
+      position: relative !important;
+      top: 0 !important;
+      margin-left: 0 !important;
+    }
   }
 
   #ks-bundle-card .title {
@@ -117,6 +131,87 @@
     margin-right: 2px;
   }
 
+  #ks-bundle-card button {
+    line-height: 1;
+  }
+
+  #ks-bundle-card button.ks-btn-view-contents {
+    margin-bottom: 1rem;
+    min-height: calc(3.5rem + var(--buttons-border-width) * 2);
+  }
+
+  /* Dialog */
+  #ks-bundle-dialog {
+    padding: 0;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1rem rgba({{ section.settings.dialog_backdrop_bg_color.red }}, {{ section.settings.dialog_backdrop_bg_color.green }}, {{ section.settings.dialog_backdrop_bg_color.blue }}, 25%);
+    border-radius: var(--buttons-radius);
+    width: calc(100% - 3rem);
+    max-width: {{ section.settings.dialog_max_width}}px;
+    opacity: 0;
+    transform: translateY(0);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    transition-delay: .2s;
+  }
+
+  #ks-bundle-dialog[open] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    #ks-bundle-dialog[open] {
+      opacity: 0;
+      transform: translateY(10vh);
+    }
+  }
+
+  #ks-bundle-dialog::backdrop {
+    background: rgba({{ section.settings.dialog_backdrop_bg_color.red }}, {{ section.settings.dialog_backdrop_bg_color.green }}, {{ section.settings.dialog_backdrop_bg_color.blue }}, 0);
+    transition: background-color 0.2s;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E") 24 24, pointer;
+  }
+
+  #ks-bundle-dialog[open]::backdrop {
+    background: rgba({{ section.settings.dialog_backdrop_bg_color.red }}, {{ section.settings.dialog_backdrop_bg_color.green }}, {{ section.settings.dialog_backdrop_bg_color.blue }}, .5);
+  }
+
+  @starting-style {
+    #ks-bundle-dialog[open]::backdrop {
+      background: rgba({{ section.settings.dialog_backdrop_bg_color.red }}, {{ section.settings.dialog_backdrop_bg_color.green }}, {{ section.settings.dialog_backdrop_bg_color.blue }}, 0);
+    }
+  }
+
+  #ks-bundle-dialog .ks-dialog-inner { 
+    padding: 1.5rem 2rem;
+  }
+
+  #ks-bundle-dialog button[data-dialog-close] {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    padding: 6px;
+    display: flex;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    background: rgba(var(--color-background), 0.75);
+    border-radius: 50rem;
+    transition: all .2s ease-out;
+    color: currentColor;
+  }
+
+  #ks-bundle-dialog button[data-dialog-close]:hover,
+  #ks-bundle-dialog button[data-dialog-close]:focus {
+    background: rgba(var(--color-background), 1);
+    transform: rotate(180deg);
+  }
+
+  #ks-bundle-dialog .title {
+    margin: 0;
+  }
+
   /* Bootstrap Progress */
   .progress {
     --bs-progress-font-size: 0.75rem;
@@ -187,10 +282,15 @@ window.ks_bundle_builder = {
 
 {%- javascript -%}
   const injectElements = () => {
-    const productGrid = document.querySelector('#product-grid')
+    const productGridPadding = document.querySelector('[class*="product-grid-padding"]')
     const bundleCard = document.querySelector('#ks-bundle-card')
 
-    productGrid.insertAdjacentElement('afterend', bundleCard)
+    productGridPadding.querySelectorAll('.page-width').forEach(elem => {
+      elem.classList.remove('page-width')
+    })
+
+    productGridPadding.classList.add('page-width')
+    productGridPadding.insertAdjacentElement('afterbegin', bundleCard)
   }
   injectElements()
   
@@ -228,16 +328,18 @@ window.ks_bundle_builder = {
   const reInitAfterAjaxLoad = () => {
     const wrapper = document.querySelector('.collection')
 
-    const observer = new MutationObserver(async (mutations) => { 
-      const respoonse = await fetch(window.location.href)
-      const text = await respoonse.text()
-      const newDocument = new DOMParser().parseFromString(text, 'text/html')
-
-      document.querySelector('#ks-bundle-builder-hidden')
-        .replaceWith(newDocument.querySelector('#ks-bundle-builder-hidden'))
+    const observer = new MutationObserver(async (mutations) => {
+      setTimeout(() => {
+        const productGridPadding = document.querySelector('[class*="product-grid-padding"]')
         
-      injectElements()
-      reInitAfterAjaxLoad()
+        productGridPadding.querySelectorAll('.page-width').forEach(elem => {
+          elem.classList.remove('page-width')
+        }) 
+        
+        adjustProductForms()
+        reInitAfterAjaxLoad()
+      }, 500)
+
     })
 
     observer.observe(wrapper, { 
@@ -321,6 +423,8 @@ window.ks_bundle_builder = {
           productLink = this.closest('.card').querySelector('a[href*="products"]').getAttribute('href') 
         }
 
+        productLink = productLink.replace(/(\?.*)|(#.*)/g, "")
+
         const response = await fetch(`${productLink}.js`)
         const product = await response.json()
         console.log(product)
@@ -376,7 +480,7 @@ window.ks_bundle_builder = {
         this.updateContents()
       })
 
-      this.querySelector('.btn-atc').addEventListener('click', () => {
+      this.querySelector('.ks-btn-atc').addEventListener('click', () => {
         this.onAddToCart()
       })
     }
@@ -394,7 +498,8 @@ window.ks_bundle_builder = {
       const totalPrice = this.getTotalPrice()
       const progressBar = this.querySelector('.progress-bar') 
       const progressText = this.querySelector('.progress-text') 
-      const btnAtc = this.querySelector('.btn-atc')
+      const btnViewContents = this.querySelector('.ks-btn-view-contents')
+      const btnAtc = this.querySelector('.ks-btn-atc')
       const tiers = window.ks_bundle_builder.tiers
       const maxTierGoal = window.ks_bundle_builder.max_tier_goal
       let progressWidth = Math.round(totalPrice / maxTierGoal * 100)
@@ -455,11 +560,12 @@ window.ks_bundle_builder = {
         elem.innerHTML = `${savings} (${tierDiscount}%)`
       })
 
+      btnViewContents.disabled = totalPrice === 0
       btnAtc.disabled = totalPrice === 0
     } 
 
     async onAddToCart () {
-      const btn = this.querySelector('.btn-atc')
+      const btn = this.querySelector('.ks-btn-atc')
 
       btn.classList.add('loading')
       btn.querySelector('.loading__spinner').classList.remove('hidden') 
@@ -566,6 +672,40 @@ window.ks_bundle_builder = {
   }
   customElements.define('ks-bundle-card', KsBundleCard)
 
+
+  class KsBundleDialog extends HTMLElement {
+    constructor () {
+      super()
+
+      this.dialog = this.querySelector('dialog')
+
+      document.querySelectorAll('.ks-btn-view-contents').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.dialog.showModal()
+          document.querySelector('body').classList.add('overflow-hidden')
+        })
+      })
+
+      // Close dialog if clicked outside
+      this.dialog.addEventListener('click', (event) => {
+        const withinBoundaries = event.composedPath().includes(this.dialog.querySelector('.ks-dialog-inner'))
+
+        if (!withinBoundaries) {
+          this.dialog.close()
+        }
+      })
+
+      this.dialog.querySelector('data-dialog-close')?.addEventListener('click', (event) => {
+        event.preventDefault()
+        this.dialog.close()
+      })
+
+      this.dialog.addEventListener('close', (event) => {
+        document.querySelector('body').classList.remove('overflow-hidden')
+      })
+    }
+  }
+  customElements.define('ks-bundle-dialog', KsBundleDialog)
 {%- endjavascript -%}
 
 <div 
@@ -575,7 +715,9 @@ window.ks_bundle_builder = {
   <ks-bundle-card 
     id="ks-bundle-card"
     data-money-format="{{ shop.money_format }}">
-    <div class="ks-inner-content">
+    <div 
+      class="ks-inner-content color-{{ section.settings.card_color_scheme }} gradient"
+      style="border-width: {{ section.settings.card_border_width }}px;">
       <h2 class="title inline-richtext {{ section.settings.card_title_size }}">
         {{ section.settings.card_title }}
       </h2>
@@ -627,7 +769,15 @@ window.ks_bundle_builder = {
           </p>
         </div>
         <button
-          class="btn-atc button button--full-width" 
+          class="ks-btn-view-contents button button--full-width button--secondary" 
+          type="button"
+          disabled>
+          <span>
+            {{ section.settings.text_view_bundle_contents }}
+          </span>
+        </button>
+        <button
+          class="ks-btn-atc button button--full-width" 
           type="button"
           data-redirect-to-checkout="{{ section.settings.redirect_to_checkout }}"
           disabled>
@@ -635,7 +785,7 @@ window.ks_bundle_builder = {
             {% if section.settings.redirect_to_checkout %}
               {{ section.settings.text_checkout }}
             {% else %}
-              {{ section.settings.text_add_to_cart }}
+              {{ section.settings.text_add_bundle_to_cart }}
             {% endif %}
           </span>
           <div class="loading__spinner hidden">
@@ -650,6 +800,23 @@ window.ks_bundle_builder = {
 
 </div>
 
+<ks-bundle-dialog>
+  <dialog 
+    id="ks-bundle-dialog"
+    class="color-{{ section.settings.dialog_color_scheme }} gradient">
+    <button data-dialog-close aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+      </svg>
+    </button>
+    <div class="ks-dialog-inner">
+      <h2 class="title inline-richtext {{ section.settings.dialog_heading_size }}">
+        {{ section.settings.dialog_heading }}
+      </h2>
+    </div>
+  </dialog>
+</ks-bundle-dialog>
+
 {% schema %}
 {
   "name": "KS - Bundle Builder",
@@ -658,6 +825,21 @@ window.ks_bundle_builder = {
     {
       "type": "header",
       "content": "Bundle Card"
+    },
+    {
+      "type": "color_scheme",
+      "id": "card_color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 1
     },
     {
       "type": "inline_richtext",
@@ -690,9 +872,40 @@ window.ks_bundle_builder = {
     {
       "type": "checkbox",
       "id": "redirect_to_checkout",
-      "label": "Redirect to checkout",
-      "info": "If enabled, the cart drawer will be skipped and the customers will be redirected to the checkout page instead.",
+      "label": "Redirect to checkout (skip cart)",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "Bundle contents (Dialog)"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "dialog_heading",
+      "label": "Heading",
+      "default": "Bundle Contents"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "text",
+      "id": "dialog_max_width",
+      "label": "Max-width (px)",
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "dialog_backdrop_bg_color",
+      "label": "Backdrop bg color",
+      "default": "#121212"
     },
     {
       "type": "header",
@@ -736,8 +949,14 @@ window.ks_bundle_builder = {
     },
     {
       "type": "text",
-      "id": "text_add_to_cart",
-      "label": "Add to cart",
+      "id": "text_view_bundle_contents",
+      "label": "View bundle contents",
+      "default": "View bundle contents"
+    },
+    {
+      "type": "text",
+      "id": "text_add_bundle_to_cart",
+      "label": "Add bundle to cart",
       "default": "Add to cart"
     },
     {
