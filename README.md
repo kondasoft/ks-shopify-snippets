@@ -19,6 +19,7 @@ https://ks-snippets.myshopify.com
 12. [KS Inventory Bar](https://www.kondasoft.com/collections/shopify-snippets/products/ks-inventory-bar)
 13. [KS Newsletter Popup](https://www.kondasoft.com/collections/shopify-snippets/products/ks-newsletter-popup)
 14. [KS LookBook](https://www.kondasoft.com/collections/shopify-snippets/products/ks-lookbook)
+15. [KS Bundle Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-bundle-builder)
 
 ## View all snippets
 https://www.kondasoft.com/collections/shopify-snippets
