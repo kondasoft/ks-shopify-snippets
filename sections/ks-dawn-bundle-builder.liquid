@@ -8,6 +8,7 @@
 %}
 
 {%- style -%}
+  /* General */
   @media (min-width: 990px) {
     [class*="__product-grid-padding"] {
       display: flex;
@@ -35,6 +36,7 @@
     opacity: .5 !important;
   }
 
+  /* Bundle card */
   #ks-bundle-card {
     --bs-progress-height: 8px;
     flex: 1;
@@ -140,7 +142,64 @@
     min-height: calc(3.5rem + var(--buttons-border-width) * 2);
   }
 
-  /* Dialog */
+  /* Sticky card (mobile) */
+  #ks-bundle-sticky-card {
+    background: rgb(var(--color-background));
+    box-shadow: 0 0 1rem rgba(var(--color-foreground), .1);
+    border-top: 1px solid rgba(var(--color-foreground), .1);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem 1.5rem 1.5rem;
+    transform: translateY(100%);
+    transition: all 0.2s ease-out;
+    visibility: hidden;
+    z-index: 9;
+  }
+
+  @media (min-width: 990px) {
+    #ks-bundle-sticky-card {
+      display: none !important;
+    }
+  }
+
+  #ks-bundle-sticky-card.show {
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  #ks-bundle-sticky-card .ks-bundle-card-prices {
+    margin-bottom: 1rem;
+  }
+
+  #ks-bundle-sticky-card .ks-bundle-card-prices p {
+    margin: 0;
+    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #ks-bundle-sticky-card .ks-bundle-card-prices p s {
+    opacity: .75;
+    font-size: .9em;
+    margin-right: 2px;
+  }
+
+  #ks-bundle-sticky-card .ks-btn-wrapper {
+    display: flex;
+    margin: -.5rem;
+  }
+
+  #ks-bundle-sticky-card button {
+    line-height: 1;
+    white-space: nowrap;
+    margin: .5rem;
+    min-height: calc(3.5rem + var(--buttons-border-width) * 2);
+  }
+
+  /* Bundle contents (Dialog) */
   #ks-bundle-dialog {
     padding: 0;
     outline: none;
@@ -208,8 +267,89 @@
     transform: rotate(180deg);
   }
 
+  #ks-bundle-dialog .ks-bundle-dialog-header {
+    border-bottom: 1px solid rgba(var(--color-foreground), .1);
+    padding-bottom: 1rem;
+  }
+
   #ks-bundle-dialog .title {
     margin: 0;
+  }
+
+  #ks-bundle-dialog .ks-bundle-dialog-body {
+    padding: 1rem 0;
+  }
+
+  #ks-bundle-dialog .ks-bundle-contents-item {
+    display: flex;
+    align-items: center;
+    padding: .75rem 0;
+  }
+
+  #ks-bundle-dialog .ks-bundle-contents-item-left {
+    width: 29%;
+    margin-right: 4%;
+  }
+
+  #ks-bundle-dialog .ks-bundle-contents-item-left img {
+    width: 100%;
+    height: auto;
+  }
+
+  #ks-bundle-dialog .ks-bundle-contents-item-right {
+    flex: 1;
+  }
+
+  #ks-bundle-dialog .ks-bundle-contents-item-right .title {
+    margin-bottom: .5rem;
+  }
+
+  #ks-bundle-dialog .ks-bundle-contents-item-right .ks-variant-title {
+    opacity: .5;
+    margin-top: -0.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #ks-bundle-dialog .ks-quantity-wrapper {
+    display: flex;
+  }
+
+  #ks-bundle-dialog .ks-quantity-wrapper button.ks-remove-btn {
+    width: auto;
+    min-width: auto;
+    margin-left: 1rem;
+  }
+
+  #ks-bundle-dialog .ks-bundle-dialog-footer {
+    border-top: 1px solid rgba(var(--color-foreground), .1);
+    padding-top: 1.5rem;
+  }
+
+  #ks-bundle-dialog  .ks-bundle-card-prices {
+    margin-bottom: 1.25rem;
+  }
+
+  #ks-bundle-dialog .ks-bundle-card-prices p {
+    margin: 0;
+    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #ks-bundle-dialog  .ks-bundle-card-prices p s {
+    opacity: .75;
+    font-size: .9em;
+    margin-right: 2px;
+  }
+
+  #ks-bundle-dialog  button {
+    line-height: 1;
+  }
+
+  #ks-bundle-dialog button.ks-btn-view-contents {
+    margin-bottom: 1rem;
+    min-height: calc(3.5rem + var(--buttons-border-width) * 2);
   }
 
   /* Bootstrap Progress */
@@ -480,8 +620,10 @@ window.ks_bundle_builder = {
         this.updateContents()
       })
 
-      this.querySelector('.ks-btn-atc').addEventListener('click', () => {
-        this.onAddToCart()
+      document.querySelectorAll('.ks-btn-atc').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.onAddToCart(btn)
+        })
       })
     }
 
@@ -498,8 +640,6 @@ window.ks_bundle_builder = {
       const totalPrice = this.getTotalPrice()
       const progressBar = this.querySelector('.progress-bar') 
       const progressText = this.querySelector('.progress-text') 
-      const btnViewContents = this.querySelector('.ks-btn-view-contents')
-      const btnAtc = this.querySelector('.ks-btn-atc')
       const tiers = window.ks_bundle_builder.tiers
       const maxTierGoal = window.ks_bundle_builder.max_tier_goal
       let progressWidth = Math.round(totalPrice / maxTierGoal * 100)
@@ -558,15 +698,18 @@ window.ks_bundle_builder = {
 
         const savings = this.formatMoney(tierDiscount / 100 * totalPrice)
         elem.innerHTML = `${savings} (${tierDiscount}%)`
+      }) 
+
+      document.querySelectorAll('.ks-btn-view-contents').forEach(elem => {
+        elem.disabled = totalPrice === 0
       })
 
-      btnViewContents.disabled = totalPrice === 0
-      btnAtc.disabled = totalPrice === 0
+      document.querySelectorAll('.ks-btn-atc').forEach(elem => {
+        elem.disabled = totalPrice === 0
+      })
     } 
 
-    async onAddToCart () {
-      const btn = this.querySelector('.ks-btn-atc')
-
+    async onAddToCart (btn) {
       btn.classList.add('loading')
       btn.querySelector('.loading__spinner').classList.remove('hidden') 
 
@@ -597,7 +740,9 @@ window.ks_bundle_builder = {
       }
 
       btn.classList.remove('loading')
-      btn.querySelector('.loading__spinner').classList.add('hidden') 
+      btn.querySelector('.loading__spinner').classList.add('hidden')
+      
+      document.querySelector('#ks-bundle-dialog')?.close()
       
       cart.renderContents(responseData)
       if (cart && cart.classList.contains('is-empty')) cart.classList.remove('is-empty')
@@ -672,6 +817,26 @@ window.ks_bundle_builder = {
   }
   customElements.define('ks-bundle-card', KsBundleCard)
 
+  class KsBundleStickyCard extends HTMLElement {
+    constructor () {
+      super()
+
+      const bundleCard = document.querySelector('#ks-bundle-card')
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.classList.remove('show')
+          } else {
+            this.classList.add('show')
+          }
+        })
+      }, { threshold: 0 })
+
+      observer.observe(bundleCard)
+    }
+  }
+  customElements.define('ks-bundle-sticky-card', KsBundleStickyCard)
 
   class KsBundleDialog extends HTMLElement {
     constructor () {
@@ -703,15 +868,164 @@ window.ks_bundle_builder = {
       this.dialog.addEventListener('close', (event) => {
         document.querySelector('body').classList.remove('overflow-hidden')
       })
+
+      this.buildContents()
+
+      window.addEventListener('ks_bundle_builder_add_to_bundle', () => {
+        this.buildContents()
+      })
+    }
+
+    getBundleContents () {
+      return JSON.parse(localStorage.getItem('ks-bundle-contents')) || []
+    }
+
+    buildContents () {
+      const wrapper = this.querySelector('.ks-bundle-contents')
+      wrapper.innerHTML = ''
+
+      let bundleContentsList = ''
+
+      this.getBundleContents().forEach(elem => {
+        const image = elem.variant_image || elem.product_image
+      
+        bundleContentsList += `
+          <div class="ks-bundle-contents-item" role="listitem">
+            <div class="ks-bundle-contents-item-left">
+              <img 
+                src="${this.resizeImage(image, `600x600`, 'center')}"
+                class="" 
+                alt="" 
+                width="600" 
+                height="600" 
+                loading="lazy">
+            </div>
+            <div class="ks-bundle-contents-item-right">
+              <h3 class="title h4">
+                ${elem.product_title}
+              </h3>
+              <p class="ks-variant-title product-option" ${elem.variant_title === 'Default Title' ? 'hidden': ''}>
+                ${elem.variant_title}
+              </p>
+              <p class="ks-variant-price product-option">
+                ${document.querySelector('#ks-bundle-card').formatMoney(elem.variant_price)}
+              </p>
+              <div class="ks-quantity-wrapper">
+                <quantity-input class="quantity">
+                  <button class="quantity__button no-js-hidden disabled" name="minus" type="button">
+                    <span class="visually-hidden">Decrease quantity</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-minus" fill="none" viewBox="0 0 10 2">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M.5 1C.5.7.7.5 1 .5h8a.5.5 0 110 1H1A.5.5 0 01.5 1z" fill="currentColor"></path>
+                    </svg>
+                  </button>
+                  <input 
+                    class="quantity__input" 
+                    type="number"
+                    value="${elem.quantity}" 
+                    min="1" 
+                    step="1" 
+                    aria-label="Quantity"
+                    data-variant-id="${elem.variant_id}"
+                    onchange="document.querySelector('ks-bundle-dialog').updateItemQty(this, event)">
+                  <button class="quantity__button no-js-hidden" name="plus" type="button">
+                    <span class="visually-hidden">Increase quantity</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-plus" fill="none" viewBox="0 0 10 10">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M1 4.51a.5.5 0 000 1h3.5l.01 3.5a.5.5 0 001-.01V5.5l3.5-.01a.5.5 0 00-.01-1H5.5L5.49.99a.5.5 0 00-1 .01v3.5l-3.5.01H1z" fill="currentColor">
+                      </path>
+                    </svg>
+                  </button>
+                </quantity-input>
+                <button
+                  type="button" 
+                  class="button button--tertiary ks-remove-btn" 
+                  aria-label="Remove" 
+                  data-variant-id="${elem.variant_id}"
+                  onclick="document.querySelector('ks-bundle-dialog').removeItem(this, event)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" class="icon icon-remove">
+                    <path d="M14 3h-3.53a3.07 3.07 0 00-.6-1.65C9.44.82 8.8.5 8 .5s-1.44.32-1.87.85A3.06 3.06 0 005.53 3H2a.5.5 0 000 1h1.25v10c0 .28.22.5.5.5h8.5a.5.5 0 00.5-.5V4H14a.5.5 0 000-1zM6.91 1.98c.23-.29.58-.48 1.09-.48s.85.19 1.09.48c.2.24.3.6.36 1.02h-2.9c.05-.42.17-.78.36-1.02zm4.84 11.52h-7.5V4h7.5v9.5z" fill="currentColor"></path>
+                    <path d="M6.55 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5zM9.45 5.25a.5.5 0 00-.5.5v6a.5.5 0 001 0v-6a.5.5 0 00-.5-.5z" fill="currentColor"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        ` 
+      })
+
+      wrapper.insertAdjacentHTML('afterbegin', bundleContentsList)
+    }
+
+    updateItemQty (input, event) {
+      const variantId = Number(input.dataset.variantId)
+      const newQty = Number(input.value)
+
+      let bundleContents = this.getBundleContents()
+
+      bundleContents.map(item => {
+        if (item.variant_id === variantId) {
+          item.quantity = newQty
+        }
+        return item
+      })
+
+      localStorage.setItem('ks-bundle-contents', JSON.stringify(bundleContents))
+    
+      this.buildContents()
+      document.querySelector('#ks-bundle-card').updateContents()
+    }
+
+    removeItem (btn, event) {
+      const variantId = Number(btn.dataset.variantId)
+
+      let bundleContents = this.getBundleContents()
+
+      bundleContents = bundleContents.filter(item => item.variant_id !== variantId)
+
+      localStorage.setItem('ks-bundle-contents', JSON.stringify(bundleContents))
+    
+      this.buildContents()
+      document.querySelector('#ks-bundle-card').updateContents()
+
+      if (!bundleContents.length) {
+        this.dialog.close()
+      }
+    }
+
+    resizeImage = function (src, size, crop = '') {
+      return src.replace(/_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g, '.')
+        .replace(/\.jpg|\.png|\.gif|\.jpeg/g, (match) => {
+          if (crop.length) {
+            crop = `_crop_${crop}`
+          }
+          return `_${size}${crop}${match}`
+        })
     }
   }
   customElements.define('ks-bundle-dialog', KsBundleDialog)
 {%- endjavascript -%}
 
-<div 
-  id="ks-bundle-builder-hidden"
-  hidden>
-  
+{% capture ks_atc_btn %}
+  <button
+    class="ks-btn-atc button button--full-width" 
+    type="button"
+    data-redirect-to-checkout="{{ section.settings.redirect_to_checkout }}"
+    disabled>
+    <span>
+      {% if section.settings.redirect_to_checkout %}
+        {{ section.settings.text_checkout }}
+      {% else %}
+        {{ section.settings.text_add_bundle_to_cart }}
+      {% endif %}
+    </span>
+    <div class="loading__spinner hidden">
+      <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+      </svg>
+    </div>
+  </button>
+{% endcapture %}
+
+<div hidden>
   <ks-bundle-card 
     id="ks-bundle-card"
     data-money-format="{{ shop.money_format }}">
@@ -776,28 +1090,10 @@ window.ks_bundle_builder = {
             {{ section.settings.text_view_bundle_contents }}
           </span>
         </button>
-        <button
-          class="ks-btn-atc button button--full-width" 
-          type="button"
-          data-redirect-to-checkout="{{ section.settings.redirect_to_checkout }}"
-          disabled>
-          <span>
-            {% if section.settings.redirect_to_checkout %}
-              {{ section.settings.text_checkout }}
-            {% else %}
-              {{ section.settings.text_add_bundle_to_cart }}
-            {% endif %}
-          </span>
-          <div class="loading__spinner hidden">
-            <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-            </svg>
-          </div>
-        </button>
+        {{ ks_atc_btn }}
       </div>
     </div>
   </ks-bundle-card>
-
 </div>
 
 <ks-bundle-dialog>
@@ -810,12 +1106,63 @@ window.ks_bundle_builder = {
       </svg>
     </button>
     <div class="ks-dialog-inner">
-      <h2 class="title inline-richtext {{ section.settings.dialog_heading_size }}">
-        {{ section.settings.dialog_heading }}
-      </h2>
+      <div class="ks-bundle-dialog-header">
+        <h2 class="title inline-richtext {{ section.settings.dialog_heading_size }}">
+          {{ section.settings.dialog_heading }}
+        </h2>
+      </div>
+      <div class="ks-bundle-dialog-body">
+        <div class="ks-bundle-contents" role="list"></div>
+      </div>
+      <div class="ks-bundle-dialog-footer">
+        <div class="ks-bundle-card-prices">
+          <p>
+            <span>
+              {{ section.settings.text_bundle_price }}
+            </span>
+            <span data-ks-bundle-price></span>
+          </p>
+          <p>
+            <span>
+              {{ section.settings.text_you_save }}
+            </span>
+            <span data-ks-bundle-discount></span>
+          </p>
+        </div>
+        {{ ks_atc_btn }}
+      </div>
     </div>
   </dialog>
 </ks-bundle-dialog>
+
+<ks-bundle-sticky-card 
+  id="ks-bundle-sticky-card">
+  <div class="ks-bundle-card-prices">
+    <p>
+      <span>
+        {{ section.settings.text_bundle_price }}
+      </span>
+      <span data-ks-bundle-price></span>
+    </p>
+    <p>
+      <span>
+        {{ section.settings.text_you_save }}
+      </span>
+      <span data-ks-bundle-discount></span>
+    </p>
+  </div>
+  <div class="ks-btn-wrapper">
+    <button
+      class="ks-btn-view-contents button button--full-width button--secondary" 
+      type="button"
+      disabled>
+      <span>
+        {{ section.settings.text_view_bundle_contents }}
+      </span>
+    </button>
+    {{ ks_atc_btn }}
+  </div>
+</ks-bundle-sticky-card>
 
 {% schema %}
 {
@@ -899,7 +1246,7 @@ window.ks_bundle_builder = {
       "type": "text",
       "id": "dialog_max_width",
       "label": "Max-width (px)",
-      "default": "600"
+      "default": "500"
     },
     {
       "type": "color",
