@@ -21,6 +21,11 @@ https://ks-snippets.myshopify.com
 14. [KS LookBook](https://www.kondasoft.com/collections/shopify-snippets/products/ks-lookbook)
 15. [KS Bundle Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-bundle-builder)
 
+## YouTube video playlist
+Overview/Installation/Configuration for each snippet
+
+https://www.youtube.com/playlist?list=PLkahmWw6Mp_WU1VQcbJLcx-75Is8oU4LK
+
 ## View all snippets
 https://www.kondasoft.com/collections/shopify-snippets
 
