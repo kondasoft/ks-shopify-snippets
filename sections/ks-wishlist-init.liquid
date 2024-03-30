@@ -1,0 +1,161 @@
+{% liquid 
+  # KS Wishlist
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{%- stylesheet -%}
+/* 
+  Header and menu drawer icons 
+*/
+#header-icon-wishlist-mobile {
+  display: flex;
+  align-items: center;
+  padding: 1.1rem 3rem;
+}
+
+#header-icon-wishlist-mobile svg {
+  margin-right: 1rem;
+}
+
+@media (max-width: 989px) {
+  #header-icon-wishlist-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 990px) {
+  #header-icon-wishlist-mobile {
+    display: none !important;
+  }
+}
+
+/* 
+  Product cards wishlist buttons
+*/
+.ks-product-card-wishlist-btn {
+  position: absolute;
+  bottom: .5rem;
+  right: .5rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  z-index: 1;
+}
+
+{%- endstylesheet -%}
+
+<script>
+  window.ks_wishlist = {
+    pageUrl: '{{- pages[section.settings.page].url -}}',
+    label: '{{- section.settings.label -}}'
+  }
+</script>
+
+{%- javascript -%}
+  (function () {
+    document.querySelector('.menu-drawer__menu').insertAdjacentHTML('afterend', `
+      <a 
+        href="${window.ks_wishlist.pageUrl}" 
+        id="header-icon-wishlist-mobile"
+        class="link focus-inset">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        ${window.ks_wishlist.label}
+      </a>
+    `)
+
+    document.querySelector('#cart-icon-bubble').insertAdjacentHTML('beforebegin', `
+      <a 
+        href="${window.ks_wishlist.pageUrl}" 
+        id="header-icon-wishlist-desktop"
+        class="header__icon link focus-inset" 
+        aria-label="${window.ks_wishlist.label}">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </a>
+    `)
+  })();
+{%- endjavascript -%}
+
+{% if section.settings.show_product_cards %}
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.product-card-wrapper').forEach(card => {
+      card.querySelector('.card__content').insertAdjacentHTML('beforeend', `
+        <button 
+          class="ks-product-card-wishlist-btn"
+          aria-label="{{ section.settings.text_add_to_wishlist }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>  
+      `)
+    })
+  })
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "KS - Wishlist Init",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "page",
+      "id": "page",
+      "label": "Page",
+      "info": "The page to show the wishlisted products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_cards",
+      "label": "Show in product cards",
+      "default": true,
+      "info": "Whether to show the heart buttons within the product cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_page",
+      "label": "Show in product page",
+      "default": true,
+      "info": "Whether to show the heart button in the product page"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Wishlist"
+    },
+    {
+      "type": "text",
+      "id": "text_add_to_wishlist",
+      "label": "Add to wishlist",
+      "default": "Add to wishlist"
+    },
+    {
+      "type": "text",
+      "id": "text_remove_from_wishlist",
+      "label": "Remove from wishlist",
+      "default": "Remove from wishlist"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Wishlist Init"
+    }
+  ]
+}
+{% endschema %}

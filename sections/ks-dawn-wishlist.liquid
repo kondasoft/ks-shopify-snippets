@@ -1,0 +1,485 @@
+{% liquid 
+  # KS Wishlist
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{%- style -%}
+ .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .ks-recently-viewed {
+    display: block;
+  }
+
+  .ks-recently-viewed-header .title {
+    margin: 0 0 .25rem;
+  }
+
+  #ks-recently-viewed-empty {
+    text-align: center;
+    font-weight: bold;
+    margin: 2rem;
+  }
+
+  .ks-recently-viewed .card-wrapper .img-fluid {
+    width: 100%;
+    height: auto;
+  }
+
+  .ks-recently-viewed .card-wrapper .price {
+    margin-top: .7rem;
+  }
+
+  .ks-recently-viewed .card-wrapper .product-added-at {
+    margin: .7rem 0 1rem;
+    font-size: 13px;
+    opacity: .75;
+    display: flex;
+    align-items: center;
+  }
+
+  .ks-recently-viewed .card-wrapper .product-added-at svg {
+    margin-right: 6px;
+  }
+{%- endstyle -%}
+
+{%- javascript -%}
+  class KsWishlist extends HTMLElement {
+    constructor () {
+      super()
+
+      this.recentlyViewed = JSON.parse(localStorage.getItem('ks-recently-viewed')) || []
+
+      if (this.recentlyViewed.length) {
+        this.setProductList()
+        this.querySelector('#product-grid').removeAttribute('hidden')        
+      } else {
+        this.querySelector('#ks-recently-viewed-empty').removeAttribute('hidden')
+      }
+    }
+
+    setProductList () {
+      let productList = ''
+
+      let imgWidth, imgHeight
+
+      switch (this.dataset.imageRatio) {
+      case 'square':
+        imgWidth = 600
+        imgHeight = 600
+        break
+      case 'landscape':
+        imgWidth = 600
+        imgHeight = 480
+        break
+      case 'portrait':
+        imgWidth = 480
+        imgHeight = 600
+        break
+      }
+      
+      this.recentlyViewed.reverse().forEach((product, index) => {
+        productList += `
+          <li 
+            class="grid__item scroll-trigger animate--slide-in" 
+            data-cascade
+            style="--animation-order: ${index + 1};">
+            <div class="card-wrapper product-card-wrapper underline-links-hover">
+              <a href="${product.url}" class="full-unstyled-link"> 
+                <img 
+                  src="${this.resizeImage(product.img_src, `${imgWidth}x${imgHeight}`, 'center')}"
+                  class="img-fluid ${this.dataset.imgBorder}" 
+                  alt="${product.img_alt}" 
+                  width="${imgWidth}" 
+                  height="${imgHeight}" 
+                  loading="lazy">
+                <h3 class="card__heading h5">
+                  ${product.title}
+                </h3>
+                <div class="price">
+                  <div class="price__container">
+                    <div class="price__regular" ${product.compare_at_price > product.price ? '' : 'hidden'}>
+                      <span class="visually-hidden visually-hidden--inline">
+                        Regular price
+                      </span>
+                      <span class="price-item price-item--regular">
+                        ${this.formatMoney(product.price)}
+                      </span>
+                    </div>
+                    <div class="price__sale" ${product.compare_at_price > product.price ? 'hidden' : ''}>
+                      <span class="visually-hidden visually-hidden--inline">
+                        Regular price
+                      </span>
+                      <span>
+                        <s class="price-item price-item--regular">
+                          ${this.formatMoney(product.compare_at_price)}
+                        </s>
+                      </span>
+                      <span class="visually-hidden visually-hidden--inline">
+                        Sale price
+                      </span>
+                      <span class="price-item price-item--sale price-item--last">
+                        ${this.formatMoney(product.price)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <p class="product-added-at d-flex align-items-center small opacity-75 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                ${this.calcTimeAgo(product.added_at)}
+              </p>
+            </div>
+          </li>
+        `
+      })
+
+      this.querySelector('#product-grid').innerHTML = productList
+    }
+
+    formatMoney (cents, moneyFormat = this.dataset.moneyFormat) {
+      if (typeof cents === 'string') {
+        cents = cents.replace('.', '')
+      }
+
+      let value = ''
+      const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/
+
+      function defaultOption (opt, def) {
+        return (typeof opt === 'undefined' ? def : opt)
+      }
+
+      function formatWithDelimiters (number, precision, thousands, decimal) {
+        precision = defaultOption(precision, 2)
+        thousands = defaultOption(thousands, ',')
+        decimal = defaultOption(decimal, '.')
+
+        if (isNaN(number) || number == null) {
+          return 0
+        }
+
+        number = (number / 100.0).toFixed(precision)
+
+        const parts = number.split('.')
+        const dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands)
+        const cents = parts[1] ? (decimal + parts[1]) : ''
+
+        return dollars + cents
+      }
+
+      switch (moneyFormat.match(placeholderRegex)[1]) {
+      case 'amount':
+        value = formatWithDelimiters(cents, 2)
+        break
+      case 'amount_no_decimals':
+        value = formatWithDelimiters(cents, 0)
+        break
+      case 'amount_with_comma_separator':
+        value = formatWithDelimiters(cents, 2, '.', ',')
+        break
+      case 'amount_no_decimals_with_comma_separator':
+        value = formatWithDelimiters(cents, 0, '.', ',')
+        break
+      }
+
+      return moneyFormat.replace(placeholderRegex, value)
+    }
+
+    resizeImage = function (src, size, crop = '') {
+      return src.replace(/_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g, '.')
+        .replace(/\.jpg|\.png|\.gif|\.jpeg/g, (match) => {
+          if (crop.length) {
+            crop = `_crop_${crop}`
+          }
+          return `_${size}${crop}${match}`
+        })
+    }
+
+    calcTimeAgo (timestamp) {
+      const now = new Date().getTime()
+      const diff = now - timestamp
+
+      let text
+
+      if (diff < 60000) {
+        text = this.dataset.textTimesMoments
+      } else if (diff < 3.6e+6) {
+        const min = Math.round((diff) / 60000)
+        text = min === 1
+          ? `${min} ${this.dataset.textMinute}`
+          : `${min} ${this.dataset.textTimesMinutes}`
+      } else if (diff < 8.64e+7) {
+        const hours = Math.round((diff) / 3.6e+6)
+        text = hours === 1
+          ? `${hours} ${this.dataset.textTimesHour}`
+          : `${hours} ${this.dataset.textTimesHours}`
+      } else {
+        const days = Math.round((diff) / 8.64e+7)
+        text = days === 1
+          ? `${days} ${this.dataset.textTimesDay}`
+          : `${days} ${this.dataset.textTimesDays}`
+      }
+
+      return `${text} ${this.dataset.textTimesAgo}`
+    }
+  }
+
+customElements.define('ks-wishlist', KsWishlist)
+{%- endjavascript -%}
+ 
+<ks-wishlist 
+  id="ks-wishlist-{{ section.id }}"
+  class="ks-wishlist color-{{ section.settings.color_scheme }} gradient"
+  data-image-ratio="{{ section.settings.image_ratio }}"
+  data-text-times-days="{{ section.settings.text_times_days }}"
+  data-text-times-day="{{ section.settings.text_times_day }}"
+  data-text-times-hours="{{ section.settings.text_times_hours }}"
+  data-text-times-hour="{{ section.settings.text_times_hour }}"
+  data-text-times-minutes="{{ section.settings.text_times_minutes }}"
+  data-text-times-minute="{{ section.settings.text_times_minute }}"
+  data-text-times-moments="{{ section.settings.text_times_moments }}"
+  data-text-times-ago="{{ section.settings.text_times_ago }}"
+  data-money-format="{{ shop.money_format }}">
+  <div class="page-width page-width section-{{ section.id }}-padding {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+   
+    {%- if section.settings.heading != blank or section.settings.description != blank -%}
+      <div 
+        class="ks-recently-viewed-header"
+        style="text-align: {{ section.settings.header_text_align }};">
+        {%- if section.settings.title != blank -%}
+          <h2 class="title inline-richtext {{ section.settings.title_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank %}
+          <div class="description rte {{ section.settings.description_style }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {%- if section.settings.empty != blank %}
+      <div
+        id="ks-recently-viewed-empty"
+        class="description rte {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        hidden>
+        {{ section.settings.empty }}
+      </div>
+    {% endif %}
+
+    <ul 
+      id="product-grid" 
+      class="
+        grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+        grid--{{ section.settings.columns_desktop }}-col-desktop
+      "
+      hidden>
+    </ul>
+    
+  </div>
+</ks-wishlist>
+
+{% schema %}
+{
+  "name": "KS - Wishlist",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "select",
+      "id": "header_text_align",
+      "label": "Text align",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Recently Viewed"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "default": "<p>Add an optional description for this section</p>",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "description_style",
+      "label": "Description style",
+      "options": [
+        { "value": "body", "label": "Body" },
+        { "value": "subtitle", "label": "Subtitle" },
+        { "value": "uppercase", "label": "Uppercase" }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "header",
+      "content": "Product list"
+    },
+    {
+      "type": "richtext",
+      "id": "empty",
+      "label": "Empty text",
+      "default": "<p>No viewed products yet!</p>"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Number of columns on mobile",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Number of columns on desktop",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "portrait", "label": "Portrait" }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "header",
+      "content": "Translation"
+    },
+    {
+      "type": "text",
+      "id": "text_times_days",
+      "label": "Days",
+      "default": "Days"
+    },
+    {
+      "type": "text",
+      "id": "text_times_day",
+      "label": "Day",
+      "default": "Day"
+    },
+    {
+      "type": "text",
+      "id": "text_times_hours",
+      "label": "Hours",
+      "default": "Hours"
+    },
+    {
+      "type": "text",
+      "id": "text_times_hour",
+      "label": "Hour",
+      "default": "Hour"
+    },
+    {
+      "type": "text",
+      "id": "text_times_minutes",
+      "label": "Minutes",
+      "default": "Minutes"
+    },
+    {
+      "type": "text",
+      "id": "text_times_minute",
+      "label": "Minute",
+      "default": "Minute"
+    },
+    {
+      "type": "text",
+      "id": "text_times_moments",
+      "label": "Moments",
+      "default": "Moments"
+    },
+    {
+      "type": "text",
+      "id": "text_times_ago",
+      "label": "Ago",
+      "default": "Ago"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Wishlist"
+    }
+  ]
+}
+{% endschema %}

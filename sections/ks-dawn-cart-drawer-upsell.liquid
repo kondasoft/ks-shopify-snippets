@@ -59,6 +59,8 @@
 }
 
 .ks-cart-drawer-upsell-list-item-left img {
+  width: 100%;
+  max-width: none;
 }
 
 .ks-cart-drawer-upsell-list-item-right {
@@ -94,12 +96,64 @@
   min-height: auto;
   width: 99%;
 }
+
+.ks-cart-drawer-upsell-list[data-list-style-cart-drawer="scroll"] {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto;
+  padding-bottom: 1rem;
+  margin-top: -.25rem;
+}
+
+.ks-cart-drawer-upsell-list[data-list-style-cart-drawer="scroll"] .ks-cart-drawer-upsell-list-item {
+  display: flex;
+  padding: 6px 6px;
+  width: 70%;
+  flex-shrink: 0;
+}
+
+/* Cart page */
+cart-items #ks-cart-drawer-upsell {
+  padding-bottom: 1rem;
+  border-bottom: .1rem solid rgba(var(--color-foreground), .08);
+} 
+
+cart-items .ks-cart-drawer-upsell-title {
+  border: none;
+  padding: 0;
+}
+
+cart-item .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] {
+  margin-bottom: 0;
+}
+
+cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-cart-drawer-upsell-list-item {
+  max-width: 375px;
+}
+
+@media (min-width: 600px) {
+  cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="stack"] {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="stack"] .ks-cart-drawer-upsell-list-item {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="stack"] .ks-cart-drawer-upsell-list-item {
+    width: 33.33%;
+  }
+}
+
+
 {%- endstylesheet -%}
 
 
 {%- javascript -%}
    (function () {  
-    async function insertSection() {
+    async function insertSectionCartDrawer() {
       if (document.querySelector('#CartDrawer .cart-drawer-items-wrapper')) return
 
       var cartDrawerItems = document.querySelector('#CartDrawer cart-drawer-items')
@@ -113,7 +167,17 @@
       const upsells = document.querySelector('#ks-cart-drawer-upsell-wrapper')
       wrapper.insertAdjacentHTML('beforeend', upsells.innerHTML)
     }
-    insertSection()
+    insertSectionCartDrawer()
+
+    async function insertSectionCartPage() {
+      console.log('test')
+      const cartItems = document.querySelector('cart-items')
+      if (!cartItems) return
+
+      const upsells = document.querySelector('#ks-cart-drawer-upsell-wrapper')
+      cartItems.querySelector('.page-width').insertAdjacentHTML('beforeend', upsells.innerHTML)
+    }
+    insertSectionCartPage()
     
     window.onChangeKsUpsellVariantSelector = function( select, event) {
       event.preventDefault()
@@ -140,7 +204,7 @@
           document.querySelector('#ks-cart-drawer-upsell-wrapper')
             .replaceWith(newDocument.querySelector('#ks-cart-drawer-upsell-wrapper'))
 
-          insertSection()
+            insertSectionCartDrawer()
         }, 250)
       })
 
@@ -161,7 +225,10 @@
         {{ section.settings.title }}
       </span>
     </h3>
-    <ul class="ks-cart-drawer-upsell-list">
+    <ul 
+      class="ks-cart-drawer-upsell-list"
+      data-list-style-cart-drawer="{{ section.settings.list_style_cart_drawer }}"
+      data-list-style-cart-page="{{ section.settings.list_style_cart_page }}">
       {% for product in section.settings.collection.products limit: section.settings.limit %}
         {% liquid 
           assign is_in_cart = false
@@ -278,6 +345,26 @@
       "id": "title",
       "label": "Title",
       "default": "You might like..."
+    },
+    {
+      "type": "select",
+      "id": "list_style_cart_drawer",
+      "label": "List style - cart drawer",
+      "options": [
+        { "value": "scroll", "label": "Scroll" },
+        { "value": "stack", "label": "Stack" }
+      ],
+      "default": "stack"
+    },
+    {
+      "type": "select",
+      "id": "list_style_cart_page",
+      "label": "List style - cart page",
+      "options": [
+        { "value": "scroll", "label": "Scroll" },
+        { "value": "stack", "label": "Stack" }
+      ],
+      "default": "stack"
     },
     {
       "type": "select",
