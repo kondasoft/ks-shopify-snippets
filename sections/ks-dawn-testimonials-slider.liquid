@@ -76,6 +76,13 @@
     transition: all .2s ease-out;
   }
 
+  #ks-testimonials-slider-{{ section.id }} .swiper .swiper-slide {
+    {% if section.settings.card_equal_height %}
+      height: auto;
+      display: flex;
+    {% endif %}
+  }
+
   .ks-testimonials-slider .swiper .swiper-slide-visible {
     transform: scale(1);
     opacity: 1;
@@ -107,6 +114,11 @@
     background-color: rgba(var(--color-foreground, 1));
     color: rgba(var(--color-background));
   }
+
+  .swiper-navigation-disabled .swiper-button-next, 
+  .swiper-navigation-disabled .swiper-button-prev {
+    display: none !important;
+  } 
 
   @media (max-width: 575px) {
     .ks-testimonials-slider[data-partial-slides-mobile="true"] .swiper-button-prev, 
@@ -302,7 +314,7 @@ customElements.define('ks-testimonials-slider', KsTestimonialsSlider)
               {% endunless %}
               {% if section.settings.card_show_stars %}
                 <div class="ks-testimonials-slider-card-stars" aria-hidden="true">
-                  {% for n in (1..5) %}
+                  {% for n in (1..block.settings.card_stars_number) %}
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
                       <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                     </svg>
@@ -537,6 +549,12 @@ customElements.define('ks-testimonials-slider', KsTestimonialsSlider)
       "default": "40"
     },
     {
+      "type": "checkbox",
+      "id": "card_equal_height",
+      "label": "Eqaul-height cards",
+      "default": true
+    },
+    {
       "type": "header",
       "content": "Breakpoints",
       "info": "Adjust items per slide based on screen resolution"
@@ -636,6 +654,14 @@ customElements.define('ks-testimonials-slider', KsTestimonialsSlider)
           "id": "title",
           "label": "Title",
           "default": "The best product so far"
+        },
+        {
+          "type": "range",
+          "id": "card_stars_number",
+          "label": "Number of stars",
+          "default": 5,
+          "min": 1,
+          "max": 5
         },
         {
           "type": "richtext",

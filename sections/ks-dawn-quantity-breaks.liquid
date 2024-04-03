@@ -5,38 +5,84 @@
 %}
 
 {% liquid 
+  assign current_variant = product.selected_or_first_available_variant
 %}
 
 {%- stylesheet -%}
   #ks-qty-breaks {
+    max-width: 44rem;
+    transition: all .2s
   }
 
   #ks-qty-breaks-title {
-    margin: 0 0 8px;
+    margin: 0 0 10px;
   }
 
   #ks-qty-breaks ul { 
     list-style: none;
     padding: 0;
-    margin: 0 0 0 6px;
+    margin: 0;
   }
 
-  #ks-qty-breaks ul li {
-    display: flex;
-    align-items: center;
-    padding: 1px 0;
-  } 
+  #ks-qty-breaks ul li {    
+    position: relative;
+  }
 
   #ks-qty-breaks ul li input {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     margin: 0;
-    margin-right: 8px;
-  }
+  } 
 
   #ks-qty-breaks ul li input + label {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    border: 1px solid rgba(var(--color-foreground), .1);
+    border-radius: 0;
+    padding: 6px 8px 6px 32px;
+    margin: 8px 0;
+    transition: all .2s ease-out;
+  }
 
+  #ks-qty-breaks ul li input + label:hover,
+  #ks-qty-breaks ul li input + label:focus {
+    background-color: rgba(var(--color-foreground), .05);
+  }
+
+  #ks-qty-breaks ul li input:checked + label {
+    background-color: rgba(var(--color-foreground), .05);
+    border-color: rgba(var(--color-foreground), 1);
   }
 
   #ks-qty-breaks ul li input + label span {
+  }
+
+  .ks-qty-breaks-label-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: normal;
+  }
+
+  .ks-qty-breaks-label-title {
+    font-weight: bold; 
+  }
+
+  .ks-qty-breaks-label-subtitle {
+    font-size: .9em;
+    opacity: .8;
+  }
+
+  .ks-qty-breaks-label-badge {
+    background-color: rgba(var(--color-foreground), 1);
+    color: rgba(var(--color-background), 1);
+    line-height: normal;
+    padding: 1px 5px 2px;
+    margin: 0 0 0 10px;
+    font-size: 13px;
     font-weight: bold;
   }
 
@@ -143,6 +189,20 @@
 
 {%- endstylesheet -%}
 
+<style>
+  #ks-qty-breaks-title {
+    text-align: {{ section.settings.title_text_align }}
+  }
+
+  #ks-qty-breaks ul li input + label {
+    border-color: rgba(var(--color-foreground), {{ section.settings.item_border_opacity | append: '%' }});
+    border-radius: {{ section.settings.item_border_radius | append: 'px' }};
+  } 
+
+  .ks-qty-breaks-label-badge {
+    border-radius: {{ section.settings.item_border_radius | append: 'px' }};
+  }
+</style>
 
 {%- javascript -%}
   const injectQtyBreaks = () => {
@@ -156,7 +216,9 @@
       return
     }
     
-    productFormQty.insertAdjacentHTML('afterend', `
+    productInfo.querySelector('#ks-qty-breaks')?.remove()
+    
+    document.querySelector(wrapper.dataset.injectElement).insertAdjacentHTML(wrapper.dataset.injectElementPosition, `
       ${wrapper.innerHTML}
     `)
 
@@ -187,11 +249,33 @@
     })
   }
   injectQtyBreaks()
+
+  const listenVariantChanges = () => {
+    document.querySelectorAll('variant-selects [name]').forEach(elem => {
+      elem.addEventListener('change', () => { 
+        document.querySelector('#ks-qty-breaks').style.opacity = '.2'
+
+        setTimeout(async () => { 
+          const respoonse = await fetch(window.location.href)
+          const text = await respoonse.text()
+          const newDocument = new DOMParser().parseFromString(text, 'text/html')
+
+          document.querySelector('#ks-qty-breaks-hidden')
+            .replaceWith(newDocument.querySelector('#ks-qty-breaks-hidden'))
+          
+          injectQtyBreaks()
+        }, 500)
+      })
+    })
+  }
+  listenVariantChanges()
 {%- endjavascript -%}
 
 <div 
   id="ks-qty-breaks-hidden"
   data-btn-animate="{{ section.settings.btn_animate }}"
+  data-inject-element="{{ section.settings.inject_element }}"
+  data-inject-element-position="{{ section.settings.inject_element_position }}"
   hidden>
   <div 
     id="ks-qty-breaks"
@@ -208,8 +292,13 @@
       {% for block in section.blocks %}
         <li>
           {% liquid 
+            assign item_price = 100 | minus: block.settings.discount | divided_by: 100.0 | times: current_variant.price | money_without_trailing_zeros
+            assign total_price = 100 | minus: block.settings.discount | divided_by: 100.0 | times: current_variant.price | times: block.settings.qty | money_without_trailing_zeros
+
             assign qty_replace = '<span class="ks-qty-breaks-label-qty">' | append: block.settings.qty | append: '</span>'
             assign discount_replace = '<span class="ks-qty-breaks-label-discount">' | append: block.settings.discount | append: '%</span>'
+            assign item_price_replace = '<span class="ks-qty-breaks-label-item-price">' | append: item_price | append: '</span>'
+            assign total_price_replace = '<span class="ks-qty-breaks-label-total-price">' | append: total_price | append: '</span>'
           %}
           <input 
             id="ks-qty-breaks-{{ forloop.index }}"
@@ -218,9 +307,21 @@
             value="{{ block.settings.qty }}"
             name="ks-qty-breaks">
           <label for="ks-qty-breaks-{{ forloop.index }}">
-            {{ block.settings.label 
-              | replace: '[qty]', qty_replace
-              | replace: '[discount]', discount_replace }}
+            <div class="ks-qty-breaks-label-inner">
+              <div class="ks-qty-breaks-label-left">
+                <div class="ks-qty-breaks-label-title">
+                  {{ block.settings.title | replace: '[qty]', qty_replace | replace: '[discount]', discount_replace | replace: '[item_price]', item_price_replace | replace: '[total_price]', total_price_replace }}
+                </div>
+                <div class="ks-qty-breaks-label-subtitle">
+                  {{ block.settings.subtitle | replace: '[qty]', qty_replace | replace: '[discount]', discount_replace | replace: '[item_price]', item_price_replace | replace: '[total_price]', total_price_replace }}
+                </div>
+              </div>
+              <div class="ks-qty-breaks-label-right">
+                <div class="ks-qty-breaks-label-badge">
+                  {{ block.settings.badge | replace: '[qty]', qty_replace | replace: '[discount]', discount_replace | replace: '[item_price]', item_price_replace | replace: '[total_price]', total_price_replace }}
+                </div>
+              </div>
+            </div>
           </label>
         </li>
       {% endfor %}
@@ -254,6 +355,12 @@
       "default": "h3"
     },
     {
+      "type": "text_alignment",
+      "id": "title_text_align",
+      "label": "Title text-align",
+      "default": "center"
+    },
+    {
       "type": "select",
       "id": "btn_animate",
       "label": "\"Add to cart\" button animation",
@@ -265,6 +372,48 @@
         { "value": "animate__tada", "label": "tada" }
       ],
       "default": "animate__tada"
+    },
+    {
+      "type": "range",
+      "id": "item_border_opacity",
+      "label": "Item border opacity",
+      "min": 0,
+      "max": 100,
+      "default": 10,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "item_border_radius",
+      "label": "Item border radius",
+      "min": 0,
+      "max": 24,
+      "default": 6,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Element to inject"
+    },
+    {
+      "type": "text",
+      "id": "inject_element",
+      "label": "Element to inject",
+      "default": "product-info .product-form__quantity"
+    },
+    {
+      "type": "select",
+      "id": "inject_element_position",
+      "label": "Inject position",
+      "options": [
+        { "value": "beforebegin", "label": "beforebegin" },
+        { "value": "afterbegin", "label": "afterbegin" },
+        { "value": "beforeend", "label": "beforeend" },
+        { "value": "afterend", "label": "afterend" }
+      ],
+      "default": "beforebegin"
     },
     {
       "type": "header",
@@ -288,7 +437,7 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom padding",
-      "default": 0
+      "default": 4
     }
   ],
   "blocks": [
@@ -297,10 +446,8 @@
       "name": "Tier",
       "settings": [
         {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "Buy [qty] - Save [discount]"
+          "type": "header",
+          "content": "Config"
         },
         {
           "type": "range",
@@ -319,6 +466,29 @@
           "default": 5,
           "unit": "%",
           "info": "You must create the [automatic discount](https://admin.shopify.com//discounts) with this value for the discount to apply to the cart"
+        },
+        {
+          "type": "header",
+          "content": "Text",
+          "info": "Available placeholders are [qty], [item_price], [total_price], [discount]"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Buy [qty], only [item_price] per item"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Total price: [total_price]"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Save [discount]"
         }
       ]
     }
@@ -331,22 +501,22 @@
         {
           "type": "tier",
           "settings": {
-            "qty": 5,
-            "discount": 5
-          }
-        },
-        {
-          "type": "tier",
-          "settings": {
-            "qty": 10,
+            "qty": 2,
             "discount": 10
           }
         },
         {
           "type": "tier",
           "settings": {
-            "qty": 20,
+            "qty": 3,
             "discount": 20
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "qty": 5,
+            "discount": 40
           }
         }
       ]

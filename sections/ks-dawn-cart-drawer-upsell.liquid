@@ -3,14 +3,14 @@
   # © 2024 KondaSoft
   # https://www.kondasoft.com
 %}
-
+ 
 {% liquid 
 %}
 
 {%- stylesheet -%}
 .cart-drawer-items-wrapper {
   overflow: auto;
-  flex: 1;
+  flex: 1; 
 }
 
 @media (max-height: 650px) {
@@ -166,16 +166,28 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
 
       const upsells = document.querySelector('#ks-cart-drawer-upsell-wrapper')
       wrapper.insertAdjacentHTML('beforeend', upsells.innerHTML)
+ 
+      if (!document.querySelector('.ks-cart-drawer-upsell-list li')) {
+        document.querySelector('#ks-cart-drawer-upsell').remove()  
+      }
     }
     insertSectionCartDrawer()
 
     async function insertSectionCartPage() {
-      console.log('test')
       const cartItems = document.querySelector('cart-items')
       if (!cartItems) return
 
+      const existingUpsells = document.querySelector('#buttMainContent #ks-cart-drawer-upsell')
+      if (existingUpsells) {
+        existingUpsells.remove()
+      }
+
       const upsells = document.querySelector('#ks-cart-drawer-upsell-wrapper')
       cartItems.querySelector('.page-width').insertAdjacentHTML('beforeend', upsells.innerHTML)
+
+      if (!document.querySelector('.ks-cart-drawer-upsell-list li')) {
+        document.querySelector('#ks-cart-drawer-upsell').remove()  
+      }
     }
     insertSectionCartPage()
     
@@ -215,12 +227,45 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
       });
     }
     listenCartDrawer()
+
+    function listenCartPage() {
+      const element = document.querySelector('#MainContent .cart__items')
+      let timer
+      
+      const observer = new MutationObserver((mutations) => { 
+        if (timer) clearTimeout(timer)
+
+        timer = setTimeout(async () => {
+          const respoonse = await fetch(window.location.href)
+          const text = await respoonse.text()
+          const newDocument = new DOMParser().parseFromString(text, 'text/html')
+
+          document.querySelector('#ks-cart-drawer-upsell-wrapper')
+            .replaceWith(newDocument.querySelector('#ks-cart-drawer-upsell-wrapper'))
+
+            insertSectionCartPage()
+        }, 250)
+      })
+
+      observer.observe(element, { 
+        attributes: true, 
+        childList: true, 
+        subtree: true
+      });
+    }
+    listenCartPage()
   })();
 {%- endjavascript -%}
 
 <div id="ks-cart-drawer-upsell-wrapper">
-  <div id="ks-cart-drawer-upsell">
-    <h3 class="ks-cart-drawer-upsell-title">
+  <div 
+    id="ks-cart-drawer-upsell" 
+    {% if request.page_type == 'cart' and section.settings.show_empty_cart == false and cart.item_count == 0 %}
+      hidden
+    {% endif %}>
+    <h3 
+      class="ks-cart-drawer-upsell-title"
+      style="text-align: {{ section.settings.title_text_align }}">
       <span>
         {{ section.settings.title }}
       </span>
@@ -277,16 +322,12 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
                     </div>
                   {% else %}
                     <div class="field-wrapper">
-                      <label 
-                        class="form__label" 
-                        for="ks-cart-drawer-upsell-selector-{{ forloop.index }}">
-                        {{ block.settings.label }}
-                      </label>
                       <div class="select">
                         <select 
                           id="ks-cart-drawer-upsell-selector-{{ forloop.index }}"
                           name="id"
                           class="select__select"
+                          aria-label="Select variant"
                           onchange="onChangeKsUpsellVariantSelector(this, event)">
                           {% for variant in product.variants %}
                             <option 
@@ -347,6 +388,12 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
       "default": "You might like..."
     },
     {
+      "type": "text_alignment",
+      "id": "title_text_align",
+      "label": "Title text-align",
+      "default": "left"
+    },
+    {
       "type": "select",
       "id": "list_style_cart_drawer",
       "label": "List style - cart drawer",
@@ -375,6 +422,13 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
         { "value": "button--secondary", "label": "Secondary" }
       ],
       "default": "button--secondary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_empty_cart",
+      "label": "Show on empty cart",
+      "default": true,
+      "info": "Applies only for the cart page."
     }
   ],
   "presets": [
