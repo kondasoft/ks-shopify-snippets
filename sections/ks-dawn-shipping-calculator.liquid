@@ -1,0 +1,433 @@
+{% liquid 
+  # KS Dawn Shipping Calculator
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+ 
+
+{% liquid 
+%}
+
+
+{%- stylesheet -%}
+#Details-CartDrawer {
+  margin-top: 0;
+}
+
+#Details-CartDrawer .cart__note {
+  top: auto
+} 
+
+#ks-shipping-calculator-details .summary__title-inner,
+.ks-shipping-calculator-cart-page-title {
+  display: flex;
+  align-items: center;
+}
+
+#ks-shipping-calculator-details .summary__title-inner svg,
+.ks-shipping-calculator-cart-page-title svg {
+  margin-right: 1rem;
+}
+
+.ks-shipping-calculator-cart-page-title {
+  margin-top: 0;
+}
+
+#ks-shipping-calculator {
+  display: block;
+}
+
+.cart__blocks #ks-shipping-calculator {
+  margin-bottom: 3rem
+}
+
+#ks-shipping-calculator .field-wrapper {
+  margin-bottom: 1rem;
+}
+
+#ks-shipping-calculator .select__select {
+  font-size: 1.6rem;
+}
+
+#ks-shipping-calculator button {
+  width: 100%;
+  padding: 8px;
+  min-height: auto;
+}
+
+#ks-shipping-calculator-province-wrapper {
+  background: rgba(var(--color-foreground), .05);
+  border-radius: 4px;
+  padding: 1rem; 
+}
+
+#ks-shipping-calculator-alert {
+  border: 1px solid transparent;
+  padding: 1rem;
+  border-radius: 4px;
+  line-height: normal;
+  margin-bottom: 1rem;
+} 
+
+#ks-shipping-calculator-alert ul {
+  padding: 0 0 0 2rem;
+  margin: 0;
+}
+
+#ks-shipping-calculator-alert.alert-danger {
+  background: #f8d7da;
+  color: #58151c;
+  border-color: #f1aeb5;
+}
+
+#ks-shipping-calculator-alert.alert-success {
+  background: #d1e7dd;
+  color: #0a3622;
+  border-color: #a3cfbb;
+}
+
+#ks-shipping-calculator-alert.alert-warning {
+  background: #fff3cd;
+  color: #664d03;
+  border-color: #ffe69c;
+}
+
+{%- endstylesheet -%}
+
+
+{%- javascript -%}
+   (function () { 
+    class KsShippingCalculator extends HTMLElement {
+      constructor () {
+        super()
+
+        this.country = this.querySelector('#ks-shipping-calculator-country')
+        this.province = this.querySelector('#ks-shipping-calculator-province')
+        this.zip = this.querySelector('#ks-shipping-calculator-zip')
+        this.alert = this.querySelector('#ks-shipping-calculator-alert')
+        this.btn = this.querySelector('button')
+
+        this.initCommonJsScript()
+        this.insertInCartDrawer()
+        this.listenCartDrawer()
+        this.insertInCartPage()
+
+        this.btn.addEventListener('click', this.onSubmit.bind(this))
+      }
+
+      async initCommonJsScript () {
+        const script = document.createElement('script')
+        script.src = this.dataset.shopifyCommonJs
+        document.head.appendChild(script)
+
+        await new Promise(resolve => setTimeout(resolve, 1000))
+
+        new window.Shopify.CountryProvinceSelector('ks-shipping-calculator-country', 'ks-shipping-calculator-province', {
+          hideElement: 'ks-shipping-calculator-province-wrapper'
+        })
+
+        console.log(this.country)
+
+        this.country.options[0].textContent = this.country.getAttribute('aria-label')
+      }
+
+      insertInCartDrawer() {
+        const drawer = document.querySelector('#CartDrawer')
+        if (!drawer) return
+
+        if (drawer.querySelector('#ks-shipping-calculator')) return
+
+        const wrapper = document.querySelector('#ks-shipping-calculator-cart-drawer-wrapper')
+        if (!wrapper) return
+
+        drawer.querySelector('.drawer__footer').insertAdjacentHTML('afterbegin', wrapper.innerHTML)
+      }
+
+      listenCartDrawer() {
+        const drawer = document.querySelector('#CartDrawer')
+        if (!drawer) return
+    
+        let timer
+        
+        const observer = new MutationObserver((mutations) => { 
+          if (timer) clearTimeout(timer)
+
+          timer = setTimeout(async () => {
+            const respoonse = await fetch(window.location.href)
+            const text = await respoonse.text()
+            const newDocument = new DOMParser().parseFromString(text, 'text/html')
+            
+           this.insertInCartDrawer()
+          }, 250)
+        })
+
+        observer.observe(drawer, {  
+          attributes: true, 
+          childList: true, 
+          subtree: true
+        });
+      }
+
+      insertInCartPage() {
+        const cartFooter = document.querySelector('#main-cart-footer')
+        if (!cartFooter) return
+
+        if (document.querySelector('#MainContent #ks-shipping-calculator')) return
+
+        const wrapper = document.querySelector('#ks-shipping-calculator-cart-page-wrapper')
+        if (!wrapper) return
+
+        cartFooter.querySelector('.cart__blocks').insertAdjacentHTML('afterbegin', wrapper.innerHTML)
+      }
+
+      async onSubmit () {
+        this.btn.classList.add('loading')
+        this.btn.querySelector('.loading__spinner').classList.remove('hidden')
+
+        const prepareResponse = await fetch(`/cart/prepare_shipping_rates.json?shipping_address[zip]=${this.zip.value}&shipping_address[country]=${this.country.value}&shipping_address[province]=${this.province.value}`, {
+          method: 'POST'
+        })
+        console.log(prepareResponse)
+
+        if (prepareResponse.ok) {
+          const asyncResponse = await fetch(`/cart/async_shipping_rates.json?shipping_address[zip]=${this.zip.value}&shipping_address[country]=${this.country.value}&shipping_address[province]=${this.province.value}`)
+          console.log(asyncResponse)
+
+          const data = await asyncResponse.json()
+          console.log(data)
+
+          let list = ''
+
+          if (data.shipping_rates.length) {
+            data.shipping_rates.forEach(elem => {
+              list += `
+                <li>
+                  <strong>${elem.presentment_name}</strong>: ${elem.price} ${elem.currency}
+                </li>
+              `
+            })
+
+            this.alert.innerHTML = `
+              <ul class="">
+                ${list}
+              </ul>
+            `
+            this.alert.classList.remove('alert-danger', 'alert-warning')
+            this.alert.classList.add('alert-success')
+            this.alert.removeAttribute('hidden')
+          } else {
+            this.alert.innerHTML = `
+              <p class="">
+                ${this.dataset.textNoResultsFound}
+              </p>
+            `
+            this.alert.classList.remove('alert-danger', 'alert-success')
+            this.alert.classList.add('alert-warning')
+            this.alert.removeAttribute('hidden')
+          }
+        } else {
+          const data = await prepareResponse.json()
+          console.log(data)
+
+          let list = ''
+
+          for (const [key, value] of Object.entries(data)) {
+            list += `
+              <li>
+                <b>${key}</b>: ${value.toString()}
+              </li>
+            `
+          }
+
+          this.alert.innerHTML = `
+            <ul class="">
+              ${list} 
+            </ul>
+          `
+          this.alert.classList.remove('alert-success', 'alert-warning')
+          this.alert.classList.add('alert-danger')
+          this.alert.removeAttribute('hidden')
+        }
+
+        this.btn.classList.remove('loading')
+        this.btn.querySelector('.loading__spinner').classList.add('hidden')
+      }
+    }
+    customElements.define('ks-shipping-calculator', KsShippingCalculator) 
+  })();
+{%- endjavascript -%}
+
+
+{% capture ks_shipping_calculator %}
+  <ks-shipping-calculator
+    id="ks-shipping-calculator"
+    data-shopify-common-js="{{ 'shopify_common.js' | shopify_asset_url }}">
+    <div 
+      id="ks-shipping-calculator-alert"
+      role="alert" 
+      aria-atomic="true"
+      data-text-no-results="{{ section.settings.text_no_results }}"
+      hidden>
+    </div>
+    <div class="field-wrapper">
+      <div class="select">
+        <select 
+          id="ks-shipping-calculator-country"
+          class="select__select"
+          aria-label="{{ section.settings.text_country }}"
+          autocomplete="country">
+          {{ all_country_option_tags }}
+        </select>
+        {% render 'icon-caret' %}
+      </div>
+    </div>
+    <div
+      id="ks-shipping-calculator-province-wrapper" 
+      class="field-wrapper"
+      style="display: none;">
+      <label 
+        class="form__label" 
+        for="ks-shipping-calculator-province">
+        {{ section.settings.text_province }}
+      </label>
+      <div class="select">
+        <select 
+          id="ks-shipping-calculator-province"
+          class="select__select"
+          autocomplete="address-level1">
+        </select>
+        {% render 'icon-caret' %}
+      </div>
+    </div>
+    <div class="field-wrapper">
+      <div class="field">
+        <input 
+          id="ks-shipping-calculator-zip" 
+          class="field__input" 
+          type="text"
+          placeholder="{{ section.settings.text_zip }}"
+          autocomplete="postal-code">
+        <label 
+          class="field__label" 
+          for="ks-shipping-calculator-zip">
+          {{ section.settings.text_zip }}
+        </label>
+      </div>
+    </div>
+    <div class="field-wrapper">
+      <button 
+        id="ks-shipping-calculator-btn" 
+        class="button {{ section.settings.btn_style }}"
+        data-text="{{ section.settings.btn_label }}"
+        type="button">
+        <span>{{ section.settings.btn_label }}</span>
+        {%- render 'loading-spinner' -%}
+      </button>
+    </div>
+  </ks-shipping-calculator>
+{% endcapture %}
+
+{% if request.page_type == 'cart' %}
+  <div id="ks-shipping-calculator-cart-page-wrapper" hidden>
+    <h3 class="ks-shipping-calculator-cart-page-title">
+      {% if section.settings.show_title_icon %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+          <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+        </svg>
+      {% endif %}
+      {{ section.settings.title }}
+    </h3>
+    {{ ks_shipping_calculator }}
+  </div>
+{% else %}
+  <div id="ks-shipping-calculator-cart-drawer-wrapper" hidden>
+    <details id="ks-shipping-calculator-details">
+      <summary role="button" aria-expanded="false">
+        <span class="summary__title">
+          <div class="summary__title-inner">
+            {% if section.settings.show_title_icon %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+              </svg>
+            {% endif %}
+            {{ section.settings.title }}
+          </div>
+          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
+          </svg>
+        </span>
+      </summary>
+      {{ ks_shipping_calculator }}
+    </details>
+  </div>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "KS - Shipping calculator",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shipping calculator"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title_icon",
+      "label": "Show title icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "btn_style",
+      "label": "Button style",
+      "options": [
+        { "value": "", "label": "Primary" },
+        { "value": "button--secondary", "label": "Secondary" }
+      ],
+      "default": "button--secondary"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "text_country",
+      "label": "Country",
+      "default": "Country"
+    },
+    {
+      "type": "text",
+      "id": "text_province",
+      "label": "Province",
+      "default": "Province"
+    },
+    {
+      "type": "text",
+      "id": "text_zip",
+      "label": "Zip",
+      "default": "Zip"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button label",
+      "default": "Calculate"
+    },
+    {
+      "type": "text",
+      "id": "text_no_results",
+      "label": "Nno results",
+      "default": "No shipping rates found!"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Shipping calculator"
+    }
+  ]
+}
+{% endschema %}

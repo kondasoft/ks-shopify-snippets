@@ -123,14 +123,19 @@ cart-items .ks-cart-drawer-upsell-title {
   padding: 0;
 }
 
-cart-item .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] {
+cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto;
+  padding-bottom: 1rem; 
   margin-bottom: 0;
 }
 
 cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-cart-drawer-upsell-list-item {
-  max-width: 375px;
+  width: 70%;
+  flex-shrink: 0;
 }
-
+ 
 @media (min-width: 600px) {
   cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="stack"] {
     display: flex;
@@ -138,6 +143,9 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
   }
   cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="stack"] .ks-cart-drawer-upsell-list-item {
     width: 50%;
+  }
+  cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-cart-drawer-upsell-list-item {
+    width: 375px;
   }
 }
 
@@ -177,7 +185,7 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
       const cartItems = document.querySelector('cart-items')
       if (!cartItems) return
 
-      const existingUpsells = document.querySelector('#buttMainContent #ks-cart-drawer-upsell')
+      const existingUpsells = document.querySelector('#MainContent #ks-cart-drawer-upsell')
       if (existingUpsells) {
         existingUpsells.remove()
       }
@@ -203,6 +211,8 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
 
     function listenCartDrawer() {
       const element = document.querySelector('cart-drawer')
+      if (!element) return
+  
       let timer
       
       const observer = new MutationObserver((mutations) => { 
@@ -220,7 +230,7 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
         }, 250)
       })
 
-      observer.observe(element, { 
+      observer.observe(element, {  
         attributes: true, 
         childList: true, 
         subtree: true
@@ -230,6 +240,8 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
 
     function listenCartPage() {
       const element = document.querySelector('#MainContent .cart__items')
+      if (!element) return
+
       let timer
       
       const observer = new MutationObserver((mutations) => { 
