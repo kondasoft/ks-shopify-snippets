@@ -210,11 +210,6 @@
 
     const productInfo = document.querySelector('product-info')
     const productFormQty = productInfo.querySelector('.product-form__quantity')
-
-    if (!productFormQty) {
-      console.error('KS Quantity Breaks - Please enable the "Quantity Selector" block from the Shopify Theme Editor')
-      return
-    }
     
     productInfo.querySelector('#ks-qty-breaks')?.remove()
     
@@ -222,9 +217,15 @@
       ${wrapper.innerHTML}
     `)
 
-    document.querySelectorAll('#ks-qty-breaks input').forEach(input => {
+    if (!productFormQty) {
+      productInfo.querySelector('.product-form__buttons').insertAdjacentHTML('beforebegin', `
+        <input type="hidden" name="quantity" value="1">  
+      `)
+    }
+
+    document.querySelectorAll('#ks-qty-breaks input').forEach(input => { 
       input.addEventListener('change', () => {
-        productInfo.querySelector('.quantity__input').value = input.value
+        productInfo.querySelector('[name="quantity"]').value = input.value
 
         productInfo.querySelectorAll('.quantity__button.disabled').forEach(btn => {
           btn.classList.remove('disabled')
@@ -242,7 +243,7 @@
       })
     })
     
-    productInfo.querySelector('.quantity__input').addEventListener('change', () => {
+    productInfo.querySelector('.quantity__input')?.addEventListener('change', () => {
       document.querySelectorAll('#ks-qty-breaks input').forEach(input => {
         input.checked = false
       })
@@ -453,7 +454,7 @@
           "type": "range",
           "id": "qty",
           "label": "Quantity",
-          "min": 2,
+          "min": 1,
           "max": 100,
           "default": 5
         },

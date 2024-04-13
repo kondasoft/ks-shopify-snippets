@@ -114,6 +114,8 @@
 
 /* Cart page */
 cart-items #ks-cart-drawer-upsell {
+  position: relative;
+  overflow: hidden;
   padding-bottom: 1rem;
   border-bottom: .1rem solid rgba(var(--color-foreground), .08);
 } 
@@ -154,8 +156,6 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
     width: 33.33%;
   }
 }
-
-
 {%- endstylesheet -%}
 
 
@@ -165,6 +165,8 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
       if (document.querySelector('#CartDrawer .cart-drawer-items-wrapper')) return
 
       var cartDrawerItems = document.querySelector('#CartDrawer cart-drawer-items')
+      if (!cartDrawerItems) return
+
       if (cartDrawerItems.classList.contains('is-empty')) return
 
       var wrapper = document.createElement('div')
@@ -213,8 +215,8 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
       const element = document.querySelector('cart-drawer')
       if (!element) return
   
-      let timer
-      
+      let timer 
+       
       const observer = new MutationObserver((mutations) => { 
         if (timer) clearTimeout(timer)
 
@@ -225,7 +227,7 @@ cart-items .ks-cart-drawer-upsell-list[data-list-style-cart-page="scroll"] .ks-c
 
           document.querySelector('#ks-cart-drawer-upsell-wrapper')
             .replaceWith(newDocument.querySelector('#ks-cart-drawer-upsell-wrapper'))
-
+ 
             insertSectionCartDrawer()
         }, 250)
       })
