@@ -20,6 +20,7 @@ https://ks-snippets.myshopify.com
 13. [KS Newsletter Popup](https://www.kondasoft.com/collections/shopify-snippets/products/ks-newsletter-popup)
 14. [KS LookBook](https://www.kondasoft.com/collections/shopify-snippets/products/ks-lookbook)
 15. [KS Bundle Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-bundle-builder)
+16. [KS Shipping Calculator](https://www.kondasoft.com/collections/shopify-snippets/products/ks-shipping-calculator)
 
 ## YouTube video playlist
 Overview/Installation/Configuration for each snippet
@@ -33,7 +34,7 @@ https://www.kondasoft.com/collections/shopify-snippets
 https://www.kondasoft.com/collections/shopify-themes
 
 ## Support
-Please submit a [new issue](https://github.com/kondasoft/ks-bootshop/issues/new) in case you want to submit a bug or feature request. Additionally, you may visit our [website](https://www.kondasoft.com/) for further help.
+Please submit a [new issue](https://github.com/kondasoft/ks-shopify-snippets/issues/new) in case you want to submit a bug or feature request. Additionally, you may use our [Community Forum](https://community.kondasoft.com/) for further help.
 
 ## Copyright and license
 Copyright 2023 [kondasoft.com](https://www.kondasoft.com). Code released under the [MIT License](https://github.com/kondasoft/ks-shopify-snippets/blob/master/LICENSE).
