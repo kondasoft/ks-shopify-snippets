@@ -1,9 +1,6 @@
 # Shopify Snippets
 Shopify Theme Snippets that you may use on the Dawn theme or any other Shopify theme.
 
-## Demo (Password: ks)
-https://ks-snippets.myshopify.com
-
 ## Snippet list and download
 1. [KS Countdown Sale](https://www.kondasoft.com/collections/shopify-snippets/products/ks-countdown-sale)
 2. [KS Contact Form Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-contact-form-builder)
@@ -22,6 +19,9 @@ https://ks-snippets.myshopify.com
 15. [KS Bundle Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-bundle-builder)
 16. [KS Shipping Calculator](https://www.kondasoft.com/collections/shopify-snippets/products/ks-shipping-calculator)
 
+## Demo (Password: ks)
+https://ks-snippets.myshopify.com
+
 ## YouTube video playlist
 Overview/Installation/Configuration for each snippet
 
@@ -31,10 +31,12 @@ https://www.youtube.com/playlist?list=PLkahmWw6Mp_WU1VQcbJLcx-75Is8oU4LK
 https://www.kondasoft.com/collections/shopify-snippets
 
 ## Premium Shopify Themes
+Premium Shopify Themes that are simple to use and easy to customize.
+15+ years of coding experience, 50k+ customers served!
 https://www.kondasoft.com/collections/shopify-themes
 
 ## Support
 Please submit a [new issue](https://github.com/kondasoft/ks-shopify-snippets/issues/new) in case you want to submit a bug or feature request. Additionally, you may use our [Community Forum](https://community.kondasoft.com/) for further help.
 
 ## Copyright and license
-Copyright 2023 [kondasoft.com](https://www.kondasoft.com). Code released under the [MIT License](https://github.com/kondasoft/ks-shopify-snippets/blob/master/LICENSE).
+Copyright 2024 [kondasoft.com](https://www.kondasoft.com). Code released under the [MIT License](https://github.com/kondasoft/ks-shopify-snippets/blob/master/LICENSE).
