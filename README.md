@@ -36,10 +36,10 @@ Overview/Installation/Configuration for each snippet
 
 https://www.youtube.com/playlist?list=PLkahmWw6Mp_WU1VQcbJLcx-75Is8oU4LK
 
-## View all snippets
-https://www.kondasoft.com/collections/shopify-snippets
 
 ## Premium Shopify Themes
+Ready to completely transform your Shopify store?! 
+
 https://www.kondasoft.com/collections/shopify-themes
 
 ## Support
