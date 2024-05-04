@@ -1,5 +1,11 @@
 # Shopify Snippets
-Shopify Theme Snippets that you may use on the Dawn theme or any other Shopify theme.
+Shopify Theme Snippets that you may use in the Dawn theme or any other Shopify theme. 
+
+Contrary to other snippet codes, the most important feature is that you don't have to edit or modify any theme files in the process, making your life easier when needing to update your theme. 
+
+All you have to do to install our snippets is to copy and paste the code found mostly in one file. Also, we provide detailed information, an installation guide, and a complimentary video (YouTube) for each snippet. 
+
+Need support? Feel free to open a [new issue](https://github.com/kondasoft/ks-shopify-snippets/issues). Additionally reach us anytime at our website, [kondasoft.com](kondasoft.com).
 
 ## Snippet list 
 1. [KS Countdown Sale](https://www.kondasoft.com/collections/shopify-snippets/products/ks-countdown-sale)
