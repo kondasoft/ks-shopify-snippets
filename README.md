@@ -5,9 +5,8 @@ Contrary to other snippet codes, the most important feature is that you don't ha
 
 All you have to do to install our snippets is to copy and paste the code found mostly in one file. Also, we provide detailed information, an installation guide, and a complimentary video (YouTube) for each snippet. 
 
-Need support? Feel free to open a [new issue](https://github.com/kondasoft/ks-shopify-snippets/issues). Additionally reach us anytime at our website, [kondasoft.com](https://www.kondasoft.com).
 
-## Snippet list 
+## Snippet list/Download 
 1. [KS Countdown Sale](https://www.kondasoft.com/collections/shopify-snippets/products/ks-countdown-sale)
 2. [KS Contact Form Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-contact-form-builder)
 3. [KS Recently Viewed](https://www.kondasoft.com/collections/shopify-snippets/products/ks-recently-viewed)
@@ -27,9 +26,6 @@ Need support? Feel free to open a [new issue](https://github.com/kondasoft/ks-sh
 
 ## Demo (Password: ks)
 https://ks-snippets.myshopify.com
-
-## Download
-https://github.com/kondasoft/ks-shopify-snippets/releases
 
 ## YouTube video playlist
 Overview/Installation/Configuration for each snippet
