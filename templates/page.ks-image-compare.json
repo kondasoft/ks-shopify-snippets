@@ -1,0 +1,108 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_image_compare_EncnkR": {
+      "type": "ks-dawn-image-compare",
+      "settings": {
+        "color_scheme": "background-1",
+        "container": true,
+        "container_max_width": "",
+        "header_text_align": "center",
+        "heading": "Image Compare",
+        "heading_size": "h1",
+        "description": "<p>Optional description for this section<\/p>",
+        "before_mobile_image": "shopify:\/\/shop_images\/img-before.jpg",
+        "before_desktop_image": "shopify:\/\/shop_images\/img-before-3.jpg",
+        "after_mobile_image": "shopify:\/\/shop_images\/img-after-3.jpg",
+        "after_desktop_image": "shopify:\/\/shop_images\/img-after-3.jpg",
+        "img_border_radius": 1,
+        "icv_controls_color": "#ffffff",
+        "icv_controls_circle": true,
+        "icv_smoothing": true,
+        "icv_hover_start": false,
+        "icv_vertical_mode": false,
+        "icv_starting_point": 50,
+        "icv_show_labels": true,
+        "icv_label_before": "Before",
+        "icv_label_after": "After",
+        "icv_labels_font_size": 16,
+        "icv_labels_position": "center",
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "ks_dawn_image_compare_zxMcDr": {
+      "type": "ks-dawn-image-compare",
+      "settings": {
+        "color_scheme": "accent-2",
+        "container": true,
+        "container_max_width": "",
+        "header_text_align": "center",
+        "heading": "Image Compare 2",
+        "heading_size": "h1",
+        "description": "<p>different configurations<\/p>",
+        "before_mobile_image": "shopify:\/\/shop_images\/img-before-2.jpg",
+        "before_desktop_image": "shopify:\/\/shop_images\/img-before-2.jpg",
+        "after_mobile_image": "shopify:\/\/shop_images\/img-after-2.jpg",
+        "after_desktop_image": "shopify:\/\/shop_images\/img-after-2.jpg",
+        "img_border_radius": 1,
+        "icv_controls_color": "#1d52dd",
+        "icv_controls_circle": true,
+        "icv_smoothing": true,
+        "icv_hover_start": true,
+        "icv_vertical_mode": false,
+        "icv_starting_point": 50,
+        "icv_show_labels": true,
+        "icv_label_before": "Before",
+        "icv_label_after": "After",
+        "icv_labels_font_size": 24,
+        "icv_labels_position": "bottom",
+        "padding_top": 36,
+        "padding_bottom": 44
+      }
+    },
+    "ks_dawn_image_compare_D6QdXN": {
+      "type": "ks-dawn-image-compare",
+      "settings": {
+        "color_scheme": "",
+        "container": true,
+        "container_max_width": "",
+        "header_text_align": "center",
+        "heading": "Image Compare 3",
+        "heading_size": "h1",
+        "description": "<p>vertical mode<\/p>",
+        "before_mobile_image": "shopify:\/\/shop_images\/img-before.jpg",
+        "before_desktop_image": "shopify:\/\/shop_images\/img-before.jpg",
+        "after_mobile_image": "shopify:\/\/shop_images\/img-after.jpg",
+        "after_desktop_image": "shopify:\/\/shop_images\/img-after.jpg",
+        "img_border_radius": 1,
+        "icv_controls_color": "#ffffff",
+        "icv_controls_circle": true,
+        "icv_smoothing": true,
+        "icv_hover_start": false,
+        "icv_vertical_mode": true,
+        "icv_starting_point": 50,
+        "icv_show_labels": true,
+        "icv_label_before": "Before",
+        "icv_label_after": "After",
+        "icv_labels_font_size": 16,
+        "icv_labels_position": "center",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ks_dawn_image_compare_EncnkR",
+    "ks_dawn_image_compare_zxMcDr",
+    "ks_dawn_image_compare_D6QdXN"
+  ]
+}

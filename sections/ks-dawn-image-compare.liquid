@@ -1,0 +1,485 @@
+{% liquid 
+  # KS Image Compare
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% comment %}theme-check-disable{% endcomment %}
+<link 
+  rel="stylesheet" 
+  href="https://cdn.jsdelivr.net/npm/image-compare-viewer@1.6.2/dist/image-compare-viewer.min.css" 
+  integrity="sha256-K9MHkU/NXzVR4li8Qlo9DMfJ1JBoiuOgKwnJNOQGinw=" 
+  crossorigin="anonymous">
+{% comment %}theme-check-enable{% endcomment %}
+
+{%- style-%}
+  #ks-image-compare-{{ section.id }}  {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #ks-image-compare-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+    
+  .ks-image-compare {
+    display: block;
+  }
+
+  .ks-image-compare .section-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .ks-image-compare .section-header .title {
+    margin: 0 0 .5rem;
+  }
+
+  .ks-image-compare .section-header .description {
+  }
+
+  .ks-image-compare-mobile {
+    display: block;
+  }
+
+  .ks-image-compare-desktop {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ks-image-compare-mobile { display: none; }
+    .ks-image-compare-desktop { display: block; }
+  }
+
+  [data-image-compare] img {
+    opacity: 0;
+  }
+
+  [data-image-compare].icv img {
+    animation: init_ks_image_compare_img .4s ease-out both;
+  }
+
+  @keyframes init_ks_image_compare_img {
+    to { opacity: 1; }
+  }
+
+  .ks-image-compare .icv__control-line,
+  .ks-image-compare .icv__circle {
+    display: block;
+  }
+
+  #ks-image-compare-{{ section.id }} [data-image-compare] img {
+    border-radius: {{ section.settings.img_border_radius | append: 'rem' }} !important;
+  }
+
+  #ks-image-compare-{{ section.id }} .icv__label {
+    padding: .25rem 1.25rem;
+    font-size: {{ section.settings.icv_labels_font_size | append: 'px' }};
+  }
+
+  #ks-image-compare-{{ section.id }} .icv__icv--horizontal .icv__label {
+    {% if section.settings.icv_labels_position == 'top' %}
+      top: 1rem;
+      bottom: auto;
+    {% elsif section.settings.icv_labels_position == 'center' %}
+      top: 50%;
+      transform: translateY(-50%);
+      bottom: auto;
+    {% else %}
+      top: auto;
+      bottom: 1rem;
+    {% endif %}
+  }
+
+  #ks-image-compare-{{ section.id }} .icv__icv--vertical .icv__label {
+    {% if section.settings.icv_labels_position == 'top' %}
+      left: 1rem;
+      right: auto;
+    {% elsif section.settings.icv_labels_position == 'center' %}
+      left: 50%;
+      transform: translateX(-50%);
+      right: auto;
+    {% else %}
+      left: auto;
+      right: 1rem;
+    {% endif %}
+  }
+{%- endstyle -%}
+
+{%- javascript -%} 
+  class KsImageCompare extends HTMLElement {
+    constructor () {
+      super()
+
+      this.injectVendorScript()
+
+      setTimeout(() => {
+        this.querySelectorAll('[data-image-compare]').forEach(elem => {
+          const viewer = new ImageCompare(elem, {
+            controlColor: this.dataset.icvControlsColor,
+            controlShadow: true,
+            addCircle: this.dataset.icvControlsCircle === 'true',
+            addCircleBlur: true,
+            showLabels: this.dataset.icvShowLabels === 'true',
+            labelOptions: {
+              before: this.dataset.icvLabelBefore,
+              after: this.dataset.icvLabelAfter, 
+              onHover: false
+            },
+            smoothing: this.dataset.icvSmoothing === 'true',
+            smoothingAmount: 100,
+            hoverStart: this.dataset.icvHoverStart === 'true',
+            verticalMode: this.dataset.icvVerticalMode === 'true',
+            startingPoint: Number(this.dataset.icvStartingPoint),
+            fluidMode: false
+          }).mount()
+        })
+      }, 500)
+    } 
+
+    async injectVendorScript () {
+      if (!window.ImageCompare) {
+        const script = document.createElement('script')
+        script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/image-compare-viewer@1.6.2/dist/image-compare-viewer.min.js')
+        script.setAttribute('integrity', 'sha256-BhivJsbkfgM4wC/L5NM8eG0LKK/2NDLoZTAUZZ2lcug=')
+        script.setAttribute('crossorigin', 'anonymous')
+        document.head.appendChild(script) 
+      }
+    }
+  }
+  customElements.define('ks-image-compare', KsImageCompare)
+{%- endjavascript -%}
+
+<ks-image-compare 
+  id="ks-image-compare-{{ section.id }}"
+  class="ks-image-compare color-{{ section.settings.color_scheme }} gradient {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-icv-controls-color="{{ section.settings.icv_controls_color }}"
+  data-icv-controls-circle="{{ section.settings.icv_controls_circle }}"
+  data-icv-smoothing="{{ section.settings.icv_smoothing }}"
+  data-icv-hover-start="{{ section.settings.icv_hover_start }}"
+  data-icv-vertical-mode="{{ section.settings.icv_vertical_mode }}"
+  data-icv-starting-point="{{ section.settings.icv_starting_point }}"
+  data-icv-show-labels="{{ section.settings.icv_show_labels }}"
+  data-icv-label-before="{{ section.settings.icv_label_before }}"
+  data-icv-label-after="{{ section.settings.icv_label_after }}"
+  data-icv-labels-on-hover="{{ section.settings.icv_labels_on_hover }}"
+  role="section">
+  <div 
+    class="section-header page-width" 
+    style="text-align: {{ section.settings.header_text_align }};">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.description != blank %}
+      <div class="description rte">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div 
+    class="{% if section.settings.container %}page-width{% endif %}"
+    style="max-width: {{ section.settings.container_max_width | append: 'px' }}">
+
+    <div class="ks-image-compare-mobile" data-image-compare>
+      <img
+        src="
+          {% if section.settings.before_mobile_image == nil %}
+            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
+          {% else %}
+            {{ section.settings.before_mobile_image.src | image_url: width: 800 }}
+          {% endif %}
+        "
+        alt="{{ section.settings.before_mobile_image.alt | escape }}"
+        class=""
+        width="800"
+        height="{{ 800 | divided_by: section.settings.mobile_image.aspect_ratio | round }}"
+        loading="lazy">
+      <img
+        src="
+          {% if section.settings.after_mobile_image == nil %}
+            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWN8KOvBQC5gIlcjSN+oZhJDb4gGGAAhPAFaGAdiqAAAAABJRU5ErkJggg==
+          {% else %}
+          {% else %}
+            {{ section.settings.after_mobile_image.src | image_url: width: 800 }}
+          {% endif %}
+        "
+        alt="{{ section.settings.after_mobile_image.alt | escape }}"
+        class=""
+        width="800"
+        height="{{ 800 | divided_by: section.settings.after_mobile_image.aspect_ratio | round }}"
+        loading="lazy">
+    </div>
+
+    <div class="ks-image-compare-desktop" data-image-compare>
+      <img
+        src="
+          {% if section.settings.before_desktop_image == nil %}
+            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
+          {% else %}
+            {{ section.settings.before_desktop_image.src | image_url: width: 1600 }}
+          {% endif %}
+        "
+        alt="{{ section.settings.before_desktop_image.alt | escape }}"
+        class=""
+        width="1600"
+        height="{{ 1600 | divided_by: section.settings.before_desktop_image.aspect_ratio | round }}"
+        loading="lazy">
+      <img
+        src="
+          {% if section.settings.after_desktop_image == nil %}
+            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWN8KOvBQC5gIlcjSN+oZhJDb4gGGAAhPAFaGAdiqAAAAABJRU5ErkJggg==
+          {% else %}
+            {{ section.settings.after_desktop_image.src | image_url: width: 1600 }}
+          {% endif %}
+        "
+        alt="{{ section.settings.after_desktop_image.alt | escape }}"
+        class=""
+        width="1600"
+        height="{{ 1600 | divided_by: section.settings.after_desktop_image.aspect_ratio | round }}"
+        loading="lazy">
+    </div>
+
+  </div>
+</ks-image-compare>
+
+{% schema %}
+{
+  "name": "KS - Image compare",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "container",
+      "label": "Wrap in a container",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "container_max_width",
+      "label": "Container max-width (px)",
+      "info": "Leave empty to use the default container width"
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "select",
+      "id": "header_text_align",
+      "label": "Text align",
+      "default": "center",
+      "options": [
+        { "value": "", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Image Compare"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Optional description for this section</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Before Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "header",
+      "content": "After Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "range",
+      "id": "img_border_radius",
+      "label": "Image border-radius",
+      "min": 0,
+      "max": 5,
+      "step": 0.2,
+      "default": 1,
+      "unit": "rem"
+    },
+    {
+      "type": "color",
+      "id": "icv_controls_color",
+      "label": "Controls color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "icv_controls_circle",
+      "label": "Controls as circles",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "icv_smoothing",
+      "label": "Smooth transition",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "icv_hover_start",
+      "label": "Hover start",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "icv_vertical_mode",
+      "label": "Vertical mode",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "icv_starting_point",
+      "label": "Starting point",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Labels (Before/After)"
+    },
+    {
+      "type": "checkbox",
+      "id": "icv_show_labels",
+      "label": "Show labels",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "icv_label_before",
+      "label": "Text - Before",
+      "default": "Before"
+    },
+    {
+      "type": "text",
+      "id": "icv_label_after",
+      "label": "Text - After",
+      "default": "After"
+    },
+    {
+      "type": "range",
+      "id": "icv_labels_font_size",
+      "label": "Font size",
+      "default": 16,
+      "min": 12,
+      "max": 48,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "icv_labels_position",
+      "label": "Labels position",
+      "default": "bottom",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "Ready to fully transform your Shopify store?! Browse our [Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 [KondaSoft.com](https://www.kondasoft.com)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Image compare"
+    }
+  ]
+}
+{% endschema %}
