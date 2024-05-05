@@ -1,1 +1,90 @@
-{"sections":{"banner":{"type":"main-collection-banner","settings":{"show_collection_description":true,"show_collection_image":false,"color_scheme":"background-2"}},"product-grid":{"type":"main-collection-product-grid","settings":{"products_per_page":16,"columns_desktop":4,"color_scheme":"background-1","image_ratio":"adapt","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"enable_quick_add":true,"enable_filtering":true,"filter_type":"horizontal","enable_sorting":true,"columns_mobile":"2","padding_top":36,"padding_bottom":36}},"ks_dawn_bundle_builder_GCbfLt":{"type":"ks-dawn-bundle-builder","settings":{}}},"order":["banner","product-grid","ks_dawn_bundle_builder_GCbfLt"]}
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "background-2"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "color_scheme": "background-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": true,
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_bundle_builder_GCbfLt": {
+      "type": "ks-dawn-bundle-builder",
+      "blocks": {
+        "tier_394fhY": {
+          "type": "tier",
+          "settings": {
+            "goal": "100",
+            "discount": 10
+          }
+        },
+        "tier_JmnqTP": {
+          "type": "tier",
+          "settings": {
+            "goal": "200",
+            "discount": 20
+          }
+        },
+        "tier_GXKwLd": {
+          "type": "tier",
+          "settings": {
+            "goal": "300",
+            "discount": 30
+          }
+        }
+      },
+      "block_order": [
+        "tier_394fhY",
+        "tier_JmnqTP",
+        "tier_GXKwLd"
+      ],
+      "settings": {
+        "card_color_scheme": "background-1",
+        "card_border_width": 1,
+        "card_title": "My Bundle",
+        "card_title_size": "h2",
+        "progress_color_not_completed": "#ffc107",
+        "progress_color_completed": "#198754",
+        "redirect_to_checkout": false,
+        "dialog_heading": "Bundle Contents",
+        "heading_size": "h2",
+        "dialog_max_width": "500",
+        "dialog_backdrop_bg_color": "#121212",
+        "text_add_to_bundle": "Add to bundle",
+        "text_added_to_bundle": "✓ Added!",
+        "text_progress_uncompleted": "Add [value] to save [discount]",
+        "text_progress_completed": "Congrats! You're eligible for [discount] off!",
+        "text_bundle_price": "Bundle price",
+        "text_you_save": "You save",
+        "text_view_bundle_contents": "View bundle contents",
+        "text_add_bundle_to_cart": "Add to cart",
+        "text_checkout": "Check out"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "product-grid",
+    "ks_dawn_bundle_builder_GCbfLt"
+  ]
+}

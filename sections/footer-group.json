@@ -1,1 +1,96 @@
-{"name":"t:sections.footer.name","type":"footer","sections":{"footer":{"type":"footer","settings":{"color_scheme":"background-1","newsletter_enable":true,"newsletter_heading":"Subscribe to our emails","enable_follow_on_shop":true,"show_social":true,"enable_country_selector":true,"enable_language_selector":true,"payment_enable":true,"show_policy":false,"margin_top":0,"padding_top":36,"padding_bottom":36}},"aefd030f-7d61-49f9-b87a-c5782b56f65c":{"type":"ks-recently-viewed-init","settings":{"limit":40,"page":"ks-recently-viewed","label":"Recently Viewed"}},"ks_dawn_cart_drawer_upsell_h6BCwW":{"type":"ks-dawn-cart-drawer-upsell","settings":{"collection":"automated-collection","limit":6,"title":"You might like...","btn_style":"button--secondary"}},"ks_dawn_cart_goal_wMfVkE":{"type":"ks-dawn-cart-goal","settings":{"goal_value":"100","icon":"bi-truck","not_completed_text":"<p>You're <strong>[amount]<\/strong> away from <strong>FREE SHIPPING!<\/strong><\/p>","not_completed_color":"#ffc107","completed_text":"<p>Congrats! You're eligible for <strong>FREE SHIPPING!<\/strong><\/p>","completed_color":"#198754"}},"ks_recently_viewed_init_4b8NBq":{"type":"ks-recently-viewed-init","settings":{"limit":40,"page":"ks-recently-viewed","label":"Recently Viewed"}}},"order":["footer","aefd030f-7d61-49f9-b87a-c5782b56f65c","ks_dawn_cart_drawer_upsell_h6BCwW","ks_dawn_cart_goal_wMfVkE","ks_recently_viewed_init_4b8NBq"]}
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "color_scheme": "background-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": false,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "aefd030f-7d61-49f9-b87a-c5782b56f65c": {
+      "type": "ks-recently-viewed-init",
+      "settings": {
+        "limit": 40,
+        "page": "ks-recently-viewed",
+        "label": "Recently Viewed"
+      }
+    },
+    "ks_dawn_cart_drawer_upsell_h6BCwW": {
+      "type": "ks-dawn-cart-drawer-upsell",
+      "settings": {
+        "collection": "automated-collection",
+        "limit": 6,
+        "title": "You might like...",
+        "title_text_align": "left",
+        "list_style_cart_drawer": "stack",
+        "list_style_cart_page": "scroll",
+        "btn_style": "button--secondary",
+        "show_empty_cart": true
+      }
+    },
+    "ks_dawn_cart_goal_wMfVkE": {
+      "type": "ks-dawn-cart-goal",
+      "settings": {
+        "goal_value": "100",
+        "icon": "bi-truck",
+        "not_completed_text": "<p>You're <strong>[amount]<\/strong> away from <strong>FREE SHIPPING!<\/strong><\/p>",
+        "not_completed_color": "#ffc107",
+        "completed_text": "<p>Congrats! You're eligible for <strong>FREE SHIPPING!<\/strong><\/p>",
+        "completed_color": "#198754"
+      }
+    },
+    "ks_recently_viewed_init_4b8NBq": {
+      "type": "ks-recently-viewed-init",
+      "settings": {
+        "limit": 40,
+        "page": "ks-recently-viewed",
+        "label": "Recently Viewed"
+      }
+    },
+    "ks_wishlist_init_86BaGk": {
+      "type": "ks-wishlist-init",
+      "settings": {
+        "page": "wishlist",
+        "show_product_cards": true,
+        "show_product_page": true,
+        "label": "Wishlist",
+        "text_add_to_wishlist": "Add to wishlist",
+        "text_remove_from_wishlist": "Remove from wishlist"
+      }
+    },
+    "ks_dawn_shipping_calculator_zEw3xK": {
+      "type": "ks-dawn-shipping-calculator",
+      "settings": {
+        "title": "Shipping calculator",
+        "show_title_icon": true,
+        "btn_style": "button--secondary",
+        "text_country": "Country",
+        "text_province": "Province",
+        "text_zip": "Zip",
+        "btn_label": "Calculate",
+        "text_no_results": "No shipping rates found!"
+      }
+    }
+  },
+  "order": [
+    "footer",
+    "aefd030f-7d61-49f9-b87a-c5782b56f65c",
+    "ks_dawn_cart_drawer_upsell_h6BCwW",
+    "ks_dawn_cart_goal_wMfVkE",
+    "ks_recently_viewed_init_4b8NBq",
+    "ks_wishlist_init_86BaGk",
+    "ks_dawn_shipping_calculator_zEw3xK"
+  ]
+}
