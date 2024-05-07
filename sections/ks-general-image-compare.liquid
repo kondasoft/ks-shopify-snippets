@@ -206,7 +206,6 @@
           {% if section.settings.after_mobile_image == nil %}
             data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWN8KOvBQC5gIlcjSN+oZhJDb4gGGAAhPAFaGAdiqAAAAABJRU5ErkJggg==
           {% else %}
-          {% else %}
             {{ section.settings.after_mobile_image.src | image_url: width: 800 }}
           {% endif %}
         "
