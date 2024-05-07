@@ -1,0 +1,598 @@
+{% liquid 
+  # KS Parallax Image
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% stylesheet %}    
+  .ks-parallax-image {
+    display: block;
+  }
+
+  .ks-parallax-image-wrapper {
+    position: relative; 
+    overflow: hidden;
+  }
+
+  .ks-parallax-image-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .ks-parallax-image-outter {
+    position: relative;
+  }
+
+  .ks-parallax-image-outter::before,
+  .ks-parallax-image-outter::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    z-index: 2;
+  }
+
+  .ks-parallax-image-outter::before { top: 0 }
+  .ks-parallax-image-outter::after { bottom: 0 }
+
+  .ks-parallax-image-wrapper .simpleParallax {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ks-parallax-image-wrapper img,
+  .ks-parallax-image-wrapper video {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+  }
+
+  .ks-parallax-image-wrapper .simple-parallax-initialized img,
+  .ks-parallax-image-wrapper .simple-parallax-initialized video {
+    position: static;
+    transform: none;
+  }
+
+  .ks-parallax-image-mobile {
+    display: block;
+  }
+
+  .ks-parallax-image-desktop {
+    display: none;
+  }
+
+  @media (min-width: 750px) {
+    .ks-parallax-image-mobile { display: none; }
+    .ks-parallax-image-desktop { display: block; }
+  }
+
+  .ks-parallax-image-content {
+    z-index: 1;
+    position: relative;
+    color: rgba(var(--color-foreground), 1);
+  }
+
+  .ks-parallax-image-content .subtitle {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 .25rem;
+    font-size: .95em;
+    color: rgba(var(--color-foreground), 1);
+  }
+
+  .ks-parallax-image-content .title {
+    margin: 0;
+  }
+
+  .ks-parallax-image-content .description {
+    margin-top: 1.25rem;
+  }
+
+  .ks-parallax-image-btn-wrapper {
+    margin-top: 2.75rem;
+    margin-bottom: .5rem;
+  }
+
+  .ks-parallax-image-btn-wrapper a + a {
+    margin-left: .75rem;
+  }
+
+  .ks-parallax-image-btn-wrapper .button--secondary {
+    --alpha-button-background: 0;
+  }
+
+{%- endstylesheet -%}
+
+{% liquid 
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+%}
+
+{%- style -%}
+  #ks-parallax-image-{{ section.id }} .ks-parallax-image-wrapper {
+    padding-top: {{ section.settings.pt_mobile | append: 'px' }};
+    padding-bottom: {{ section.settings.pb_mobile | append: 'px' }};
+    margin-top: {{ section.settings.mt | append: 'px' }};
+    margin-bottom: {{ section.settings.mb | append: 'px' }};
+  }
+
+  #ks-parallax-image-{{ section.id }} .ks-parallax-image-wrapper::before {
+    background-color: {{ section.settings.overlay_color | color_modify: 'alpha', overlay_opacity }};
+    backdrop-filter: blur({{ section.settings.overlay_blur | append: 'px' }});
+  }
+
+  #ks-parallax-image-{{ section.id }} .ks-parallax-image-content { 
+    text-align: {{ section.settings.text_align }};
+    max-width: {{ section.settings.max_width | append: 'px' }};
+  }
+
+  {% if section.settings.overlay_top_bottom_border %}
+    #ks-parallax-image-{{ section.id }} .ks-parallax-image-outter::before,
+    #ks-parallax-image-{{ section.id }} .ks-parallax-image-outter::after {
+      background: rgba(var(--color-foreground), .1);
+    }
+  {% endif %}
+
+  {% if section.settings.text_shadow %}
+    #ks-parallax-image-{{ section.id }} .ks-parallax-image-content .subtitle,
+    #ks-parallax-image-{{ section.id }} .ks-parallax-image-content .title,
+    #ks-parallax-image-{{ section.id }} .ks-parallax-image-content .description {
+      text-shadow: 1px 1px 1px rgba(var(--color-background), .5);
+    }
+  {% endif %}
+
+  @media (min-width: 750px) {
+    #ks-parallax-image-{{ section.id }} .ks-parallax-image-wrapper {
+      padding-top: {{ section.settings.pt_desktop | append: 'px' }};
+      padding-bottom: {{ section.settings.pb_desktop | append: 'px' }};
+    }
+  }
+{%- endstyle -%}
+
+
+{%- javascript -%} 
+  class KsParallaxImage extends HTMLElement {
+    constructor () {
+      super()
+
+      this.injectVendorScript()
+
+      setTimeout(() => {
+        const instance = new simpleParallax(this.querySelectorAll('.parallax-img-init'),  {
+          orientation: this.dataset.parallaxOrientation,
+          scale: Number(this.dataset.parallaxScale)
+        }) 
+      }, 250)
+    } 
+
+    async injectVendorScript () {
+      if (!window.Backpax) {
+        const script = document.createElement('script')
+        script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/simple-parallax-js@5.6.2/dist/simpleParallax.min.js')
+        script.setAttribute('integrity', 'sha256-GBIPMHSjsTxzIyJuhuk7wWz8z2oKeev8qW/c3IgOeVQ=')
+        script.setAttribute('crossorigin', 'anonymous')
+        document.head.appendChild(script) 
+      }
+    }
+  }
+  customElements.define('ks-parallax-image', KsParallaxImage)
+{%- endjavascript -%}
+
+<ks-parallax-image 
+  id="ks-parallax-image-{{ section.id }}"
+  class="ks-parallax-image color-{{ section.settings.color_scheme }} gradient {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-parallax-orientation="{{ section.settings.parallax_orientation }}"
+  data-parallax-scale="{{ section.settings.parallax_scale }}"
+  role="section">
+  <div class="ks-parallax-image-outter">
+    <div class="ks-parallax-image-wrapper">
+
+      <div class="ks-parallax-image-content page-width">
+        {%- if section.settings.subtitle != blank %}
+          <p class="subtitle">
+            {{ section.settings.subtitle }}
+          </p>
+        {% endif %}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank %}
+          <div class="description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+        {%- if section.settings.btn_primary_text != blank or section.settings.btn_secondary_text != blank -%}
+          <div class="ks-parallax-image-btn-wrapper">
+            {%- if section.settings.btn_primary_text != blank -%}
+              <a
+                href="{{ section.settings.btn_primary_url }}"
+                class="button {{ section.settings.btn_primary_style }}">
+                {{ section.settings.btn_primary_text | escape }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.btn_secondary_text != blank -%}
+              <a
+                href="{{ section.settings.btn_secondary_url }}"
+                class="button {{ section.settings.btn_secondary_style }}">
+                {{ section.settings.btn_secondary_text | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ks-parallax-image-mobile">
+        {% if section.settings.mobile_video != blank %}
+          {{ section.settings.mobile_video | video_tag: autoplay: true, loop: true, muted: true, image_size: '800x', class: 'parallax-img-init', loading: 'lazy' }}
+        {% else %}
+          <img
+            src="
+              {% if section.settings.mobile_image == nil %}
+                data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
+              {% else %}
+                {{ section.settings.mobile_image.src | image_url: width: 800 }}
+              {% endif %}
+            "
+            alt="{{ section.settings.mobile_image.alt | escape }}"
+            class="parallax-img-init"
+            width="800"
+            height="{{ 800 | divided_by: section.settings.mobile_image.aspect_ratio | round }}"
+            loading="lazy">
+        {% endif %}
+      </div>
+
+      <div class="ks-parallax-image-desktop">
+        {% if section.settings.desktop_video != blank %}
+          {{ section.settings.desktop_video | video_tag: autoplay: true, loop: true, muted: true, image_size: '1800x', class: 'parallax-img-init', loading: 'lazy' }}
+        {% else %}
+          <img
+            src="
+              {% if section.settings.desktop_image == nil %}
+                data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
+              {% else %}
+                {{ section.settings.desktop_image.src | image_url: width: 1800 }}
+              {% endif %}
+            "
+            alt="{{ section.settings.desktop_image.alt | escape }}"
+            class="parallax-img-init"
+            width="1800"
+            height="{{ 1800 | divided_by: section.settings.desktop_image.aspect_ratio | round }}"
+            loading="lazy">
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</ks-parallax-image>
+
+{% schema %}
+{
+  "name": "KS - Parallax Image",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "header",
+      "content": "Video",
+      "info": "NOTE: Either images or videos can be used"
+    },
+    {
+      "type": "video",
+      "id": "mobile_video",
+      "label": "Mobile video"
+    },
+    {
+      "type": "video",
+      "id": "desktop_video",
+      "label": "Desktop video"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 30,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "overlay_blur",
+      "label": "Blur",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay_top_bottom_border",
+      "label": "Top/Bottom border",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Parallax"
+    },
+    {
+      "type": "select",
+      "id": "parallax_orientation",
+      "label": "Orientation",
+      "default": "up",
+      "options": [
+        { "value": "up", "label": "Up" },
+        { "value": "right", "label": "Right" },
+        { "value": "down", "label": "Down" },
+        { "value": "left", "label": "Left" },
+        { "value": "up left", "label": "Up left" },
+        { "value": "up right", "label": "Up right" },
+        { "value": "down left", "label": "Down left" },
+        { "value": "down right", "label": "Down right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "parallax_scale",
+      "label": "Scale",
+      "default": 1.2,
+      "min": 1,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max-width (px)",
+      "info": "Leave empty to use the default container width"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "text_shadow",
+      "label": "Text shadow",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Developed by KondaSoft",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Parallax Image",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_text",
+      "label": "Button text",
+      "default": "Primary button",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "btn_primary_style",
+      "label": "Button style",
+      "default": "button--primary",
+      "options": [
+        { "value": "button--primary", "label": "Primary" },
+        { "value": "button--secondary", "label": "Secondary" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_text",
+      "label": "Button text",
+      "default": "Secondary button",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "btn_secondary_style",
+      "label": "Button style",
+      "default": "button--secondary",
+      "options": [
+        { "value": "button--primary", "label": "Primary" },
+        { "value": "button--secondary", "label": "Secondary" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Padding - mobile"
+    },
+    {
+      "type": "range",
+      "id": "pt_mobile",
+      "min": 0,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "pb_mobile",
+      "min": 0,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Padding - desktop"
+    },
+    {
+      "type": "range",
+      "id": "pt_desktop",
+      "min": 0,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Top",
+      "default": 150
+    },
+    {
+      "type": "range",
+      "id": "pb_desktop",
+      "min": 0,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 150
+    },
+    {
+      "type": "header",
+      "content": "Margin"
+    },
+    {
+      "type": "range",
+      "id": "mt",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mb",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Top",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "Ready to fully transform your Shopify store?! Browse our [Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 [KondaSoft.com](https://www.kondasoft.com)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Parallax Image"
+    }
+  ]
+}
+{% endschema %}
