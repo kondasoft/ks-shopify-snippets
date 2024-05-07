@@ -197,7 +197,7 @@
         alt="{{ section.settings.before_mobile_image.alt | escape }}"
         class=""
         width="800"
-        height="{{ 800 | divided_by: section.settings.mobile_image.aspect_ratio | round }}"
+        height="{{ 800 | divided_by: section.settings.before_mobile_image.aspect_ratio | round }}"
         loading="lazy">
       <img
         src="
