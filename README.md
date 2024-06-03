@@ -24,7 +24,9 @@ All you have to do to install our snippets is to copy and paste the code found m
 15. [KS Bundle Builder](https://www.kondasoft.com/collections/shopify-snippets/products/ks-bundle-builder)
 16. [KS Shipping Calculator](https://www.kondasoft.com/collections/shopify-snippets/products/ks-shipping-calculator)
 17. [KS Image Compare](https://www.kondasoft.com/collections/shopify-snippets/products/ks-image-compare)
-17. [KS Parallax Image](https://www.kondasoft.com/collections/shopify-snippets/products/ks-parallax-image)
+18. [KS Parallax Image](https://www.kondasoft.com/collections/shopify-snippets/products/ks-parallax-image)
+19. [KS Shoppable Videos](https://www.kondasoft.com/collections/shopify-snippets/products/ks-shoppable-videos)
+20. [KS Store Locator](https://www.kondasoft.com/collections/shopify-snippets/products/ks-store-locator)
 
 ## Demo (Password: ks)
 https://ks-snippets.myshopify.com
