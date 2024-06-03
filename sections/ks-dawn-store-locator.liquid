@@ -1,0 +1,198 @@
+{% liquid 
+  # KS Store Locator
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{%- style -%}
+  #ks-store-locator-{{ section.id }} {
+    display: block;
+    overflow: hidden;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #ks-store-locator-{{ section.id }} .swiper {
+    --swiper-theme-color: rgba(var(--color-foreground), 0.75);
+    --swiper-navigation-size: 16px;
+    --swiper-navigation-sides-offset: -4px;
+    --swiper-pagination-bullet-inactive-color: var(--swiper-theme-color);
+    --swiper-pagination-bottom: -24px;
+    --swiper-scrollbar-bottom: -40px;
+    --swiper-scrollbar-bg-color: rgba(var(--color-foreground), 0.1);
+    --swiper-scrollbar-drag-bg-color: var(--swiper-theme-color);
+    margin-left: -{{ section.settings.gap | times: 0.75 | round: 0 }}px;
+    margin-right: -{{ section.settings.gap | times: 0.75 | round: 0 }}px;
+  }
+
+  .ks-store-locator .section-header .title {
+    margin: 0 0 .5rem;
+  }
+
+  .ks-store-locator .section-header .description {
+    margin-bottom: 1.75rem;
+  }
+
+  @media (min-width: 750px) {
+    #ks-store-locator-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    #ks-store-locator-{{ section.id }} .swiper {
+      --swiper-pagination-bottom: -30px;
+      --swiper-scrollbar-bottom: -46px;
+      margin-left: -{{ section.settings.gap }}px;
+      margin-right: -{{ section.settings.gap }}px;
+    }
+    .ks-store-locator .section-header .title {
+      margin: 0 0 1rem;
+    }
+    .ks-store-locator .section-header .description {
+      margin-bottom: 2.25rem;
+    }
+  }
+
+  .ks-store-locator div:empty {
+    display: block;
+  }
+
+  .ks-store-locator .section-header {
+    text-align: center;
+  }
+{%- endstyle -%}
+
+{%- javascript -%}
+class KsStoreLocator extends HTMLElement {
+  constructor () {
+    super()
+
+    // AIzaSyCvuewMdjVG3BIp5dTekTLE6jd0Waa7X9E
+  }
+}
+customElements.define('ks-store-locator', KsStoreLocator)
+
+{%- endjavascript -%}
+ 
+<ks-store-locator 
+  id="ks-store-locator-{{ section.id }}"
+  class="ks-store-locator color-{{ section.settings.color_scheme }} gradient {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+  
+  <div class="section-header page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.description != blank %}
+      <div class="description rte">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ks-store-locator-container {% if section.settings.container %}page-width{% endif %}">
+  </div>
+
+</ks-store-locator>
+
+{% schema %}
+{
+  "name": "KS - Store locator",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "container",
+      "label": "Wrap in a container",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Store Locator"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Optional description for this section</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "Ready to take your store to the next level? Check out our [Premium Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 KondaSoft.com"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Store locator"
+    }
+  ]
+}
+{% endschema %}

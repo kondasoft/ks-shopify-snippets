@@ -1,0 +1,480 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_shoppable_videos_6UMNfC": {
+      "type": "ks-dawn-shoppable-videos",
+      "blocks": {
+        "item_BJe3qW": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/reelUp_m1m64ijpy1668142723803_medium.mp4",
+            "video_autoplay": true,
+            "badge": "NEW",
+            "badge_bg_color": "#334fb4",
+            "views": "3.8k",
+            "views_bg_color": "#000000",
+            "product": "the-collection-snowboard-hydrogen",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_cKLhWT": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-1.mp4",
+            "video_autoplay": true,
+            "badge": "TRENDING",
+            "badge_bg_color": "#8833b4",
+            "views": "2.3k",
+            "views_bg_color": "#000000",
+            "product": "the-3p-fulfilled-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_JRFcRR": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-2.mp4",
+            "video_autoplay": true,
+            "badge": "HOT",
+            "badge_bg_color": "#b43333",
+            "views": "7.2k",
+            "views_bg_color": "#000000",
+            "product": "ks-color-swatches",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_QKDHY3": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-4.mp4",
+            "video_autoplay": true,
+            "badge": "BEST-SELLER",
+            "badge_bg_color": "#b45b33",
+            "views": "24.7k",
+            "views_bg_color": "#000000",
+            "product": "selling-plans-ski-wax",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_wLFWcb": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-1.mp4",
+            "video_autoplay": true,
+            "badge": "NEW",
+            "badge_bg_color": "#334fb4",
+            "views": "3.8k",
+            "views_bg_color": "#000000",
+            "product": "the-collection-snowboard-oxygen",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_QAMWJ3": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-2.mp4",
+            "video_autoplay": true,
+            "badge": "TRENDING",
+            "badge_bg_color": "#8833b4",
+            "views": "2.3k",
+            "views_bg_color": "#000000",
+            "product": "the-compare-at-price-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_MH4aax": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-4.mp4",
+            "video_autoplay": true,
+            "badge": "HOT",
+            "badge_bg_color": "#b43333",
+            "views": "7.2k",
+            "views_bg_color": "#000000",
+            "product": "the-multi-location-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_3PdPLF": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-5.mp4",
+            "video_autoplay": true,
+            "badge": "BEST-SELLER",
+            "badge_bg_color": "#b45b33",
+            "views": "24.7k",
+            "views_bg_color": "#000000",
+            "product": "the-videographer-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "item_BJe3qW",
+        "item_cKLhWT",
+        "item_JRFcRR",
+        "item_QKDHY3",
+        "item_wLFWcb",
+        "item_QAMWJ3",
+        "item_MH4aax",
+        "item_3PdPLF"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "container": true,
+        "heading": "Shoppable Videos",
+        "heading_size": "h1",
+        "description": "<p>Optional description for this section<\/p>",
+        "slider_speed": 300,
+        "slider_nav": true,
+        "slider_pagination": true,
+        "slider_pagination_type": "bullets",
+        "slider_scrollbar": true,
+        "slider_partial_slides_mobile": true,
+        "slider_autoplay": 0,
+        "gap": 10,
+        "card_border_width": 1,
+        "card_border_radius": 16,
+        "card_box_shadow": false,
+        "card_equal_height": true,
+        "breakpoint_xs": 1,
+        "breakpoint_sm": 2,
+        "breakpoint_md": 2,
+        "breakpoint_lg": 2,
+        "breakpoint_xl": 3,
+        "breakpoint_xxl": 4,
+        "padding_top": 36,
+        "padding_bottom": 80
+      }
+    },
+    "ks_dawn_shoppable_videos_rBWNQb": {
+      "type": "ks-dawn-shoppable-videos",
+      "blocks": {
+        "item_BJe3qW": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/reelUp_m1m64ijpy1668142723803_medium.mp4",
+            "video_autoplay": false,
+            "badge": "NEW",
+            "badge_bg_color": "#334fb4",
+            "views": "3.8k",
+            "views_bg_color": "#000000",
+            "product": "the-collection-snowboard-hydrogen",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_cKLhWT": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-1.mp4",
+            "video_autoplay": false,
+            "badge": "TRENDING",
+            "badge_bg_color": "#8833b4",
+            "views": "2.3k",
+            "views_bg_color": "#000000",
+            "product": "the-3p-fulfilled-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_JRFcRR": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-2.mp4",
+            "video_autoplay": false,
+            "badge": "HOT",
+            "badge_bg_color": "#b43333",
+            "views": "7.2k",
+            "views_bg_color": "#000000",
+            "product": "ks-color-swatches",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_QKDHY3": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-4.mp4",
+            "video_autoplay": false,
+            "badge": "BEST-SELLER",
+            "badge_bg_color": "#b45b33",
+            "views": "24.7k",
+            "views_bg_color": "#000000",
+            "product": "selling-plans-ski-wax",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_wLFWcb": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-1.mp4",
+            "video_autoplay": false,
+            "badge": "NEW",
+            "badge_bg_color": "#334fb4",
+            "views": "3.8k",
+            "views_bg_color": "#000000",
+            "product": "the-collection-snowboard-oxygen",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_QAMWJ3": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-2.mp4",
+            "video_autoplay": false,
+            "badge": "TRENDING",
+            "badge_bg_color": "#8833b4",
+            "views": "2.3k",
+            "views_bg_color": "#000000",
+            "product": "the-compare-at-price-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_MH4aax": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-4.mp4",
+            "video_autoplay": false,
+            "badge": "HOT",
+            "badge_bg_color": "#b43333",
+            "views": "7.2k",
+            "views_bg_color": "#000000",
+            "product": "the-multi-location-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        },
+        "item_3PdPLF": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-5.mp4",
+            "video_autoplay": false,
+            "badge": "BEST-SELLER",
+            "badge_bg_color": "#b45b33",
+            "views": "24.7k",
+            "views_bg_color": "#000000",
+            "product": "the-videographer-snowboard",
+            "product_bg_color": "#ffffff",
+            "product_text_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "item_BJe3qW",
+        "item_cKLhWT",
+        "item_JRFcRR",
+        "item_QKDHY3",
+        "item_wLFWcb",
+        "item_QAMWJ3",
+        "item_MH4aax",
+        "item_3PdPLF"
+      ],
+      "settings": {
+        "color_scheme": "accent-2",
+        "container": false,
+        "heading": "Shoppable Videos",
+        "heading_size": "h1",
+        "description": "<p>Optional description for this section<\/p>",
+        "slider_speed": 300,
+        "slider_nav": true,
+        "slider_pagination": true,
+        "slider_pagination_type": "bullets",
+        "slider_scrollbar": true,
+        "slider_partial_slides_mobile": true,
+        "slider_autoplay": 0,
+        "gap": 10,
+        "card_border_width": 0,
+        "card_border_radius": 16,
+        "card_box_shadow": true,
+        "card_equal_height": true,
+        "breakpoint_xs": 1,
+        "breakpoint_sm": 2,
+        "breakpoint_md": 2,
+        "breakpoint_lg": 2,
+        "breakpoint_xl": 3,
+        "breakpoint_xxl": 5,
+        "padding_top": 36,
+        "padding_bottom": 80
+      }
+    },
+    "ks_dawn_shoppable_videos_YR4j9K": {
+      "type": "ks-dawn-shoppable-videos",
+      "blocks": {
+        "item_BJe3qW": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/reelUp_m1m64ijpy1668142723803_medium.mp4",
+            "video_autoplay": false,
+            "badge": "NEW",
+            "badge_bg_color": "#334fb4",
+            "views": "3.8k",
+            "views_bg_color": "#000000",
+            "product": "the-collection-snowboard-hydrogen",
+            "product_bg_color": "#8833b4",
+            "product_text_color": "#ffffff"
+          }
+        },
+        "item_cKLhWT": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-1.mp4",
+            "video_autoplay": false,
+            "badge": "TRENDING",
+            "badge_bg_color": "#8833b4",
+            "views": "2.3k",
+            "views_bg_color": "#000000",
+            "product": "the-3p-fulfilled-snowboard",
+            "product_bg_color": "#8e5033",
+            "product_text_color": "#ffffff"
+          }
+        },
+        "item_JRFcRR": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-2.mp4",
+            "video_autoplay": false,
+            "badge": "HOT",
+            "badge_bg_color": "#b43333",
+            "views": "7.2k",
+            "views_bg_color": "#000000",
+            "product": "ks-color-swatches",
+            "product_bg_color": "#b43356",
+            "product_text_color": "#ffffff"
+          }
+        },
+        "item_QKDHY3": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-4.mp4",
+            "video_autoplay": false,
+            "badge": "BEST-SELLER",
+            "badge_bg_color": "#b45b33",
+            "views": "24.7k",
+            "views_bg_color": "#000000",
+            "product": "selling-plans-ski-wax",
+            "product_bg_color": "#138abf",
+            "product_text_color": "#ffffff"
+          }
+        },
+        "item_wLFWcb": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-1.mp4",
+            "video_autoplay": false,
+            "badge": "NEW",
+            "badge_bg_color": "#334fb4",
+            "views": "3.8k",
+            "views_bg_color": "#000000",
+            "product": "the-collection-snowboard-oxygen",
+            "product_bg_color": "#8833b4",
+            "product_text_color": "#ffffff"
+          }
+        },
+        "item_QAMWJ3": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-2.mp4",
+            "video_autoplay": false,
+            "badge": "TRENDING",
+            "badge_bg_color": "#8833b4",
+            "views": "2.3k",
+            "views_bg_color": "#000000",
+            "product": "the-compare-at-price-snowboard",
+            "product_bg_color": "#8e5033",
+            "product_text_color": "#ffffff"
+          }
+        },
+        "item_MH4aax": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-4.mp4",
+            "video_autoplay": false,
+            "badge": "HOT",
+            "badge_bg_color": "#b43333",
+            "views": "7.2k",
+            "views_bg_color": "#000000",
+            "product": "the-multi-location-snowboard",
+            "product_bg_color": "#b43356",
+            "product_text_color": "#ffffff"
+          }
+        },
+        "item_3PdPLF": {
+          "type": "item",
+          "settings": {
+            "video": "shopify:\/\/files\/videos\/video-5.mp4",
+            "video_autoplay": false,
+            "badge": "BEST-SELLER",
+            "badge_bg_color": "#b45b33",
+            "views": "24.7k",
+            "views_bg_color": "#000000",
+            "product": "the-videographer-snowboard",
+            "product_bg_color": "#138abf",
+            "product_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "item_BJe3qW",
+        "item_cKLhWT",
+        "item_JRFcRR",
+        "item_QKDHY3",
+        "item_wLFWcb",
+        "item_QAMWJ3",
+        "item_MH4aax",
+        "item_3PdPLF"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "container": true,
+        "heading": "Shoppable Videos",
+        "heading_size": "h1",
+        "description": "<p>Optional description for this section<\/p>",
+        "slider_speed": 300,
+        "slider_nav": true,
+        "slider_pagination": true,
+        "slider_pagination_type": "bullets",
+        "slider_scrollbar": true,
+        "slider_partial_slides_mobile": true,
+        "slider_autoplay": 0,
+        "gap": 10,
+        "card_border_width": 1,
+        "card_border_radius": 16,
+        "card_box_shadow": false,
+        "card_equal_height": true,
+        "breakpoint_xs": 1,
+        "breakpoint_sm": 2,
+        "breakpoint_md": 2,
+        "breakpoint_lg": 2,
+        "breakpoint_xl": 3,
+        "breakpoint_xxl": 4,
+        "padding_top": 36,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ks_dawn_shoppable_videos_6UMNfC",
+    "ks_dawn_shoppable_videos_rBWNQb",
+    "ks_dawn_shoppable_videos_YR4j9K"
+  ]
+}

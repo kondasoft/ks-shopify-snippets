@@ -249,11 +249,13 @@
       }
       
       function hideTooltip() {
-        tooltip.classList.remove('show')
-        tooltip.classList.add('hiding')
         setTimeout(() => {
-          tooltip.classList.remove('hiding')
-        }, 200);
+          tooltip.classList.remove('show')
+          tooltip.classList.add('hiding')
+          setTimeout(() => {
+            tooltip.classList.remove('hiding')
+          }, 200)
+        }, 100)
       }
       
       if (window.matchMedia("(pointer: coarse)").matches) {

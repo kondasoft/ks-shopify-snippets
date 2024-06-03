@@ -1,0 +1,944 @@
+{% liquid 
+  # KS Shoppable videos
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+{%- style -%}
+  #ks-shoppable-videos-{{ section.id }} {
+    --color-background: {{ section.settings.color_background.red }}, {{ section.settings.color_background.green }}, {{ section.settings.color_background.blue }};
+    --color-foreground: {{ section.settings.color_foreground.red }}, {{ section.settings.color_foreground.green }}, {{ section.settings.color_foreground.blue }};
+    display: block;
+    overflow: hidden;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #ks-shoppable-videos-{{ section.id }} .swiper {
+    --swiper-theme-color: rgba(var(--color-foreground), 0.75); 
+    --swiper-navigation-size: 16px;
+    --swiper-navigation-sides-offset: -4px;
+    --swiper-pagination-bullet-inactive-color: var(--swiper-theme-color);
+    --swiper-pagination-bottom: -24px;
+    --swiper-scrollbar-bottom: -40px;
+    --swiper-scrollbar-bg-color: rgba(var(--color-foreground), 0.1);
+    --swiper-scrollbar-drag-bg-color: var(--swiper-theme-color);
+    margin-left: -{{ section.settings.gap | times: 0.75 | round: 0 }}px;
+    margin-right: -{{ section.settings.gap | times: 0.75 | round: 0 }}px;
+  }
+
+  .ks-shoppable-videos .section-header .title {
+    margin: 0 0 .25rem;
+  }
+
+  .ks-shoppable-videos .section-header .description {
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 750px) {
+    #ks-shoppable-videos-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    #ks-shoppable-videos-{{ section.id }} .swiper {
+      --swiper-pagination-bottom: -30px;
+      --swiper-scrollbar-bottom: -46px;
+      margin-left: -{{ section.settings.gap }}px;
+      margin-right: -{{ section.settings.gap }}px;
+    }
+    .ks-shoppable-videos .section-header .title {
+      margin: 0 0 .5rem;
+    }
+    .ks-shoppable-videos .section-header .description {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .ks-shoppable-videos .section-header {
+    text-align: center;
+  }
+
+  .ks-shoppable-videos .swiper {
+    opacity: 0;
+    transition: all .2s ease-out;
+    transition-delay: .2s;
+    overflow: visible;
+  }
+
+  .ks-shoppable-videos .swiper.swiper-initialized {
+    opacity: 1;
+  }
+
+  .ks-shoppable-videos .swiper .swiper-slide {
+    display: flex;
+    opacity: .25;
+    transform: scale(.9);
+    transition: all .2s ease-out;
+  }
+
+  #ks-shoppable-videos-{{ section.id }} .swiper .swiper-slide {
+    {% if section.settings.card_equal_height %}
+      height: auto;
+    {% endif %}
+  }
+
+  .ks-shoppable-videos .swiper .swiper-slide-visible {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .ks-shoppable-videos .swiper .swiper-pagination {
+  }
+
+  .ks-shoppable-videos .swiper .swiper-scrollbar {
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 575px) {
+    .ks-shoppable-videos .swiper .swiper-scrollbar {
+      max-width: 70vw;
+    }
+  }
+
+  .ks-shoppable-videos .swiper-button-prev, 
+  .ks-shoppable-videos .swiper-button-next {
+    width: 32px;
+    height: 32px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50rem;
+    background-color: rgba(var(--color-foreground, 1));
+    color: rgba(var(--color-background));
+  }
+
+  .ks-shoppable-videos .swiper-navigation-disabled .swiper-button-next, 
+  .ks-shoppable-videos .swiper-navigation-disabled .swiper-button-prev {
+    display: none !important;
+  } 
+
+  @media (max-width: 575px) {
+    .ks-shoppable-videos[data-partial-slides-mobile="true"] .swiper-button-prev, 
+    .ks-shoppable-videos[data-partial-slides-mobile="true"] .swiper-button-next {
+      display: none !important;
+    }
+  }
+
+  .ks-shoppable-videos .swiper-pagination-fraction {
+    margin-bottom: -4px;
+  }
+
+  .ks-shoppable-videos-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 750px) {
+    .ks-shoppable-videos-container {
+      padding: 0 3rem;
+    }
+  }
+
+  .ks-shoppable-videos-card-fake-bg {
+    background: #eee;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+  }
+
+  .ks-shoppable-videos-card {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-style: solid;
+    border-color: currentColor;
+  }
+
+  .ks-shoppable-videos-card-inner {
+  }
+
+  #ks-shoppable-videos-{{ section.id }} .ks-shoppable-videos-card {
+    border-width: {{ section.settings.card_border_width }}px;
+    border-radius: {{ section.settings.card_border_radius }}px;
+    margin: {{ section.settings.gap | times: 0.75 | round: 0 }}px;
+
+    {% if section.settings.card_box_shadow %}
+      box-shadow: 0 0 1rem rgba(var(--color-foreground), .25);
+    {% endif %}
+  }
+
+  @media (min-width: 750px) {
+    #ks-shoppable-videos-{{ section.id }} .ks-shoppable-videos-card {
+      margin: {{ section.settings.gap }}px;
+    }
+  }
+
+  .ks-shoppable-videos-video-wrapper {
+    height: 100%;
+  }
+
+  .ks-shoppable-videos-card video {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+  }
+
+  .swiper-is-changing .ks-shoppable-videos-card video {
+    z-index: -1;
+  }
+
+  .ks-shoppable-videos-btn-play {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--color-foreground), .5);
+    color: rgba(var(--color-background), 1);
+    border: none;
+    backdrop-filter: blur(6px);
+    border-radius: 50rem;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    z-index: 99;
+    cursor: pointer;
+    transition: all .2s ease-out;
+  }
+
+  .ks-shoppable-videos-btn-play:hover,
+  .ks-shoppable-videos-btn-play:focus {
+    background: rgba(var(--color-foreground), .75);
+  }
+
+  [data-is-playing="true"] .ks-shoppable-videos-btn-play {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .ks-shoppable-videos-card-views {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(var(--color-foreground), .75);
+    color: white;
+    backdrop-filter: blur(6px);
+    padding: 1px 8px 2px;
+    line-height: normal;
+    font-size: 13px;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .ks-shoppable-videos-card-views svg {
+    margin-right: 4px;
+    transform: translateY(1px);
+  }
+
+  .ks-shoppable-videos-card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(var(--color-foreground), .75);
+    color: white;
+    padding: 1px 8px 2px;
+    line-height: normal;
+    font-size: 13px;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .ks-shoppable-videos-card-product {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    width: calc(100% - 24px);
+    box-sizing: border-box;
+    background: rgba(var(--color-background), .75);
+    color: rgba(var(--color-foreground), 1);
+    backdrop-filter: blur(8px);
+    padding: 6px 8px 6px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    opacity: .9;
+    transition: all .2s ease-out;
+  }
+
+  [data-is-playing="true"] .ks-shoppable-videos-card-product {
+    bottom: 20px;
+    opacity: 1;
+  }
+
+  .ks-shoppable-videos-card-product:hover,
+  .ks-shoppable-videos-card-product:focus {
+    opacity: 1;
+  }
+
+  .ks-shoppable-videos-card-product img {
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .ks-shoppable-videos-card-product-content {
+    line-height: normal;
+  }
+
+  .ks-shoppable-videos-card-product-title {
+    font-size: 15px;
+    line-height: 1.2;
+    margin: 0 0 4px;
+    color: inherit;
+  }
+
+  .ks-shoppable-videos-card-product-title span {
+    display: inline-block;
+    transition: all .2s ease-out;
+  }
+
+  .ks-shoppable-videos-card-product:hover .ks-shoppable-videos-card-product-title span {
+    transform: translateX(3px);
+  }
+
+  .ks-shoppable-videos-card-product-price {
+    font-size: 14px;
+  }
+
+  .ks-shoppable-videos-card-product-price s {
+    opacity: .5;
+  }
+
+  #ks-shoppable-videos-{{ section.id }} .ks-shoppable-videos-card-views,
+  #ks-shoppable-videos-{{ section.id }} .ks-shoppable-videos-card-badge,
+  #ks-shoppable-videos-{{ section.id }} .ks-shoppable-videos-card-product {
+    border-radius: {{ section.settings.card_border_radius }}px;
+  }
+
+  #ks-shoppable-videos-{{ section.id }} .ks-shoppable-videos-card-product img {
+    border-radius: {{ section.settings.card_border_radius | divided_by: 1.5 | round }}px;
+  }
+
+{%- endstyle -%}
+
+{%- javascript -%}
+class KsShoppableVideos extends HTMLElement {
+  constructor () {
+    super()
+ 
+    if (!document.querySelector('#swiper-script')) {
+      const script = document.createElement('script')
+      script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js')
+      script.setAttribute('id', 'swiper-script')
+      document.head.appendChild(script)
+    }
+
+    this.slider
+
+    setTimeout(() => { 
+      this.slider = new window.Swiper(this.querySelector('.swiper'), this.splideOptions())
+
+      this.slider.on('slideChange', () => {
+        this.querySelector('.swiper').classList.add('swiper-is-changing')
+        this.onSlideChange()
+      })
+
+      this.slider.on('slideChangeTransitionEnd', () => {
+        this.querySelector('.swiper').classList.remove('swiper-is-changing')
+      })
+    }, 500)
+
+    this.querySelectorAll('.ks-shoppable-videos-btn-play').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const video = btn.closest('.ks-shoppable-videos-video-wrapper').querySelector('video')
+        this.onVideoPlay(video)
+      })
+    })
+    this.querySelectorAll('video').forEach(video => {
+      video.addEventListener('click', () => {
+        this.onVideoPlay(video)
+      })
+    })
+  }
+
+  splideOptions () {
+    const partialSlidesMobile = this.dataset.partialSlidesMobile === 'true' ? 1.2 : 1
+
+    /** @type {SwiperOptions} */
+    const options = {
+      rewind: true,
+      speed: Number(this.dataset.sliderSpeed),
+      breakpoints: {
+        0: { slidesPerView: Number(this.dataset.breakpointXs) * partialSlidesMobile },
+        576: { slidesPerView: Number(this.dataset.breakpointSm) },
+        768: { slidesPerView: Number(this.dataset.breakpointMd) },
+        992: { slidesPerView: Number(this.dataset.breakpointLg) },
+        1200: { slidesPerView: Number(this.dataset.breakpointXl) },
+        1400: { slidesPerView: Number(this.dataset.breakpointXxl) }
+      },
+      navigation: {
+        enabled: this.dataset.sliderNav === 'true',
+        nextEl: this.querySelector('.swiper-button-next'),
+        prevEl: this.querySelector('.swiper-button-prev')
+      },
+      pagination: {
+        enabled: this.dataset.sliderPagination === 'true',
+        type: this.dataset.sliderPaginationType,
+        el: '.swiper-pagination',
+        dynamicBullets: true,
+        dynamicMainBullets: 2,
+        renderFraction: function (currentClass, totalClass) {
+          return `<span class="${currentClass}"></span>/<span class="${totalClass}"></span>`
+        }
+      },
+      scrollbar: {
+        enabled: this.dataset.sliderScrollbar === 'true',
+        el: this.querySelector('.swiper-scrollbar'),
+        draggable: true 
+        // hide: true
+      },
+      autoplay: this.dataset.sliderAutoplay !== '0'
+        ? { delay: Number(this.dataset.sliderAutoplay) * 1000 }
+        : undefined,
+      watchSlidesProgress: true, 
+      mousewheel: {
+        enabled: true,
+        forceToAxis: true
+      },
+    }
+    return options
+  }
+
+  onSlideChange () {
+    this.querySelectorAll('.ks-shoppable-videos-card').forEach(elem => {
+      elem.setAttribute('data-is-playing', 'false')
+      elem.querySelector('video')?.pause()
+    })
+  }
+
+  onVideoPlay (video) {
+    const card = video.closest('.ks-shoppable-videos-card')
+
+    this.querySelectorAll('.ks-shoppable-videos-card').forEach(elem => {
+      if (elem.dataset.index !== card.dataset.index) {
+        elem.setAttribute('data-is-playing', 'false')
+        elem.querySelector('video')?.pause()
+      }
+    })
+    
+    if (card.dataset.isPlaying === 'true') {
+      card.setAttribute('data-is-playing', 'false')
+      video.pause()
+    } else {
+      card.setAttribute('data-is-playing', 'true')
+      video.muted = false
+      video.play()
+    }
+  }
+
+}
+customElements.define('ks-shoppable-videos', KsShoppableVideos)
+
+{%- endjavascript -%}
+ 
+<ks-shoppable-videos 
+  id="ks-shoppable-videos-{{ section.id }}"
+  class="ks-shoppable-videos"
+  data-slider-speed="{{ section.settings.slider_speed }}"
+  data-slider-nav="{{ section.settings.slider_nav }}"
+  data-slider-pagination="{{ section.settings.slider_pagination }}"
+  data-slider-pagination-type="{{ section.settings.slider_pagination_type }}"
+  data-slider-scrollbar="{{ section.settings.slider_scrollbar }}"
+  data-partial-slides-mobile="{{ section.settings.slider_partial_slides_mobile }}"
+  data-slider-autoplay="{{ section.settings.slider_autoplay }}"
+  data-breakpoint-xs="{{ section.settings.breakpoint_xs }}"
+  data-breakpoint-sm="{{ section.settings.breakpoint_sm }}"
+  data-breakpoint-md="{{ section.settings.breakpoint_md }}"
+  data-breakpoint-lg="{{ section.settings.breakpoint_lg }}"
+  data-breakpoint-xl="{{ section.settings.breakpoint_xl }}"
+  data-breakpoint-xxl="{{ section.settings.breakpoint_xxl }}">
+  
+  <div class="section-header page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.description != blank %}
+      <div class="description rte">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ks-shoppable-videos-container {% if section.settings.container %}container page-width{% endif %}">
+
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+            <div 
+              class="ks-shoppable-videos-card"
+              data-is-playing="false"
+              data-index="{{ forloop.index0 }}">
+              {% if block.settings.video != blank %}
+                <div class="ks-shoppable-videos-video-wrapper">
+                  {{- 
+                    block.settings.video | video_tag: 
+                      class: '',
+                      image_size: '600x', 
+                      autoplay: block.settings.video_autoplay, 
+                      loop: true, 
+                      muted: true, 
+                      controls: false,
+                      loading: 'lazy'
+                  -}}
+                  <button class="ks-shoppable-videos-btn-play" aria-label="Play video">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                      <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                    </svg>
+                  </button>
+                </div>
+              {% else %}
+                  <div class="ks-shoppable-videos-card-fake-bg"></div>
+              {% endif %}
+              <div class="ks-shoppable-videos-card-inner">
+                {% unless block.settings.badge == blank %}
+                  <div 
+                    class="ks-shoppable-videos-card-badge"
+                    style="background-color: {{ block.settings.badge_bg_color }}">
+                    {{ block.settings.badge }}
+                  </div>
+                {% endunless %}
+                {% unless block.settings.views == blank %}
+                  <div 
+                    class="ks-shoppable-videos-card-views"
+                    style="background-color: {{ block.settings.views_bg_color | color_modify: 'alpha', 0.75  }};">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Views">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    {{ block.settings.views }}
+                  </div>
+                {% endunless %}
+                {% unless block.settings.product == blank %}
+                  <a 
+                    class="ks-shoppable-videos-card-product"
+                    href="{{ block.settings.product.url }}"
+                    style="
+                      background-color: {{ block.settings.product_bg_color | color_modify: 'alpha', 0.75  }};
+                      color: {{ block.settings.product_text_color }};
+                    ">
+                    <img
+                      src="{{ block.settings.product.featured_image | image_url: width: 150, height: 150, crop: 'center' }}"
+                      alt="{{ block.settings.product.featured_image.alt }}"
+                      width="75"
+                      height="75"
+                      loading="lazy">
+                    <div class="ks-shoppable-videos-card-product-content">
+                      <h3 class="ks-shoppable-videos-card-product-title">
+                        {{ block.settings.product.title }} <span>→</span>
+                      </h3>
+                      <div class="ks-shoppable-videos-card-product-price">
+                        {% if block.settings.product.compare_at_price > block.settings.product.price %}
+                          <span class="">
+                            <span class="visually-hidden visually-hidden--inline">
+                              Regular price
+                            </span>
+                            <s>{{ block.settings.product.compare_at_price | money }}</s>
+                          </span>
+                        {% endif %}
+                        <span class="product-item-price-final">
+                            {{ block.settings.product.price | money }}
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                {% endunless %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+
+      <div class="swiper-pagination-wrapper">
+        <div class="swiper-pagination"></div>
+        <div class="swiper-scrollbar"></div>
+      </div>
+
+    </div>
+  </div>
+
+</ks-shoppable-videos>
+
+{% schema %}
+{
+  "name": "KS - Shoppable videos",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_foreground",
+      "label": "Foreground color",
+      "default": "#121212"
+    },
+    {
+      "type": "checkbox",
+      "id": "container",
+      "label": "Wrap in a container",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shoppable Videos"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Optional description for this section</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "range",
+      "id": "slider_speed",
+      "label": "Speed",
+      "default": 300,
+      "min": 0,
+      "max": 2000,
+      "step": 100,
+      "unit": "ms"
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_nav",
+      "label": "Show navigation (arrows)",
+      "info": "NOTE: Will not show on mobile",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_pagination",
+      "label": "Show pagination",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "slider_pagination_type",
+      "label": "Pagination type",
+      "default": "bullets", 
+      "options": [
+        { "value": "bullets", "label": "Bullets" },
+        { "value": "fraction", "label": "Fraction" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_scrollbar",
+      "label": "Show scrollbar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_partial_slides_mobile",
+      "label": "Partial slides on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slider_autoplay",
+      "label": "Autoplay",
+      "min": 0,
+      "max": 10,
+      "default": 0,
+      "unit": "sec",
+      "info": "Selecing \"0\" will disable autoplay."
+    },
+    {
+      "type": "header",
+      "content": "Video card"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap (between items)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Border width (px)",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius (px)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_box_shadow",
+      "label": "Box shadow",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "card_equal_height",
+      "label": "Equal-height cards",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Breakpoints",
+      "info": "Adjust items per slide based on screen resolution"
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_xs",
+      "label": "Items per slide / xs",
+      "info": "Screen width: less than 576px",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_sm",
+      "label": "Items per slide / sm",
+      "info": "Screen width: ≥576px",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_md",
+      "label": "Items per slide / md",
+      "info": "Screen width: ≥768px",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_lg",
+      "label": "Items per slide / lg",
+      "info": "Screen width: ≥992px",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_xl",
+      "label": "Items per slide / xl",
+      "info": "Screen width: ≥1200px",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_xxl",
+      "label": "Items per slide / xxl",
+      "info": "Screen width: ≥1400px",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "Ready to take your store to the next level? Check out our [Premium Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 KondaSoft.com"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "checkbox",
+          "id": "video_autoplay",
+          "label": "Autoplay video",
+          "default": true,
+          "info": "NOTE: Video will autplay muted."
+        },
+        {
+          "type": "header",
+          "content": "Top area"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "info": "NOTE: Leave empty to disable",
+          "default": "NEW"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg_color",
+          "label": "Badge - background color",
+          "default": "#334FB4"
+        },
+        {
+          "type": "text",
+          "id": "views",
+          "label": "Views",
+          "info": "NOTE: Leave empty to disable",
+          "default": "3.8k"
+        },
+        {
+          "type": "color",
+          "id": "views_bg_color",
+          "label": "Views - background color",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "color",
+          "id": "product_bg_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "product_text_color",
+          "label": "Text color",
+          "default": "#000000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Shoppable videos",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

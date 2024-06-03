@@ -8,101 +8,239 @@
         "padding_bottom": 36
       }
     },
-    "ks_dawn_lookbook_QFKkW8": {
-      "type": "ks-dawn-lookbook",
+    "ks_dawn_parallax_image_hfeXt4": {
+      "type": "ks-dawn-parallax-image",
+      "settings": {
+        "mobile_image": "shopify:\/\/shop_images\/benjamin-voros-phIFdC6lA4E-unsplash.jpg",
+        "desktop_image": "shopify:\/\/shop_images\/benjamin-voros-phIFdC6lA4E-unsplash.jpg",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "overlay_blur": 0,
+        "overlay_top_bottom_border": true,
+        "parallax_orientation": "up",
+        "parallax_scale": 1.2,
+        "color_scheme": "inverse",
+        "max_width": "700",
+        "text_align": "center",
+        "text_shadow": true,
+        "subtitle": "Developed by KondaSoft",
+        "heading": "KS Parallax Image",
+        "heading_size": "h1",
+        "description": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>",
+        "btn_primary_text": "Primary button",
+        "btn_primary_url": "",
+        "btn_primary_style": "button--primary",
+        "btn_secondary_text": "Secondary button",
+        "btn_secondary_url": "",
+        "btn_secondary_style": "button--secondary",
+        "pt_mobile": 100,
+        "pb_mobile": 100,
+        "pt_desktop": 200,
+        "pb_desktop": 200,
+        "mt": 0,
+        "mb": 0
+      }
+    },
+    "rich_text_Wg36db": {
+      "type": "rich-text",
       "blocks": {
-        "point_7ygAEd": {
-          "type": "point",
+        "heading_B7qhdd": {
+          "type": "heading",
           "settings": {
-            "title": "Amazing Watch",
-            "description": "Some description for this product",
-            "product": "ks-color-swatches",
-            "show_image": true,
-            "show_price": true,
-            "btn_text": "View product",
-            "mobile_pos_left": 60,
-            "mobile_pos_top": 66,
-            "desktop_pos_left": 31,
-            "desktop_pos_top": 30
+            "heading": "Developed By KondSoft",
+            "heading_size": "h1"
           }
         },
-        "point_atxfRK": {
-          "type": "point",
+        "text_fBF6PH": {
+          "type": "text",
           "settings": {
-            "title": "Oxygen Snowboard",
-            "description": "Some description for this product",
-            "product": "the-collection-snowboard-oxygen",
-            "show_image": true,
-            "show_price": true,
-            "btn_text": "View product",
-            "mobile_pos_left": 40,
-            "mobile_pos_top": 19,
-            "desktop_pos_left": 78,
-            "desktop_pos_top": 49
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
           }
         },
-        "point_PLQqKB": {
-          "type": "point",
+        "button_b9PGgi": {
+          "type": "button",
           "settings": {
-            "title": "Amazing Watch 2",
-            "description": "Some description for this product",
-            "product": "ks-quantity-breaks",
-            "show_image": true,
-            "show_price": true,
-            "btn_text": "View product",
-            "mobile_pos_left": 28,
-            "mobile_pos_top": 61,
-            "desktop_pos_left": 36,
-            "desktop_pos_top": 69
-          }
-        },
-        "point_ntEVPB": {
-          "type": "point",
-          "settings": {
-            "title": "Amazing Snowboard",
-            "description": "Some description for this product",
-            "product": "the-multi-location-snowboard",
-            "show_image": true,
-            "show_price": true,
-            "btn_text": "View product",
-            "mobile_pos_left": 26,
-            "mobile_pos_top": 39,
-            "desktop_pos_left": 59,
-            "desktop_pos_top": 73
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
           }
         }
       },
       "block_order": [
-        "point_7ygAEd",
-        "point_atxfRK",
-        "point_PLQqKB",
-        "point_ntEVPB"
+        "heading_B7qhdd",
+        "text_fBF6PH",
+        "button_b9PGgi"
       ],
       "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
         "color_scheme": "",
-        "container": true,
-        "container_max_width": "",
-        "header_text_align": "center",
-        "heading": "KS Lookbook",
+        "full_width": true,
+        "padding_top": 72,
+        "padding_bottom": 84
+      }
+    },
+    "ks_dawn_parallax_image_LwaNGL": {
+      "type": "ks-dawn-parallax-image",
+      "settings": {
+        "mobile_image": "shopify:\/\/shop_images\/benjamin-voros-phIFdC6lA4E-unsplash.jpg",
+        "desktop_image": "shopify:\/\/shop_images\/luca-micheli-ruWkmt3nU58-unsplash.jpg",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "overlay_blur": 5,
+        "overlay_top_bottom_border": true,
+        "parallax_orientation": "down left",
+        "parallax_scale": 1.5,
+        "color_scheme": "inverse",
+        "max_width": "700",
+        "text_align": "center",
+        "text_shadow": true,
+        "subtitle": "★ ★ ★ ★ ★",
+        "heading": "KS Parallax Image",
         "heading_size": "h1",
-        "description": "<p>Optional description for this section<\/p>",
-        "mobile_image": "shopify:\/\/shop_images\/pmv-chamara-CeQiQxNNdUM-unsplash-mobile.jpg",
-        "desktop_image": "shopify:\/\/shop_images\/pmv-chamara-CeQiQxNNdUM-unsplash.jpg",
-        "image_border_radius": 1,
-        "point_color": "#fff",
-        "point_diameter": 1.5,
-        "tooltip_width": 260,
-        "tooltip_text_align": "center",
-        "tooltip_bg_color": "#ffffff",
-        "tooltip_color": "#121212",
-        "tooltip_btn_style": "",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "description": "<p>Different settings for parallax orientation\/scale, blurred image, etc<\/p>",
+        "btn_primary_text": "Primary button",
+        "btn_primary_url": "",
+        "btn_primary_style": "button--primary",
+        "btn_secondary_text": "Secondary button",
+        "btn_secondary_url": "",
+        "btn_secondary_style": "button--secondary",
+        "pt_mobile": 100,
+        "pb_mobile": 100,
+        "pt_desktop": 100,
+        "pb_desktop": 100,
+        "mt": 0,
+        "mb": 0
+      }
+    },
+    "rich_text_EahNzr": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_dtVTEt": {
+          "type": "heading",
+          "settings": {
+            "heading": "KondaSoft - Shopify Themes Club",
+            "heading_size": "h1"
+          }
+        },
+        "text_H4V9dA": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+          }
+        },
+        "button_irHLqt": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_dtVTEt",
+        "text_H4V9dA",
+        "button_irHLqt"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 72,
+        "padding_bottom": 84
+      }
+    },
+    "ks_dawn_parallax_image_r3Dzix": {
+      "type": "ks-dawn-parallax-image",
+      "settings": {
+        "mobile_video": "shopify:\/\/files\/videos\/20600550-hd_1920_1080_30fps.mp4",
+        "desktop_video": "shopify:\/\/files\/videos\/20600550-hd_1920_1080_30fps.mp4",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "overlay_blur": 0,
+        "overlay_top_bottom_border": true,
+        "parallax_orientation": "up",
+        "parallax_scale": 1.2,
+        "color_scheme": "accent-1",
+        "max_width": "700",
+        "text_align": "center",
+        "text_shadow": true,
+        "subtitle": "Developed by KondaSoft",
+        "heading": "Support for MP4 Videos",
+        "heading_size": "h1",
+        "description": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>",
+        "btn_primary_text": "Primary button",
+        "btn_primary_url": "",
+        "btn_primary_style": "button--primary",
+        "btn_secondary_text": "Secondary button",
+        "btn_secondary_url": "",
+        "btn_secondary_style": "button--secondary",
+        "pt_mobile": 100,
+        "pb_mobile": 100,
+        "pt_desktop": 150,
+        "pb_desktop": 150,
+        "mt": 0,
+        "mb": 0
+      }
+    },
+    "rich_text_jm4Nn3": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_diE6TJ": {
+          "type": "heading",
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "h1"
+          }
+        },
+        "text_VNdHgW": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+          }
+        },
+        "button_hhqnnN": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_diE6TJ",
+        "text_VNdHgW",
+        "button_hhqnnN"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 72,
+        "padding_bottom": 84
       }
     }
   },
   "order": [
     "main",
-    "ks_dawn_lookbook_QFKkW8"
+    "ks_dawn_parallax_image_hfeXt4",
+    "rich_text_Wg36db",
+    "ks_dawn_parallax_image_LwaNGL",
+    "rich_text_EahNzr",
+    "ks_dawn_parallax_image_r3Dzix",
+    "rich_text_jm4Nn3"
   ]
 }

@@ -30,9 +30,11 @@
 
   .ks-marquee {
     display: block;
+    overflow: hidden;
   }
 
   .ks-marquee ul {
+    padding: 0;
     margin: 0;
     list-style: none;
     display: inline-flex;
@@ -84,10 +86,11 @@ class KsMarquee extends HTMLElement {
 
   init () {
     const list = this.querySelector('ul')
+    console.log(list)
     const marqueeWidth = list.scrollWidth
-    const marqueeLength = list.querySelectorAll('li').length
+    console.log(list.scrollWidth)
+    const marqueeLength = list.querySelectorAll('li').length 
 
-    list.insertAdjacentHTML('beforeEnd', list.innerHTML)
     list.insertAdjacentHTML('beforeEnd', list.innerHTML)
 
     list.querySelectorAll('li').forEach((item, index) => {
@@ -156,7 +159,7 @@ customElements.define('ks-marquee', KsMarquee)
         {% endif %}
       </li>
     {% endfor %}
-  </div>
+  </ul>
 </ks-marquee>
 
 {% schema %}
