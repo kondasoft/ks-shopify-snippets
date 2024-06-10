@@ -13,6 +13,8 @@
 
 {%- style -%}
   #ks-store-locator-{{ section.id }} {
+    --color-background: {{ section.settings.color_background.red }}, {{ section.settings.color_background.green }}, {{ section.settings.color_background.blue }};
+    --color-foreground: {{ section.settings.color_foreground.red }}, {{ section.settings.color_foreground.green }}, {{ section.settings.color_foreground.blue }};
     display: block;
     overflow: hidden;
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -20,11 +22,11 @@
   }
 
   .ks-store-locator .section-header .title {
-    margin: 0 0 .5rem;
+    margin: 0 0 .25rem;
   }
 
   .ks-store-locator .section-header .description {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1rem;
   }
 
   @media (min-width: 750px) {
@@ -33,15 +35,11 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
     .ks-store-locator .section-header .title {
-      margin: 0 0 1rem;
+      margin: 0 0 .5rem;
     }
     .ks-store-locator .section-header .description {
-      margin-bottom: 2.25rem;
+      margin-bottom: 1.5rem;
     }
-  }
-
-  .ks-store-locator div:empty {
-    display: block;
   }
 
   .ks-store-locator .section-header {
@@ -516,7 +514,7 @@
 
 <div 
   id="ks-store-locator-{{ section.id }}"
-  class="ks-store-locator color-{{ section.settings.color_scheme }} gradient {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  class="ks-store-locator"
   data-map-token="{{ section.settings.map_token }}"
   data-map-container="ks-store-locator-map-{{ section.id }}"
   data-map-style="{{ section.settings.map_style }}"
@@ -536,7 +534,7 @@
   data-clusters-tier-two-bg-color="{{ section.settings.clusters_tier_2_bg_color }}"
   data-marker-img="{{ marker_img }}">
   
-  <div class="section-header page-width">
+  <div class="section-header page-width container">
     {%- if section.settings.heading != blank -%}
       <h2 class="title inline-richtext {{ section.settings.heading_size }}">
         {{ section.settings.heading }}
@@ -549,7 +547,7 @@
     {% endif %}
   </div>
 
-  <div class="ks-store-locator-container {% if section.settings.container %}page-width{% endif %}">
+  <div class="ks-store-locator-container {% if section.settings.container %}page-width container{% endif %}">
     <div class="ks-store-locator-map-wrapper">
       <div id="ks-store-locator-map-{{ section.id }}" class="ks-store-locator-map"></div>
       <div id="ks-store-locator-card-{{ section.id }}" class="ks-store-locator-card">
@@ -577,10 +575,16 @@
       "content": "General"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "background-1"
+      "type": "color",
+      "id": "color_background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_foreground",
+      "label": "Foreground color",
+      "default": "#121212"
     },
     {
       "type": "checkbox",
