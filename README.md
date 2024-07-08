@@ -37,7 +37,7 @@ Overview/Installation/Configuration for each snippet
 https://www.youtube.com/playlist?list=PLkahmWw6Mp_WU1VQcbJLcx-75Is8oU4LK
 
 
-## Premium Shopify Themes
+## Shopify Themes
 The Most Advanced Shopify Themes You Will Ever Find On Planet Earth. <br>
 Unparalleled features, and customization options to really transform your Shopify store. <br>
 15+ years of coding experience, 50k+ customers served!
