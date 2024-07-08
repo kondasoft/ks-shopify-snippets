@@ -38,7 +38,9 @@ https://www.youtube.com/playlist?list=PLkahmWw6Mp_WU1VQcbJLcx-75Is8oU4LK
 
 
 ## Premium Shopify Themes
-Ready to completely transform your Shopify store?! 
+The Most Advanced Shopify Themes You Will Ever Find On Planet Earth
+Unparalleled features and customization options to really transform your Shopify store.
+15+ years of coding experience, 50k+ customers served!
 
 https://www.kondasoft.com/collections/shopify-themes
 
