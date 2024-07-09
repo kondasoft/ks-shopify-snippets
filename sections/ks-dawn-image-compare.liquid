@@ -29,17 +29,6 @@
     display: block;
   }
 
-  .ks-image-compare .section-header {
-    margin-bottom: 2.25rem;
-  }
-
-  .ks-image-compare .section-header .title {
-    margin: 0 0 .5rem;
-  }
-
-  .ks-image-compare .section-header .description {
-  }
-
   .ks-image-compare-mobile {
     display: block;
   }
@@ -106,6 +95,55 @@
       right: 1rem;
     {% endif %}
   }
+
+  .ks-image-compare-header {
+  }
+
+  .ks-image-compare-header .title {
+    margin: 0 0 .5rem;
+  }
+
+  .ks-image-compare-header .description {
+  }
+
+  .ks-image-compare-btn-wrapper {
+    display: inline-flex;
+    margin-top: 2.75rem;
+    margin-bottom: .5rem;
+  }
+
+  .ks-image-compare-btn-wrapper a + a {
+    margin-left: .75rem;
+  }
+
+  .ks-image-compare-btn-wrapper .button--secondary {
+    --alpha-button-background: 0;
+  }
+
+  @media (max-width: 989px) {
+    .ks-image-compare-img-wrapper {
+      margin-bottom: 16px;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .ks-image-compare-container {
+      display: flex;
+      align-items: center;
+    }
+    .ks-image-compare-img-wrapper {
+      width: 60%;
+    }
+    .ks-image-compare-header {
+      width: 40%;
+      padding: 32px;
+    }
+    .ks-image-compare-container[data-header-align-desktop="left"] {
+      flex-direction: row-reverse;
+    }
+  }
+
+
 {%- endstyle -%}
 
 {%- javascript -%} 
@@ -167,82 +205,102 @@
   data-icv-labels-on-hover="{{ section.settings.icv_labels_on_hover }}"
   role="section">
   <div 
-    class="section-header page-width" 
-    style="text-align: {{ section.settings.header_text_align }};">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="title inline-richtext {{ section.settings.heading_size }}">
-        {{ section.settings.heading }}
-      </h2>
-    {%- endif -%}
-    {%- if section.settings.description != blank %}
-      <div class="description rte">
-        {{ section.settings.description }}
-      </div>
-    {% endif %}
-  </div>
-
-  <div 
     class="{% if section.settings.container %}page-width{% endif %}"
     style="max-width: {{ section.settings.container_max_width | append: 'px' }}">
-
-    <div class="ks-image-compare-mobile" data-image-compare>
-      <img
-        src="
-          {% if section.settings.before_mobile_image == nil %}
-            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
-          {% else %}
-            {{ section.settings.before_mobile_image.src | image_url: width: 800 }}
-          {% endif %}
-        "
-        alt="{{ section.settings.before_mobile_image.alt | escape }}"
-        class=""
-        width="800"
-        height="{{ 800 | divided_by: section.settings.before_mobile_image.aspect_ratio | round }}"
-        loading="lazy">
-      <img
-        src="
-          {% if section.settings.after_mobile_image == nil %}
-            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWN8KOvBQC5gIlcjSN+oZhJDb4gGGAAhPAFaGAdiqAAAAABJRU5ErkJggg==
-          {% else %}
-            {{ section.settings.after_mobile_image.src | image_url: width: 800 }}
-          {% endif %}
-        "
-        alt="{{ section.settings.after_mobile_image.alt | escape }}"
-        class=""
-        width="800"
-        height="{{ 800 | divided_by: section.settings.after_mobile_image.aspect_ratio | round }}"
-        loading="lazy">
+    <div 
+      class="ks-image-compare-container"
+      data-header-align-desktop="{{ section.settings.header_align_desktop }}">
+      <div class="ks-image-compare-img-wrapper">
+        <div class="ks-image-compare-mobile" data-image-compare>
+          <img
+            src="
+              {% if section.settings.before_mobile_image == nil %}
+                data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
+              {% else %}
+                {{ section.settings.before_mobile_image.src | image_url: width: 800 }}
+              {% endif %}
+            "
+            alt="{{ section.settings.before_mobile_image.alt | escape }}"
+            class=""
+            width="800"
+            height="{{ 800 | divided_by: section.settings.before_mobile_image.aspect_ratio | round }}"
+            loading="lazy">
+          <img
+            src="
+              {% if section.settings.after_mobile_image == nil %}
+                data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWN8KOvBQC5gIlcjSN+oZhJDb4gGGAAhPAFaGAdiqAAAAABJRU5ErkJggg==
+              {% else %}
+                {{ section.settings.after_mobile_image.src | image_url: width: 800 }}
+              {% endif %}
+            "
+            alt="{{ section.settings.after_mobile_image.alt | escape }}"
+            class=""
+            width="800"
+            height="{{ 800 | divided_by: section.settings.after_mobile_image.aspect_ratio | round }}"
+            loading="lazy">
+        </div>
+        <div class="ks-image-compare-desktop" data-image-compare>
+          <img
+            src="
+              {% if section.settings.before_desktop_image == nil %}
+                data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
+              {% else %}
+                {{ section.settings.before_desktop_image.src | image_url: width: 1600 }}
+              {% endif %}
+            "
+            alt="{{ section.settings.before_desktop_image.alt | escape }}"
+            class=""
+            width="1600"
+            height="{{ 1600 | divided_by: section.settings.before_desktop_image.aspect_ratio | round }}"
+            loading="lazy">
+          <img
+            src="
+              {% if section.settings.after_desktop_image == nil %}
+                data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWN8KOvBQC5gIlcjSN+oZhJDb4gGGAAhPAFaGAdiqAAAAABJRU5ErkJggg==
+              {% else %}
+                {{ section.settings.after_desktop_image.src | image_url: width: 1600 }}
+              {% endif %}
+            "
+            alt="{{ section.settings.after_desktop_image.alt | escape }}"
+            class=""
+            width="1600"
+            height="{{ 1600 | divided_by: section.settings.after_desktop_image.aspect_ratio | round }}"
+            loading="lazy">
+        </div>
+      </div>
+      <div 
+        class="ks-image-compare-header" 
+        style="text-align: {{ section.settings.header_text_align }};">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank %}
+          <div class="description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+        {%- if section.settings.btn_primary_text != blank or section.settings.btn_secondary_text != blank -%}
+          <div class="ks-image-compare-btn-wrapper">
+            {%- if section.settings.btn_primary_text != blank -%}
+              <a
+                href="{{ section.settings.btn_primary_url }}"
+                class="button {{ section.settings.btn_primary_style }}">
+                {{ section.settings.btn_primary_text | escape }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.btn_secondary_text != blank -%}
+              <a
+                href="{{ section.settings.btn_secondary_url }}"
+                class="button {{ section.settings.btn_secondary_style }}">
+                {{ section.settings.btn_secondary_text | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        {% endif %}
+      </div>
     </div>
-
-    <div class="ks-image-compare-desktop" data-image-compare>
-      <img
-        src="
-          {% if section.settings.before_desktop_image == nil %}
-            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWPsjvnGQC5gIlcjSN+oZhJDb4gGGACG5wHxdzHH3QAAAABJRU5ErkJggg==
-          {% else %}
-            {{ section.settings.before_desktop_image.src | image_url: width: 1600 }}
-          {% endif %}
-        "
-        alt="{{ section.settings.before_desktop_image.alt | escape }}"
-        class=""
-        width="1600"
-        height="{{ 1600 | divided_by: section.settings.before_desktop_image.aspect_ratio | round }}"
-        loading="lazy">
-      <img
-        src="
-          {% if section.settings.after_desktop_image == nil %}
-            data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAFKADAAQAAAABAAAACgAAAABOxfskAAAAHElEQVQoFWN8KOvBQC5gIlcjSN+oZhJDb4gGGAAhPAFaGAdiqAAAAABJRU5ErkJggg==
-          {% else %}
-            {{ section.settings.after_desktop_image.src | image_url: width: 1600 }}
-          {% endif %}
-        "
-        alt="{{ section.settings.after_desktop_image.alt | escape }}"
-        class=""
-        width="1600"
-        height="{{ 1600 | divided_by: section.settings.after_desktop_image.aspect_ratio | round }}"
-        loading="lazy">
-    </div>
-
   </div>
 </ks-image-compare>
 
@@ -276,12 +334,23 @@
     },
     {
       "type": "select",
+      "id": "header_align_desktop",
+      "label": "Header align - desktop",
+      "default": "right",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select",
       "id": "header_text_align",
       "label": "Text align",
       "default": "center",
       "options": [
         { "value": "", "label": "Left" },
-        { "value": "center", "label": "Center" }
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ]
     },
     {
@@ -307,6 +376,58 @@
       "label": "Description",
       "default": "<p>Optional description for this section</p>",
       "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_text",
+      "label": "Button text",
+      "default": "Primary button",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "btn_primary_style",
+      "label": "Button style",
+      "default": "button--primary",
+      "options": [
+        { "value": "button--primary", "label": "Primary" },
+        { "value": "button--secondary", "label": "Secondary" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_text",
+      "label": "Button text",
+      "default": "Secondary button",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "btn_secondary_style",
+      "label": "Button style",
+      "default": "button--secondary",
+      "options": [
+        { "value": "button--primary", "label": "Primary" },
+        { "value": "button--secondary", "label": "Secondary" }
+      ]
     },
     {
       "type": "header",
