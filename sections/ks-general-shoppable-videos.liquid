@@ -4,8 +4,6 @@
   # https://www.kondasoft.com
 %}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
 {%- style -%}
   #ks-shoppable-videos-{{ section.id }} {
     --color-background: {{ section.settings.color_background.red }}, {{ section.settings.color_background.green }}, {{ section.settings.color_background.blue }};
@@ -187,10 +185,15 @@
     height: 100%;
     object-fit: cover;
     position: relative;
+    cursor: pointer;
   }
 
   .swiper-is-changing .ks-shoppable-videos-card video {
     z-index: -1;
+  }
+
+  .ks-shoppable-videos [data-is-playing="true"] video {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='10' y1='15' x2='10' y2='9'%3E%3C/line%3E%3Cline x1='14' y1='15' x2='14' y2='9'%3E%3C/line%3E%3C/svg%3E"), auto;
   }
 
   .ks-shoppable-videos-btn-play {
@@ -336,25 +339,35 @@
 class KsShoppableVideos extends HTMLElement {
   constructor () {
     super()
- 
+
+    if (!document.querySelector('#swiper-stylesheet')) {
+      const stylesheet = document.createElement('link')
+      stylesheet.setAttribute('href', 'https://cdn.jsdelivr.net/npm/swiper@11.1.4/swiper-bundle.min.css')
+      stylesheet.setAttribute('rel', 'stylesheet')
+      stylesheet.setAttribute('id', 'swiper-stylesheet')
+      stylesheet.setAttribute('integrity', 'sha256-5nkrwjVsiNfKz3NR1k2h5+qt5pS5SF2u9/TIT1hElow=')
+      stylesheet.setAttribute('crossorigin', 'anonymous')
+      document.head.appendChild(stylesheet)
+    }
+
     if (!document.querySelector('#swiper-script')) {
       const script = document.createElement('script')
-      script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js')
+      script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/swiper@11.1.4/swiper-bundle.min.js')
       script.setAttribute('id', 'swiper-script')
+      script.setAttribute('integrity', 'sha256-rCACDWCp/VzIh0rsB+ipQCM9XBvO8HNe0fNSOa4sys0=')
+      script.setAttribute('crossorigin', 'anonymous')
       document.head.appendChild(script)
     }
 
-    this.slider
+    setTimeout(() => {
+      const slider = new window.Swiper(this.querySelector('.swiper'), this.splideOptions())
 
-    setTimeout(() => { 
-      this.slider = new window.Swiper(this.querySelector('.swiper'), this.splideOptions())
-
-      this.slider.on('slideChange', () => {
+      slider.on('slideChange', () => {
         this.querySelector('.swiper').classList.add('swiper-is-changing')
         this.onSlideChange()
       })
 
-      this.slider.on('slideChangeTransitionEnd', () => {
+      slider.on('slideChangeTransitionEnd', () => {
         this.querySelector('.swiper').classList.remove('swiper-is-changing')
       })
     }, 500)
@@ -365,10 +378,23 @@ class KsShoppableVideos extends HTMLElement {
         this.onVideoPlay(video)
       })
     })
+
     this.querySelectorAll('video').forEach(video => {
       video.addEventListener('click', () => {
         this.onVideoPlay(video)
       })
+    })
+
+    const lazyVideosObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.play()
+        }
+      })
+    }, { rootMargin: '0px 0px 300px 0px' })
+    
+    this.querySelectorAll('video[data-autoplay="true"]').forEach((el) => {
+      lazyVideosObserver.observe(el)
     })
   }
 
@@ -498,11 +524,13 @@ customElements.define('ks-shoppable-videos', KsShoppableVideos)
                     block.settings.video | video_tag: 
                       class: '',
                       image_size: '600x', 
-                      autoplay: block.settings.video_autoplay, 
+                      autoplay: false, 
                       loop: true, 
                       muted: true, 
                       controls: false,
-                      loading: 'lazy'
+                      loading: 'lazy',
+                      preload: 'none',
+                      data-autoplay: block.settings.video_autoplay
                   -}}
                   <button class="ks-shoppable-videos-btn-play" aria-label="Play video">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
