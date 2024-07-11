@@ -27,6 +27,8 @@ All you have to do to install our snippets is to copy and paste the code found m
 18. [KS Parallax Image](https://www.kondasoft.com/collections/shopify-snippets/products/ks-parallax-image)
 19. [KS Shoppable Videos](https://www.kondasoft.com/collections/shopify-snippets/products/ks-shoppable-videos)
 20. [KS Store Locator](https://www.kondasoft.com/collections/shopify-snippets/products/ks-store-locator)
+21. [KS Table Compare](https://www.kondasoft.com/collections/shopify-snippets/products/ks-table-compare)
+22. [KS Sticky Image](https://www.kondasoft.com/collections/shopify-snippets/products/ks-sticky-image)
 
 ## Demo (Password: ks)
 https://ks-snippets.myshopify.com
