@@ -30,6 +30,7 @@ All you have to do to install our snippets is to copy and paste the code found m
 21. [KS Table Compare](https://www.kondasoft.com/collections/shopify-snippets/products/ks-table-compare)
 22. [KS Sticky Image](https://www.kondasoft.com/collections/shopify-snippets/products/ks-sticky-image)
 23. [KS Media Slider](https://www.kondasoft.com/collections/shopify-snippets/products/ks-media-slider)
+23. [KS Pricing Plans](https://www.kondasoft.com/collections/shopify-snippets/products/ks-pricing-plans)
 
 ## Demo (Password: ks)
 https://ks-snippets.myshopify.com
