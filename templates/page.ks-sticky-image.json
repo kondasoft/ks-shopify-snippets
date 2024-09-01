@@ -1,0 +1,412 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multirow_mjwBD7": {
+      "type": "multirow",
+      "blocks": {
+        "row_WPTa8D": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>This block is for demo purposes. The Sticky Image section is located below this section.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_M34ptR": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>This block is for demo purposes. The Sticky Image section is located below this section.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_ytNRKt": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>This block is for demo purposes. The Sticky Image section is located below this section.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_WPTa8D",
+        "row_M34ptR",
+        "row_ytNRKt"
+      ],
+      "settings": {
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "section_color_scheme": "",
+        "row_color_scheme": "",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_sticky_image_7my4L6": {
+      "type": "ks-sticky-image",
+      "blocks": {
+        "slide_ejgnxR": {
+          "type": "slide",
+          "settings": {
+            "subtitle": "Developed by KondaSoft",
+            "title": "The Most Versatile Shopify Themes",
+            "description": "<p>Suitable only for Shopify stores that are aspiring for greatness.<\/p>",
+            "btn_primary_text": "Browse Themes",
+            "btn_primary_url": "https:\/\/www.kondasoft.com\/collections\/shopify-themes",
+            "btn_secondary_text": "Browse Snippets",
+            "btn_secondary_url": "https:\/\/www.kondasoft.com\/collections\/shopify-snippets"
+          }
+        },
+        "slide_EkChf7": {
+          "type": "slide",
+          "settings": {
+            "subtitle": "★ ★ ★ ★ ★",
+            "title": "The Most Dynamic Shopify Themes",
+            "description": "<p>Suitable only for Shopify stores that are aspiring for greatness.<\/p>",
+            "btn_primary_text": "Browse Themes",
+            "btn_primary_url": "https:\/\/www.kondasoft.com\/collections\/shopify-themes",
+            "btn_secondary_text": "Browse Snippets",
+            "btn_secondary_url": "https:\/\/www.kondasoft.com\/collections\/shopify-snippets"
+          }
+        },
+        "slide_tfd87P": {
+          "type": "slide",
+          "settings": {
+            "subtitle": "DESIGNED WITH ❤",
+            "title": "The Most Influential Shopify Themes",
+            "description": "<p>Suitable only for Shopify stores that are aspiring for greatness.<\/p>",
+            "btn_primary_text": "Browse Themes",
+            "btn_primary_url": "https:\/\/www.kondasoft.com\/collections\/shopify-themes",
+            "btn_secondary_text": "Browse Snippets",
+            "btn_secondary_url": "https:\/\/www.kondasoft.com\/collections\/shopify-snippets"
+          }
+        }
+      },
+      "block_order": [
+        "slide_ejgnxR",
+        "slide_EkChf7",
+        "slide_tfd87P"
+      ],
+      "settings": {
+        "img_mobile": "shopify:\/\/shop_images\/luca-micheli-ruWkmt3nU58-unsplash.jpg",
+        "img_desktop": "shopify:\/\/shop_images\/luca-micheli-ruWkmt3nU58-unsplash.jpg",
+        "overlay_color": "#121212",
+        "overlay_opacity": 30,
+        "overlay_blur": 0,
+        "caption_max_width": "900",
+        "caption_color": "#ffffff",
+        "title_font_size": "h1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "multirow_NQYcbh": {
+      "type": "multirow",
+      "blocks": {
+        "row_PkPqWA": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>This block is for demo purposes. The Sticky Image section is located below this section.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_YeYnwf": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>This block is for demo purposes. The Sticky Image section is located below this section.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_Raqaaf": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>This block is for demo purposes. The Sticky Image section is located below this section.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_PkPqWA",
+        "row_YeYnwf",
+        "row_Raqaaf"
+      ],
+      "settings": {
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "section_color_scheme": "",
+        "row_color_scheme": "",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_sticky_image_Ba33Kk": {
+      "type": "ks-sticky-image",
+      "blocks": {
+        "slide_tbqhpf": {
+          "type": "slide",
+          "settings": {
+            "subtitle": "Optional Subtitle",
+            "title": "Support for MP4 videos",
+            "description": "<p>An optional description for this slide<\/p>",
+            "btn_primary_text": "Primary button",
+            "btn_primary_url": "",
+            "btn_secondary_text": "Secondary button",
+            "btn_secondary_url": ""
+          }
+        },
+        "slide_xJJcTC": {
+          "type": "slide",
+          "settings": {
+            "subtitle": "Optional Subtitle",
+            "title": "Slide Title",
+            "description": "<p>An optional description for this slide<\/p>",
+            "btn_primary_text": "Primary button",
+            "btn_primary_url": "",
+            "btn_secondary_text": "Secondary button",
+            "btn_secondary_url": ""
+          }
+        },
+        "slide_QgLW4i": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "subtitle": "Optional Subtitle",
+            "title": "Slide Title",
+            "description": "<p>An optional description for this slide<\/p>",
+            "btn_primary_text": "Primary button",
+            "btn_primary_url": "",
+            "btn_secondary_text": "Secondary button",
+            "btn_secondary_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_tbqhpf",
+        "slide_xJJcTC",
+        "slide_QgLW4i"
+      ],
+      "settings": {
+        "video_mobile": "shopify:\/\/files\/videos\/20600550-hd_1920_1080_30fps.mp4",
+        "video_desktop": "shopify:\/\/files\/videos\/20600550-hd_1920_1080_30fps.mp4",
+        "overlay_color": "#121212",
+        "overlay_opacity": 30,
+        "overlay_blur": 0,
+        "caption_max_width": "900",
+        "caption_color": "#ffffff",
+        "title_font_size": "h1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "multirow_73HPjz": {
+      "type": "multirow",
+      "blocks": {
+        "row_9EKfWT": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_8MbMLC": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_CgPQcn": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Sample block - Scroll below ↓",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_9EKfWT",
+        "row_8MbMLC",
+        "row_CgPQcn"
+      ],
+      "settings": {
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "section_color_scheme": "",
+        "row_color_scheme": "",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_sticky_image_alt_nwWJHh": {
+      "type": "ks-sticky-image-alt",
+      "blocks": {
+        "primary_nzNVVK": {
+          "type": "primary",
+          "settings": {
+            "img_mobile": "shopify:\/\/shop_images\/manos-gkikas-pPA5ActWLLI-unsplash.jpg",
+            "img_desktop": "shopify:\/\/shop_images\/manos-gkikas-pPA5ActWLLI-unsplash.jpg",
+            "overlay_color": "#121212",
+            "overlay_opacity": 30,
+            "overlay_blur": 0,
+            "caption_max_width": "900",
+            "caption_color": "#ffffff",
+            "subtitle": "",
+            "title": "Welcome to KondaSoft",
+            "title_font_size": "h0",
+            "description": "",
+            "btn_primary_text": "",
+            "btn_primary_url": "",
+            "btn_secondary_text": "",
+            "btn_secondary_url": ""
+          }
+        },
+        "secondary_iH6yUK": {
+          "type": "secondary",
+          "settings": {
+            "img_mobile": "shopify:\/\/shop_images\/vlah-dumitru-FvmwloIbCeQ-unsplash.jpg",
+            "img_desktop": "shopify:\/\/shop_images\/vlah-dumitru-FvmwloIbCeQ-unsplash.jpg",
+            "overlay_color": "#121212",
+            "overlay_opacity": 60,
+            "overlay_blur": 0,
+            "caption_max_width": "900",
+            "caption_color": "#ffffff",
+            "subtitle": "★ ★ ★ ★ ★",
+            "title": "Show your main information here",
+            "title_font_size": "h1",
+            "description": "<p>An alternate style for this snippet. It works with 2 slides.<\/p>",
+            "btn_primary_text": "Primary button",
+            "btn_primary_url": "",
+            "btn_secondary_text": "Secondary button",
+            "btn_secondary_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "primary_nzNVVK",
+        "secondary_iH6yUK"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "multirow_rTVbfr": {
+      "type": "multirow",
+      "blocks": {
+        "row_XB8WBQ": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Row",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_eqQqmA": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Row",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        },
+        "row_499FaV": {
+          "type": "row",
+          "settings": {
+            "caption": "Caption",
+            "heading": "Row",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "button_label": "Button label",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_XB8WBQ",
+        "row_eqQqmA",
+        "row_499FaV"
+      ],
+      "settings": {
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "section_color_scheme": "",
+        "row_color_scheme": "",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "multirow_mjwBD7",
+    "ks_sticky_image_7my4L6",
+    "multirow_NQYcbh",
+    "ks_sticky_image_Ba33Kk",
+    "multirow_73HPjz",
+    "ks_sticky_image_alt_nwWJHh",
+    "multirow_rTVbfr"
+  ]
+}

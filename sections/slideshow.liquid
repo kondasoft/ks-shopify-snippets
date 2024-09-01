@@ -25,6 +25,25 @@
   {%- endstyle -%}
 {%- endif -%}
 
+{% style %}
+@media (max-width: 749px) {
+  .slideshow__slide .slideshow__media img {
+    display: block;
+  }
+  .slideshow__slide .slideshow__media img + img {
+    display: none !important;
+  }
+}
+@media (min-width: 750px) {
+  .slideshow__slide .slideshow__media img {
+    display: none;
+  }
+  .slideshow__slide .slideshow__media img + img {
+    display: block;
+  }
+}
+{% endstyle %}
+
 <slideshow-component
   class="slider-mobile-gutter{% if section.settings.layout == 'grid' %} page-width{% endif %}{% if section.settings.show_text_below %} mobile-text-below{% endif %}"
   role="region"
@@ -128,13 +147,24 @@
                 assign fetch_priority = 'high'
               endif
             -%}
+           
             {%- if forloop.first %}
+              {{
+                block.settings.image_mobile
+                | image_url: width: 900
+                | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+              }}
               {{
                 block.settings.image
                 | image_url: width: 3840
                 | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
               }}
             {%- else -%}
+              {{
+                block.settings.image_mobile
+                | image_url: width: 900
+                | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
+              }}
               {{
                 block.settings.image
                 | image_url: width: 3840
@@ -150,34 +180,36 @@
             {%- endif -%}
           {%- endif -%}
         </div>
-        <div class="slideshow__text-wrapper banner__content banner__content--{{ block.settings.box_align }} page-width{% if block.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll and forloop.index == 1 %} scroll-trigger animate--slide-in{% endif %}">
-          <div class="slideshow__text banner__box content-container content-container--full-width-mobile color-{{ block.settings.color_scheme }} gradient slideshow__text--{{ block.settings.text_alignment }} slideshow__text-mobile--{{ block.settings.text_alignment_mobile }}">
-            {%- if block.settings.heading != blank -%}
-              <h2 class="banner__heading inline-richtext {{ block.settings.heading_size }}">
-                {{ block.settings.heading }}
-              </h2>
-            {%- endif -%}
-            {%- if block.settings.subheading != blank -%}
-              <div class="banner__text rte" {{ block.shopify_attributes }}>
-                <p>{{ block.settings.subheading }}</p>
-              </div>
-            {%- endif -%}
-            {%- if block.settings.button_label != blank -%}
-              <div class="banner__buttons">
-                <a
-                  {% if block.settings.link %}
-                    href="{{ block.settings.link }}"
-                  {% else %}
-                    role="link" aria-disabled="true"
-                  {% endif %}
-                  class="button {% if block.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}"
-                >
-                  {{- block.settings.button_label | escape -}}
-                </a>
-              </div>
-            {%- endif -%}
+        {% unless block.settings.heading == blank and block.settings.subheading == blank and block.settings.button_label %}
+          <div class="slideshow__text-wrapper banner__content banner__content--{{ block.settings.box_align }} page-width{% if block.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll and forloop.index == 1 %} scroll-trigger animate--slide-in{% endif %}">
+            <div class="slideshow__text banner__box content-container content-container--full-width-mobile color-{{ block.settings.color_scheme }} gradient slideshow__text--{{ block.settings.text_alignment }} slideshow__text-mobile--{{ block.settings.text_alignment_mobile }}">
+              {%- if block.settings.heading != blank -%}
+                <h2 class="banner__heading inline-richtext {{ block.settings.heading_size }}">
+                  {{ block.settings.heading }}
+                </h2>
+              {%- endif -%}
+              {%- if block.settings.subheading != blank -%}
+                <div class="banner__text rte" {{ block.shopify_attributes }}>
+                  <p>{{ block.settings.subheading }}</p>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.button_label != blank -%}
+                <div class="banner__buttons">
+                  <a
+                    {% if block.settings.link %}
+                      href="{{ block.settings.link }}"
+                    {% else %}
+                      role="link" aria-disabled="true"
+                    {% endif %}
+                    class="button {% if block.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label | escape -}}
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
           </div>
-        </div>
+        {% endunless %}
       </div>
     {%- endfor -%}
   </div>
@@ -380,8 +412,13 @@
       "settings": [
         {
           "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image"
+        },
+        {
+          "type": "image_picker",
           "id": "image",
-          "label": "t:sections.slideshow.blocks.slide.settings.image.label"
+          "label": "Desktop image"
         },
         {
           "type": "inline_richtext",

@@ -1,0 +1,503 @@
+{% liquid 
+  # KS Sticky Image
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% liquid 
+  if section.index > 1
+    assign media_loading = 'lazy'
+  else
+    assign media_loading = 'eager'
+  endif
+%}
+
+{%- style -%}
+  #ks-sticky-image-{{ section.id }} {
+    display: block;
+    position: relative;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-media-wrapper-mobile {
+    display: block;
+  }
+  
+  #ks-sticky-image-{{ section.id }} .ks-media-wrapper-desktop {
+    display: none;
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-sticky-image-wrapper {
+    --opacity: 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-sticky-image-wrapper::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(var(--overlay-color-rgb, 0, 0, 0), var(--overlay-opacity, 0.7));
+    -webkit-backdrop-filter: blur(var(--overlay-blur, 0));
+    backdrop-filter: blur(var(--overlay-blur, 0));
+  }
+
+  #ks-sticky-image-{{ section.id }} img, 
+  #ks-sticky-image-{{ section.id }} video {
+    display: flex;
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #ks-sticky-image-{{ section.id }} svg.placeholder-svg {
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-sticky-image-caption-wrapper {
+    position: relative;
+    margin-top: -100vh;
+    color: rgba(var(--caption-color-rgb), 1);
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-sticky-image-caption-inner {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 1rem;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-subtitle {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: .9em;
+    text-shadow: 1px 1px 1px rgba(var(--overlay-color-rgb, 0, 0, 0), .25);
+  }
+  
+  #ks-sticky-image-{{ section.id }} .ks-title {
+    margin: 0 0 8px;
+    color: currentColor;
+    text-shadow: 1px 1px 1px rgba(var(--overlay-color-rgb, 0, 0, 0), .25);
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-description {
+    margin: 0 0 24px;
+    color: currentColor;
+    text-shadow: 1px 1px 1px rgba(var(--overlay-color-rgb, 0, 0, 0), .25);
+  }
+
+  #ks-sticky-image-{{ section.id }} .ks-btn-wrapper {
+    background: transparent;
+  }
+
+  #ks-sticky-image-{{ section.id }} .button {
+    margin: 3px;
+  }
+
+  #ks-sticky-image-{{ section.id }} .button--primary {
+    --color-button: var(--caption-color-rgb);
+    --color-button-text: var(--overlay-color-rgb);
+  }
+
+  #ks-sticky-image-{{ section.id }} .button--secondary {
+    --alpha-button-background: 0;
+    --color-button-text: var(--caption-color-rgb);
+  }
+
+  @media (min-width: 750px) {
+    #ks-sticky-image-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    #ks-sticky-image-{{ section.id }} .ks-media-wrapper-mobile {
+      display: none;
+    }
+    #ks-sticky-image-{{ section.id }} .ks-media-wrapper-desktop {
+      display: block;
+    }
+  }
+{%- endstyle -%}
+
+{%- javascript -%}
+class KsStickyImage extends HTMLElement {
+  constructor () {
+    super()
+
+    window.addEventListener('scroll', () => {
+      const windowHeight = window.innerHeight
+
+      const top = this.getBoundingClientRect().top
+      const bottom = this.getBoundingClientRect().bottom
+      const visibilityTop = Math.round(top / windowHeight * 100)
+      const visibilityBottom = Math.round(bottom / windowHeight * 100)
+
+      if (visibilityTop > 0 && visibilityTop < 100) {
+        this.querySelectorAll('.ks-sticky-image-wrapper').forEach(elem => {
+          const overlayOpacity = Number(elem.dataset.overlayOpacity)
+          const final = Math.round((100 - overlayOpacity) * visibilityTop / 100 + overlayOpacity)
+          elem.style.setProperty('--overlay-opacity', final + '%')
+        })
+      } else if (visibilityBottom > 0 && visibilityBottom < 100) {
+        this.querySelectorAll('.ks-sticky-image-wrapper').forEach(elem => {
+          const overlayOpacity = Number(elem.dataset.overlayOpacity)
+          const final = Math.round((100 - overlayOpacity) * (1 - visibilityBottom / 100) + overlayOpacity)
+          elem.style.setProperty('--overlay-opacity', final + '%')
+        })
+      }
+    })
+
+    const lazyVideosObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.play()
+        }
+      })
+    }, { rootMargin: '0px 0px 300px 0px' })
+    
+    this.querySelectorAll('video[data-autoplay="true"]').forEach((el) => {
+      lazyVideosObserver.observe(el)
+    })
+  }
+}
+customElements.define('ks-sticky-image', KsStickyImage)
+{%- endjavascript -%}
+ 
+<ks-sticky-image 
+  id="ks-sticky-image-{{ section.id }}"
+  class="ks-sticky-image">
+  <div 
+    class="ks-sticky-image-wrapper" 
+    data-overlay-opacity="{{ section.settings.overlay_opacity }}"
+    style="
+      --overlay-color-rgb: {{ section.settings.overlay_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+      --overlay-opacity: {{ section.settings.overlay_opacity | append: '%' }};
+      --overlay-blur: {{ section.settings.overlay_blur | append: 'px' }}">
+    {% if section.settings.video_mobile != blank or section.settings.video_desktop != blank %}
+      <div class="ks-media-wrapper-mobile">
+        {{-
+          section.settings.video_mobile | video_tag: 
+            class: '',
+            image_size: '800x', 
+            autoplay: false, 
+            loop: true, 
+            muted: true, 
+            controls: false,
+            loading: media_loading,
+            preload: 'none',
+            data-autoplay: true
+        -}}
+      </div>
+      <div class="ks-media-wrapper-desktop">
+        {{-
+          section.settings.video_desktop | video_tag: 
+            class: '',
+            image_size: '1600x', 
+            autoplay: false, 
+            loop: true, 
+            muted: true, 
+            controls: false,
+            loading: 'media_loading',
+            preload: 'none',
+            data-autoplay: true
+        -}}
+      </div>
+    {% elsif section.settings.img_mobile != blank or section.settings.img_desktop != blank %}
+      <div class="ks-media-wrapper-mobile">
+        <img 
+          class=""
+          src="{{ section.settings.img_mobile | image_url: width: '800' }}" 
+          alt=" {{ section.settings.img_mobile.alt }}"
+          width="800"
+          height="{{ 800 | divided_by: section.settings.img_mobile.aspect_ratio | round }}"
+          loading="{{ media_loading }}">
+      </div>
+      <div class="ks-media-wrapper-desktop">
+        <img 
+          class=""
+          src="{{ section.settings.img_desktop | image_url: width: '1600' }}" 
+          alt=" {{ section.settings.img_desktop.alt }}"
+          width="1600"
+          height="{{ 1600 | divided_by: section.settings.img_desktop.aspect_ratio | round }}"
+          loading="{{ media_loading }}">
+      </div>
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </div>
+  <div 
+    class="ks-sticky-image-caption-wrapper"
+    style="
+      --caption-color-rgb: {{ section.settings.caption_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+      --overlay-color-rgb: {{ section.settings.overlay_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    ">
+    {% for block in section.blocks %}
+      <div 
+        class="ks-sticky-image-caption-inner" 
+        style="max-width: {{ section.settings.caption_max_width | append: 'px;' }};">
+        <div class="ks-sticky-image-caption-inner-inner"> 
+          {% unless block.settings.subtitle == blank %}
+            <p class="ks-subtitle">
+              {{ block.settings.subtitle }}
+            </p>
+          {% endunless %}
+          {% unless block.settings.title == blank %}
+            <h2 class="ks-title {{ section.settings.title_font_size }}">
+              {{ block.settings.title }}
+            </h2>
+          {% endunless %}
+          {% unless block.settings.description == blank %}
+            <div class="ks-description rte">
+              {{ block.settings.description }}
+            </div>
+          {% endunless %}
+          {% if block.settings.btn_primary_text != blank or block.settings.btn_secondary_text != blank %}
+            <div class="ks-btn-wrapper">
+              {% unless block.settings.btn_primary_text == blank %}
+                <a 
+                  class="button button--primary btn btn-primary"  
+                  href="{{ block.settings.btn_primary_url }}">
+                  {{ block.settings.btn_primary_text }}
+                </a>
+              {% endunless %}
+              {% unless block.settings.btn_secondary_text == blank %}
+                <a 
+                  class="button button--secondary btn btn-secondary"  
+                  href="{{ block.settings.btn_secondary_url }}">
+                  {{ block.settings.btn_secondary_text }}
+                </a>
+              {% endunless %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</ks-sticky-image>
+
+{% schema %}
+{
+  "name": "KS - Sticky Image",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_mobile",
+      "label": "Image - mobile"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_desktop",
+      "label": "Image - desktop"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "video_mobile",
+      "label": "Video - mobile"
+    },
+    {
+      "type": "video",
+      "id": "video_desktop",
+      "label": "Video - desktop" 
+    },
+    {
+      "type": "header",
+      "content": "Image/Video overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 30,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "overlay_blur",
+      "label": "Blur",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Caption"
+    },
+    {
+      "type": "text",
+      "id": "caption_max_width",
+      "label": "Max-width (px)",
+      "default": "900"
+    },
+    
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title font-size",
+      "info": "The \"H0\" value is available in the Dawn theme",
+      "default": "h1",
+      "options": [
+        { "value": "h0", "label": "H0" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "The most advanced Shopify themes you will ever find - [Browse our Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 KondaSoft.com"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Optional Subtitle",
+          "info": "Leave empty to disable"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "Slide Title",
+          "info": "Leave empty to disable"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>An optional description for this slide</p>",
+          "info": "Leave empty to disable"
+        },
+        {
+          "type": "header",
+          "content": "Primary button"
+        },
+        {
+          "type": "text",
+          "id": "btn_primary_text",
+          "label": "Button text",
+          "default": "Primary button",
+          "info": "Leave empty to disable"
+        },
+        {
+          "type": "url",
+          "id": "btn_primary_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "Secondary button"
+        },
+        {
+          "type": "text",
+          "id": "btn_secondary_text",
+          "label": "Button text",
+          "default": "Secondary button",
+          "info": "Leave empty to disable"
+        },
+        {
+          "type": "url",
+          "id": "btn_secondary_url",
+          "label": "Button URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Sticky Image",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+      ]
+    }
+  ]
+}
+{% endschema %}

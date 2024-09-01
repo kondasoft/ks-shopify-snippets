@@ -15,100 +15,131 @@
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-collection-snowboard-oxygen"
           }
         },
         "testimonial_ewmz6b": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-compare-at-price-snowboard"
           }
         },
         "testimonial_wgrxpj": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-sticky-add-to-cart"
           }
         },
         "testimonial_6wYtyh": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-collection-snowboard-liquid"
           }
         },
         "testimonial_FxEHCD": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-color-swatches"
           }
         },
         "testimonial_pDQLhP": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-collection-snowboard-liquid"
           }
         },
         "testimonial_4ywBT6": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": ""
+          }
+        },
+        "testimonial_RpU8Xr": {
+          "type": "testimonial",
+          "settings": {
+            "title": "The best product so far",
+            "card_stars_number": 5,
+            "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
+            "author": "Author's Name",
+            "author_subtitle": "Verified Customer",
+            "product": "the-out-of-stock-snowboard"
           }
         },
         "testimonial_nckVAC": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-videographer-snowboard"
           }
         },
         "testimonial_E9HKHK": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": ""
           }
         },
         "testimonial_rqiCE4": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-3p-fulfilled-snowboard"
           }
         }
       },
@@ -120,6 +151,7 @@
         "testimonial_FxEHCD",
         "testimonial_pDQLhP",
         "testimonial_4ywBT6",
+        "testimonial_RpU8Xr",
         "testimonial_nckVAC",
         "testimonial_E9HKHK",
         "testimonial_rqiCE4"
@@ -144,6 +176,7 @@
         "card_border_radius": 16,
         "card_show_stars": true,
         "img_size": "40",
+        "card_equal_height": true,
         "breakpoint_xs": 1,
         "breakpoint_sm": 2,
         "breakpoint_md": 2,
@@ -157,108 +190,140 @@
     "ks_testimonials_slider_eJmUDQ": {
       "type": "ks-dawn-testimonials-slider",
       "blocks": {
+        "testimonial_J4b3Wz": {
+          "type": "testimonial",
+          "settings": {
+            "title": "The best product so far",
+            "card_stars_number": 5,
+            "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
+            "author": "Author's Name",
+            "author_subtitle": "Verified Customer",
+            "product": "ks-color-swatches"
+          }
+        },
         "testimonial_xFBGA8": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-product-custom-properties"
           }
         },
         "testimonial_TN6GLH": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-inventory-bar"
           }
         },
         "testimonial_HeGVeU": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-sticky-add-to-cart"
           }
         },
         "testimonial_zV7jCR": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "selling-plans-ski-wax"
           }
         },
         "testimonial_JRHBY3": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-collection-snowboard-hydrogen"
           }
         },
         "testimonial_9YnwQT": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-compare-at-price-snowboard"
           }
         },
         "testimonial_HcePaa": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-inventory-not-tracked-snowboard"
           }
         },
         "testimonial_j6tCdm": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-videographer-snowboard"
           }
         },
         "testimonial_NU7zyg": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-color-swatches"
           }
         },
         "testimonial_jFNcJJ": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "img": "shopify:\/\/shop_images\/default-user-icon.png",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-quantity-breaks"
           }
         }
       },
       "block_order": [
+        "testimonial_J4b3Wz",
         "testimonial_xFBGA8",
         "testimonial_TN6GLH",
         "testimonial_HeGVeU",
@@ -290,6 +355,7 @@
         "card_border_radius": 16,
         "card_show_stars": true,
         "img_size": "40",
+        "card_equal_height": true,
         "breakpoint_xs": 1,
         "breakpoint_sm": 2,
         "breakpoint_md": 2,
@@ -307,90 +373,110 @@
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-product-custom-properties"
           }
         },
         "testimonial_XcXmWW": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-quantity-breaks"
           }
         },
         "testimonial_c3Lbg3": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-quantity-breaks"
           }
         },
         "testimonial_J7wcNE": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-3p-fulfilled-snowboard"
           }
         },
         "testimonial_NdnjrR": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-collection-snowboard-liquid"
           }
         },
         "testimonial_jjbW8p": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-inventory-not-tracked-snowboard"
           }
         },
         "testimonial_78yAXT": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-videographer-snowboard"
           }
         },
         "testimonial_GmE94R": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-out-of-stock-snowboard"
           }
         },
         "testimonial_f7ncJH": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "the-multi-managed-snowboard"
           }
         },
         "testimonial_nwfF36": {
           "type": "testimonial",
           "settings": {
             "title": "The best product so far",
+            "card_stars_number": 5,
             "description": "<p>This Shopify theme is a game-changer for our online store. The sleek design and responsive layout ensure a seamless shopping experience for our customers. The customization options are user-friendly, allowing us to showcase our products in the best possible way. Definitely a must-have for any e-commerce business.<\/p>",
             "author": "Author's Name",
-            "author_subtitle": "Verified Customer"
+            "author_subtitle": "Verified Customer",
+            "product": "ks-sticky-add-to-cart"
           }
         }
       },
@@ -426,6 +512,7 @@
         "card_border_radius": 0,
         "card_show_stars": true,
         "img_size": "40",
+        "card_equal_height": true,
         "breakpoint_xs": 1,
         "breakpoint_sm": 2,
         "breakpoint_md": 2,

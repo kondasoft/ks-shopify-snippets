@@ -1,0 +1,818 @@
+{% liquid 
+  # KS Media Slider
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{%- style -%}
+  #ks-media-slider-{{ section.id }} {
+    --color-background: {{ section.settings.background_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    --color-foreground: {{ section.settings.foreground_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    display: block;
+    overflow: hidden;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: rgba(var(--color-background), 1);
+    color: rgba(var(--color-foreground), 1);
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper {
+    --swiper-theme-color: rgba(var(--color-foreground), 0.75);
+    --swiper-navigation-size: 16px;
+    --swiper-navigation-sides-offset: -4px;
+    --swiper-pagination-bullet-inactive-color: var(--swiper-theme-color);
+    --swiper-pagination-bottom: -24px;
+    --swiper-scrollbar-bottom: -40px;
+    --swiper-scrollbar-bg-color: rgba(var(--color-foreground), 0.1);
+    --swiper-scrollbar-drag-bg-color: var(--swiper-theme-color);
+    margin-left: -{{ section.settings.gap | times: 0.75 | round: 0 }}px;
+    margin-right: -{{ section.settings.gap | times: 0.75 | round: 0 }}px;
+  }
+
+  #ks-media-slider-{{ section.id }} .section-header .title {
+    margin: 0 0 .5rem;
+  }
+
+  #ks-media-slider-{{ section.id }} .section-header .description {
+    margin-bottom: 1.75rem;
+  }
+
+  #ks-media-slider-{{ section.id }} div:empty {
+    display: block;
+  }
+
+  #ks-media-slider-{{ section.id }} .section-header {
+    text-align: center;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper {
+    opacity: 0;
+    transition: all .2s ease-out;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-initialized {
+    opacity: 1;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-pagination-wrapper {
+    position: relative;
+    height: 32px;
+    margin: 2.5rem 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-pagination {
+    position: relative;
+    bottom: auto;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-pagination-fraction {
+    margin: -8px 0;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-scrollbar {
+    position: relative;
+    max-width: 60vw;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: auto;
+    margin-top: 10px;
+  }
+
+  #ks-media-slider-{{ section.id }} [class*="swiper-button"] {
+    width: 32px;
+    height: 32px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50rem;
+    background-color: rgba(var(--color-foreground), 0);
+    color: rgba(var(--color-foreground), 1);
+    border: 1px solid rgba(var(--color-foreground), 1);
+    transform: none;
+    bottom: auto;
+    top: auto;
+    margin: 0;
+    z-index: 99;
+    transition: all .2s ease-out;
+  }
+
+  #ks-media-slider-{{ section.id }} [class*="swiper-button"]:hover,
+  #ks-media-slider-{{ section.id }} [class*="swiper-button"]:focus {
+    background-color: rgba(var(--color-foreground), .1);
+  }
+
+  #ks-media-slider-{{ section.id }} [class*="swiper-button"]::after {
+    transition: all .2s ease-out;
+  } 
+
+  #ks-media-slider-{{ section.id }} .swiper-navigation-disabled [class*="swiper-button"] {
+    display: none !important;
+  } 
+
+  #ks-media-slider-{{ section.id }} .swiper-button-prev {
+    left: 0;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-button-next {
+    right: 0;
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-button-prev:hover::after {
+    transform: translateX(-2px);
+  }
+
+  #ks-media-slider-{{ section.id }} .swiper-button-next:hover::after {
+    transform: translateX(2px);
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-media-slider-content {
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-media-slider-content-only-media {
+    width: 100%;
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-media-slider-content-left {
+    display: flex;
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-media-slider-content-right {
+    padding: 2rem 0 0;
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-media-border-radius {
+    border-radius: {{ section.settings.media_border_radius | append: 'rem' }};
+  }
+
+  #ks-media-slider-{{ section.id }} .svg-placeholder {
+    width: 100%;
+    max-height: 500px;
+    background: rgba(var(--color-foreground), 0.1);
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-subtitle {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: .9em;
+  }
+  
+  #ks-media-slider-{{ section.id }} .ks-title {
+    margin: 0 0 8px;
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-description {
+    margin: 0 0 24px;
+  }
+
+  #ks-media-slider-{{ section.id }} .ks-btn-wrapper {
+    margin: -3px;
+  }
+
+  #ks-media-slider-{{ section.id }} .button {
+    margin: 3px;
+  }
+
+  #ks-media-slider-{{ section.id }} .button--primary {
+    --color-button: var(--color-foreground);
+    --color-button-text: var(--color-background);
+  }
+
+  #ks-media-slider-{{ section.id }} .button--secondary {
+    --color-button: var(--color-background);
+    --color-button-text: var(--color-foreground);
+  }
+
+  @media (max-width: 749px) {
+    #ks-media-slider-{{ section.id }} [data-text-align-mobile="left"] {
+      text-align: left;
+    }
+    #ks-media-slider-{{ section.id }} [data-text-align-mobile="center"] {
+      text-align: center;
+    }
+    #ks-media-slider-{{ section.id }} [data-text-align-mobile="right"] {
+      text-align: right;
+    }
+  }
+
+  @media (min-width: 750px) {
+    #ks-media-slider-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    #ks-media-slider-{{ section.id }} .swiper {
+      --swiper-pagination-bottom: -30px;
+      --swiper-scrollbar-bottom: -46px;
+    }
+    #ks-media-slider-{{ section.id }} .swiper-scrollbar {
+      max-width: 600px;
+    }
+    #ks-media-slider-{{ section.id }} .section-header .title {
+      margin: 0 0 1rem;
+    }
+    #ks-media-slider-{{ section.id }} .section-header .description {
+      margin-bottom: 2.25rem;
+    }
+    #ks-media-slider-{{ section.id }} .ks-media-slider-content {
+      display: flex;
+      align-items: center;
+    }
+    #ks-media-slider-{{ section.id }} .ks-media-slider-content-desktop-reversed {
+      flex-direction: row-reverse;
+    }
+    #ks-media-slider-{{ section.id }} .ks-media-slider-content-left {
+      width: 50%;
+    }
+    #ks-media-slider-{{ section.id }} .ks-media-slider-content-right {
+      width: calc(50% - 6rem);
+      padding: 3rem;
+    }
+    #ks-media-slider-{{ section.id }} [data-text-align-desktop="left"] {
+      text-align: left;
+    }
+    #ks-media-slider-{{ section.id }} [data-text-align-desktop="center"] {
+      text-align: center;
+    }
+    #ks-media-slider-{{ section.id }} [data-text-align-desktop="right"] {
+      text-align: right;
+    }
+  }
+{%- endstyle -%}
+
+{%- javascript -%}
+class KsMediaSlider extends HTMLElement {
+  constructor () {
+    super()
+
+    if (!document.querySelector('#swiper-stylesheet')) {
+      const stylesheet = document.createElement('link')
+      stylesheet.setAttribute('href', 'https://cdn.jsdelivr.net/npm/swiper@11.1.4/swiper-bundle.min.css')
+      stylesheet.setAttribute('rel', 'stylesheet')
+      stylesheet.setAttribute('id', 'swiper-stylesheet')
+      stylesheet.setAttribute('integrity', 'sha256-5nkrwjVsiNfKz3NR1k2h5+qt5pS5SF2u9/TIT1hElow=')
+      stylesheet.setAttribute('crossorigin', 'anonymous')
+      document.head.appendChild(stylesheet)
+    }
+
+    if (!document.querySelector('#swiper-script')) {
+      const script = document.createElement('script')
+      script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/swiper@11.1.4/swiper-bundle.min.js')
+      script.setAttribute('id', 'swiper-script')
+      script.setAttribute('integrity', 'sha256-rCACDWCp/VzIh0rsB+ipQCM9XBvO8HNe0fNSOa4sys0=')
+      script.setAttribute('crossorigin', 'anonymous')
+      document.head.appendChild(script)
+    }
+
+    this.myInterval = setInterval(() => {
+      this.init()
+    }, 500);
+
+    document.addEventListener('shopify:section:load', () => {
+      if (event.target.querySelector('.ks-media-slider')) {
+        this.init()
+      }
+    })
+  }
+
+  init () {
+    if (!window.Swiper) return
+
+    const slider = new window.Swiper(this.querySelector('.swiper'), {
+      rewind: true,
+      speed: Number(this.dataset.sliderSpeed),
+      navigation: {
+        enabled: this.dataset.sliderNav === 'true',
+        nextEl: this.querySelector('.swiper-button-next'),
+        prevEl: this.querySelector('.swiper-button-prev')
+      },
+      pagination: {
+        enabled: this.dataset.sliderPagination === 'true',
+        type: this.dataset.sliderPaginationType,
+        el: '.swiper-pagination',
+        dynamicBullets: true,
+        dynamicMainBullets: 2,
+        renderFraction: function (currentClass, totalClass) {
+          return `<span class="${currentClass}"></span>/<span class="${totalClass}"></span>`
+        }
+      },
+      scrollbar: {
+        enabled: this.dataset.sliderScrollbar === 'true',
+        el: this.querySelector('.swiper-scrollbar'),
+        draggable: true
+        // hide: true
+      },
+      autoplay: this.dataset.sliderAutoplay !== '0'
+        ? { delay: Number(this.dataset.sliderAutoplay) * 1000 }
+        : undefined,
+      watchSlidesProgress: true, 
+      mousewheel: {
+        enabled: true,
+        forceToAxis: true
+      },
+      on: {
+        slideChange: (swiper) => {
+          this.querySelectorAll('.swiper-slide').forEach(slide => {
+            if (!slide.classList.contains('swiper-slide-visible')) {
+              slide.querySelectorAll('.video').forEach(video => {
+                video.pause()
+              })
+              slide.querySelectorAll('iframe').forEach(iframe => {
+                const iframeSrc = iframe.src
+                iframe.src = iframeSrc
+              })
+            }
+          })
+        }
+      }
+    })
+
+    const lazyVideosObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.play()
+        }
+      })
+    }, { rootMargin: '0px 0px 300px 0px' })
+    
+    this.querySelectorAll('video[data-autoplay="true"]').forEach((el) => {
+      lazyVideosObserver.observe(el)
+    })
+
+    clearInterval(this.myInterval)
+  }
+}
+customElements.define('ks-media-slider', KsMediaSlider)
+
+{%- endjavascript -%}
+ 
+<ks-media-slider 
+  id="ks-media-slider-{{ section.id }}"
+  class="ks-media-slider color-{{ section.settings.color_scheme }} gradient {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-slider-speed="{{ section.settings.slider_speed }}"
+  data-slider-nav="{{ section.settings.slider_nav }}"
+  data-slider-pagination="{{ section.settings.slider_pagination }}"
+  data-slider-pagination-type="{{ section.settings.slider_pagination_type }}"
+  data-slider-scrollbar="{{ section.settings.slider_scrollbar }}"
+  data-slider-autoplay="{{ section.settings.slider_autoplay }}"
+  aria-label="{{ section.settings.label }}">   
+  <div 
+    class="ks-media-slider-container page-width container"
+    style="{% unless section.settings.container_max_width == blank %}max-width: {{ section.settings.container_max_width | append: 'px' }}{% endunless %}">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          {% liquid 
+            if block.settings.show_only_media
+              assign media_width = 1600
+            else
+              assign media_width = 800
+            endif
+            assign video_img_width = media_width | append: 'x'
+          %}
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+            <div class="ks-media-slider-content {% if block.settings.media_alignment == 'right' %}ks-media-slider-content-desktop-reversed{% endif %}">
+              <div class="{% if block.settings.show_only_media %}ks-media-slider-content-only-media{% else %}ks-media-slider-content-left{% endif %}">
+                {% if block.settings.external_video != blank %}
+                  {% liquid 
+                    if block.settings.external_video.type == 'youtube'
+                      assign video_src = 'https://www.youtube.com/embed/' | append: block.settings.external_video.id
+                    else
+                      assign video_src = 'https://player.vimeo.com/video/' | append: block.settings.external_video.id
+                    endif
+                  %}
+                  <iframe
+                    class="ks-media-border-radius"
+                    src="{{ video_src }}"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    frameborder="0"
+                    allowfullscreen
+                    loading="lazy"
+                    style="aspect-ratio: 16/9; width: 100% !important; display: flex;">
+                  </iframe>
+                {% elsif block.settings.video != blank %}
+                  {{- 
+                    block.settings.video | video_tag: 
+                      class: 'ks-media-border-radius',
+                      image_size: video_img_width, 
+                      autoplay: false, 
+                      loop: block.settings.video_loop, 
+                      muted: block.settings.video_muted, 
+                      controls: block.settings.video_controls,
+                      loading: 'lazy',
+                      preload: 'none',
+                      style: 'width: 100%; height: auto; display: flex;',
+                      data-autoplay: block.settings.video_autoplay
+                  -}}
+                {% elsif block.settings.img != blank %}
+                  <img
+                    src="{{ block.settings.img | image_url: width: media_width }}"
+                    alt="{{ block.settings.img.alt }}"
+                    class="ks-media-border-radius"
+                    width="{{ media_width }}"
+                    height="{{ media_width | divided_by: block.settings.img.aspect_ratio | round }}"
+                    loading="lazy"
+                    style="
+                      width: 100%; object-fit: cover;
+                      {% if block.settings.img_height > 0 %}
+                        height: {{ block.settings.img_height | append: 'px' }}
+                      {% else %}
+                        height: auto;
+                      {% endif %}
+                    ">
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'svg-placeholder' }}
+                {% endif %}
+              </div>
+              {% unless block.settings.show_only_media %}
+                <div 
+                  class="ks-media-slider-content-right"
+                  data-text-align-mobile="{{ block.settings.text_align_mobile }}"
+                  data-text-align-desktop="{{ block.settings.text_align_desktop }}">
+                  {% unless block.settings.subtitle == blank %}
+                    <p class="ks-subtitle">
+                      {{ block.settings.subtitle }}
+                    </p>
+                  {% endunless %}
+                  {% unless block.settings.title == blank %}
+                    <h2 class="ks-title {{ block.settings.title_font_size }}">
+                      {{ block.settings.title }}
+                    </h2>
+                  {% endunless %}
+                  {% unless block.settings.description == blank %}
+                    <div class="ks-description rte">
+                      {{ block.settings.description }}
+                    </div>
+                  {% endunless %}
+                  {% if block.settings.btn_primary_text != blank or block.settings.btn_secondary_text != blank %}
+                    <div class="ks-btn-wrapper">
+                      {% unless block.settings.btn_primary_text == blank %}
+                        <a 
+                          class="button button--primary btn btn-primary"  
+                          href="{{ block.settings.btn_primary_url }}">
+                          {{ block.settings.btn_primary_text }}
+                        </a>
+                      {% endunless %}
+                      {% unless block.settings.btn_secondary_text == blank %}
+                        <a 
+                          class="button button--secondary btn btn-secondary"  
+                          href="{{ block.settings.btn_secondary_url }}">
+                          {{ block.settings.btn_secondary_text }}
+                        </a>
+                      {% endunless %}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endunless %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="swiper-pagination-wrapper">
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-scrollbar"></div>
+      </div>
+
+    </div>
+  </div>
+</ks-media-slider>
+
+{% schema %}
+{
+  "name": "KS - Media slider",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "foreground_color",
+      "label": "Foreground color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "info": "It is used for accessibility purposes",
+      "default": "Latest videos"
+    },
+    {
+      "type": "range",
+      "id": "media_border_radius",
+      "label": "Media border-radius",
+      "min": 0,
+      "max": 5,
+      "step": 0.2,
+      "default": 1,
+      "unit": "rem"
+    },
+    {
+      "type": "text",
+      "id": "container_max_width",
+      "label": "Container max-width (px)",
+      "info": "Leave empty to use the default container width"
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "range",
+      "id": "slider_speed",
+      "label": "Speed",
+      "default": 300,
+      "min": 0,
+      "max": 2000,
+      "step": 100,
+      "unit": "ms"
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_nav",
+      "label": "Show navigation (arrows)",
+      "info": "NOTE: Will not show on mobile",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_pagination",
+      "label": "Show pagination",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "slider_pagination_type",
+      "label": "Pagination type",
+      "default": "bullets", 
+      "options": [
+        { "value": "bullets", "label": "Bullets" },
+        { "value": "fraction", "label": "Fraction" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_scrollbar",
+      "label": "Show scrollbar",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slider_autoplay",
+      "label": "Autoplay",
+      "min": 0,
+      "max": 10,
+      "default": 0,
+      "unit": "sec",
+      "info": "Selecing \"0\" will disable autoplay."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "Ready to take your store to the next level? Check out our [Premium Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 KondaSoft.com"
+    }
+  ],
+"blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "General"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_only_media",
+          "label": "Show only media",
+          "info": "If this setting is enabled, the text will hide and the media will be shown in full-width",
+          "default": false,
+        },
+        {
+          "type": "select",
+          "id": "media_alignment",
+          "label": "Media aligmnment - desktop",
+          "default": "left",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "img",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "img_height",
+          "label": "Image height",
+          "info": "Select \"0\" to adapt",
+          "min": 0,
+          "max": 1000,
+          "default": 0,
+          "step": 50,
+          "unit": "px",
+        },
+        {
+          "type": "header",
+          "content": "Video (MP4)"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "checkbox",
+          "id": "video_autoplay",
+          "label": "Autoplay",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "video_loop",
+          "label": "Loop",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "video_muted",
+          "label": "Muted",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "video_controls",
+          "label": "Controls",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "External Video"
+        },
+        {
+          "type": "video_url",
+          "id": "external_video",
+          "label": "Video",
+          "accept": [
+            "youtube", "vimeo"
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text_alignment",
+          "id": "text_align_mobile",
+          "label": "Text align - mobile",
+          "default": "center"
+        },
+        {
+          "type": "text_alignment",
+          "id": "text_align_desktop",
+          "label": "Text align - desktop",
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Optional Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Slide Title"
+        },
+        {
+          "type": "select",
+          "id": "title_font_size",
+          "label": "Title font-size",
+          "info": "The \"H0\" value is available in the Dawn theme",
+          "default": "h1",
+          "options": [
+            { "value": "h0", "label": "H0" },
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" },
+            { "value": "h5", "label": "H5" },
+            { "value": "h6", "label": "H6" }
+          ]
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description (optional)",
+          "default": "<p>Either show an image, video (MP4) or an external video (YouTube). If no text block is shown, the media will take full section's space.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Primary button"
+        },
+        {
+          "type": "text",
+          "id": "btn_primary_text",
+          "label": "Button text",
+          "default": "Primary button",
+          "info": "Leave empty to disable"
+        },
+        {
+          "type": "url",
+          "id": "btn_primary_url",
+          "label": "Btton URL"
+        },
+        {
+          "type": "header",
+          "content": "Secondary button"
+        },
+        {
+          "type": "text",
+          "id": "btn_secondary_text",
+          "label": "Button text",
+          "default": "Secondary button",
+          "info": "Leave empty to disable"
+        },
+        {
+          "type": "url",
+          "id": "btn_secondary_url",
+          "label": "Button URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Media slider",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

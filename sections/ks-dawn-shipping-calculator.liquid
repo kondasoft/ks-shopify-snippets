@@ -127,6 +127,12 @@
         })
 
         this.country.options[0].textContent = this.country.getAttribute('aria-label')
+
+        this.insertCustomerData()
+
+        this.querySelector('#ks-shipping-calculator-country').value = 'United States'
+        this.querySelector('#ks-shipping-calculator-country').style.display = 'none'
+        this.querySelector('#ks-shipping-calculator-country').dispatchEvent(new CustomEvent('change'))
       }
 
       insertInCartDrawer() {
@@ -176,6 +182,23 @@
         if (!wrapper) return
 
         cartFooter.querySelector('.cart__blocks').insertAdjacentHTML('afterbegin', wrapper.innerHTML)
+      }
+
+      insertCustomerData () {
+        const country = this.dataset.customerCountry
+        const province = this.dataset.customerProvince
+        const zip = this.dataset.customerZip
+
+        if (country.length) {
+          this.querySelector('#ks-shipping-calculator-country').value = country
+          this.querySelector('#ks-shipping-calculator-country').dispatchEvent(new CustomEvent('change'))
+          if (province.length) {
+            this.querySelector('#ks-shipping-calculator-province').value = province
+          }
+          if (zip.length) {
+            this.querySelector('#ks-shipping-calculator-zip').value = zip
+          }
+        }
       }
 
       async onSubmit () {
@@ -255,11 +278,13 @@
   })();
 {%- endjavascript -%}
 
-
 {% capture ks_shipping_calculator %}
   <ks-shipping-calculator
     id="ks-shipping-calculator"
-    data-shopify-common-js="{{ 'shopify_common.js' | shopify_asset_url }}">
+    data-shopify-common-js="{{ 'shopify_common.js' | shopify_asset_url }}"
+    data-customer-country="{{ customer.addresses.first.country }}"
+    data-customer-province="{{ customer.addresses.first.province }}"
+    data-customer-zip="{{ customer.addresses.first.zip }}">
     <div 
       id="ks-shipping-calculator-alert"
       role="alert" 

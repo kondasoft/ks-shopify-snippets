@@ -1,0 +1,404 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_dawn_table_compare_hGFwcJ": {
+      "type": "ks-dawn-table-compare",
+      "blocks": {
+        "header_A7Enwa": {
+          "type": "header",
+          "settings": {
+            "cell_1_text": "#",
+            "cell_2_text": "",
+            "cell_2_img": "shopify:\/\/shop_images\/kondasoft-logo.png",
+            "cell_3_text": "Competitor 1",
+            "cell_4_text": "Competitor 2",
+            "cell_5_text": "Competitor 3",
+            "cell_6_text": "",
+            "cell_7_text": ""
+          }
+        },
+        "row_wECqq6": {
+          "type": "row",
+          "settings": {
+            "title": "Cart Goal",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "checked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_chw49J": {
+          "type": "row",
+          "settings": {
+            "title": "Cart Upsells",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "checked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_eqXWic": {
+          "type": "row",
+          "settings": {
+            "title": "Shipping Calculator",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "checked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_yJ3qaq": {
+          "type": "row",
+          "settings": {
+            "title": "Color Swatches",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "checked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_e9h6V7": {
+          "type": "row",
+          "settings": {
+            "title": "Qty Breaks",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "checked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_niyejT": {
+          "type": "row",
+          "settings": {
+            "title": "Cross-sells",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "checked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_WLhVmm": {
+          "type": "row",
+          "settings": {
+            "title": "Lookbook",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_hqXgg4": {
+          "type": "row",
+          "settings": {
+            "title": "Wishlist",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "checked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_H3ebNx": {
+          "type": "row",
+          "settings": {
+            "title": "Recently Viewed",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "checked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_4MdmeE": {
+          "type": "row",
+          "settings": {
+            "title": "Bundle Builder (New)",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_TdWMbE": {
+          "type": "row",
+          "settings": {
+            "title": "Advanced Styling",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "header_A7Enwa",
+        "row_wECqq6",
+        "row_chw49J",
+        "row_eqXWic",
+        "row_yJ3qaq",
+        "row_e9h6V7",
+        "row_niyejT",
+        "row_WLhVmm",
+        "row_hqXgg4",
+        "row_H3ebNx",
+        "row_4MdmeE",
+        "row_TdWMbE"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "container": true,
+        "container_max_width": "1200",
+        "heading": "Table Compare",
+        "heading_size": "h1",
+        "description": "<p>Optional description for this section<\/p>",
+        "table_min_width": "700",
+        "table_first_col_width": 30,
+        "first_col_text_align": "center",
+        "table_caption": "Add on optional caption explaining the table comparison. Leave empty to disable.",
+        "table_bg_color": "#ffffff",
+        "table_text_color": "#121212",
+        "table_border_opacity": 100,
+        "table_striped_bg_opacity": 5,
+        "icon_color_checked_circle": "#15803d",
+        "icon_color_checked": "#121212",
+        "icon_color_unchecked": "#b91c1c",
+        "padding_top": 36,
+        "padding_bottom": 80
+      }
+    },
+    "ks_dawn_table_compare_AHkFrq": {
+      "type": "ks-dawn-table-compare",
+      "blocks": {
+        "header_Qg9zRe": {
+          "type": "header",
+          "settings": {
+            "cell_1_text": "#",
+            "cell_2_text": "Our Product",
+            "cell_3_text": "Competitor 1",
+            "cell_4_text": "Competitor 2",
+            "cell_5_text": "Competitor 3",
+            "cell_6_text": "Competitor 4",
+            "cell_7_text": "Competitor 5"
+          }
+        },
+        "row_dCCW3X": {
+          "type": "row",
+          "settings": {
+            "title": "Feature name",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_3kwzPn": {
+          "type": "row",
+          "settings": {
+            "title": "Feature name",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_brRec4": {
+          "type": "row",
+          "settings": {
+            "title": "Feature name",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_C7yJtt": {
+          "type": "row",
+          "settings": {
+            "title": "Feature name",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        },
+        "row_DWcQqk": {
+          "type": "row",
+          "settings": {
+            "title": "Feature name",
+            "cell_2_checkbox": "checked-circle",
+            "cell_2_text": "",
+            "cell_3_checkbox": "unchecked",
+            "cell_3_text": "",
+            "cell_4_checkbox": "unchecked",
+            "cell_4_text": "",
+            "cell_5_checkbox": "unchecked",
+            "cell_5_text": "",
+            "cell_6_checkbox": "unchecked",
+            "cell_6_text": "",
+            "cell_7_checkbox": "unchecked",
+            "cell_7_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "header_Qg9zRe",
+        "row_dCCW3X",
+        "row_3kwzPn",
+        "row_brRec4",
+        "row_C7yJtt",
+        "row_DWcQqk"
+      ],
+      "settings": {
+        "color_scheme": "accent-2",
+        "container": true,
+        "container_max_width": "",
+        "heading": "Table Compare",
+        "heading_size": "h1",
+        "description": "<p>Optional description for this section<\/p>",
+        "table_min_width": "900",
+        "table_first_col_width": 20,
+        "first_col_text_align": "center",
+        "table_caption": "Add on optional caption explaining the table comparison. Leave empty to disable.",
+        "table_bg_color": "#465fb9",
+        "table_text_color": "#ffffff",
+        "table_border_opacity": 100,
+        "table_striped_bg_opacity": 5,
+        "icon_color_checked_circle": "#97d5ae",
+        "icon_color_checked": "#ffffff",
+        "icon_color_unchecked": "#fffdfd",
+        "padding_top": 36,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ks_dawn_table_compare_hGFwcJ",
+    "ks_dawn_table_compare_AHkFrq"
+  ]
+}

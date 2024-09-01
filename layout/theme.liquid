@@ -283,6 +283,26 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+
+    <style>
+      @media (max-width: 749px) {
+        .banner .banner__media.banner__media-half {
+          width: 100%;
+        }
+        .banner  .banner__media.banner__media-half + .banner__media {
+          display: none;
+        }
+      }
+      @media (min-width: 750px) {
+        .banner .banner__media.banner__media-half {
+          width: 100%;
+          display: none;
+        }
+        .banner  .banner__media.banner__media-half + .banner__media {
+          display: block;
+        }
+      }
+    </style>
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">

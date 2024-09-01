@@ -1,0 +1,847 @@
+{% liquid 
+  # KS Pricing plans
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{{ 'quick-add.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  /* 
+    General 
+  */
+  .ks-pricing-plans {
+  }
+  .ks-pricing-plans div:empty {
+    display: block;
+  }
+
+  /* 
+    Header 
+  */
+  .ks-pricing-plans .section-header {
+    text-align: center;
+    margin: 0 0 16px;
+  }
+  .ks-pricing-plans .section-header-title {
+    margin: 0;
+  }
+  .ks-pricing-plans .section-header-description {
+    margin-top: 6px;
+  }
+
+  /* 
+    Swiper styling 
+  */
+  .ks-pricing-plans .swiper {
+    --swiper-theme-color: rgba(var(--color-foreground), 0.75);
+    --swiper-navigation-size: 16px;
+    --swiper-navigation-sides-offset: 0;
+    --swiper-pagination-bullet-inactive-color: var(--swiper-theme-color);
+    --swiper-pagination-bottom: 4px;
+    --swiper-scrollbar-bottom: 0;
+    --swiper-scrollbar-bg-color: rgba(var(--color-foreground), 0.1);
+    --swiper-scrollbar-drag-bg-color: var(--swiper-theme-color);
+    padding: 12px 14px;
+    opacity: 0;
+    transition: all .2s ease-out;
+  }
+  .ks-pricing-plans .swiper-initialized {
+    opacity: 1;
+  }
+  .ks-pricing-plans .swiper[swiper-controls-locked="false"] {
+    padding-top: 44px;
+    padding-bottom: 44px;
+    margin-top: -32px;
+  }
+  .ks-pricing-plans .swiper .swiper-slide {
+    height: auto;
+  }
+  .ks-pricing-plans .swiper [class*="swiper-button"] {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50rem;
+    background-color: rgba(var(--color-foreground), 1);
+    color: rgba(var(--color-background), 1);
+    border: 1px solid rgba(var(--color-foreground), 1);
+    box-shadow: 0 0 4px rgba(var(--color-background), .2);
+    transition: all .2s ease-out;
+  }
+  .ks-pricing-plans .swiper .swiper-button-lock {
+    display: none !important;
+  }
+  .ks-pricing-plans .swiper [class*="swiper-button"]:hover,
+  .ks-pricing-plans .swiper [class*="swiper-button"]:focus {
+    background-color: rgba(var(--color-foreground), 1);
+  }
+  .ks-pricing-plans .swiper [class*="swiper-button"]::after {
+    transition: all .2s ease-out;
+  }
+  .ks-pricing-plans .swiper .swiper-button-prev:hover::after {
+    transform: translateX(-2px);
+  }
+  .ks-pricing-plans .swiper .swiper-button-next:hover::after {
+    transform: translateX(2px);
+  }
+  .ks-pricing-plans .swiper .swiper-scrollbar {
+    max-width: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* 
+    Card styling 
+  */
+  .ks-pricing-plans-card {
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: currentColor;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .ks-pricing-plans-card-header {
+    text-align: center;
+  }
+  .ks-pricing-plans-card-badge {
+    color: white;
+    border-radius: 50rem;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    padding: 3px 12px;
+    font-size: .75em;
+    line-height: normal;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .ks-pricing-plans-card-icon {
+    margin: 12px 0 8px;
+  }
+  .ks-pricing-plans-card-title {
+    margin: 6px 0 0;
+  }
+  .ks-pricing-plans-card-price {
+    font-size: 2em;
+    margin: 6px 0;
+    line-height: normal;
+  }
+  .ks-pricing-plans-card-price s {
+    font-size: .7em;
+    opacity: .5;
+  }
+  .ks-pricing-plans-card-description {
+    font-size: .9em;
+  }
+  .ks-pricing-plans-card  hr { 
+    margin: 16px 0;
+    background-color: rgba(var(--color-foreground), .1);
+  }
+  .ks-pricing-plans-card-body {
+    padding-bottom: 24px;
+    flex: 1;
+  }
+  .ks-pricing-plans-card-features {
+  }
+  .ks-pricing-plans-card-features ul {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 0 24px;
+  }
+  .ks-pricing-plans-card-features li {
+    margin: 5px 0;
+    line-height: normal;
+  }
+  .ks-pricing-plans-card-features[data-has-icons="true"] li {
+    display: inline-flex;
+    align-items: center;
+  }
+  .ks-pricing-plans-card-features[data-has-icons="true"] svg {
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .ks-pricing-plans-card-features[data-has-icons="true"] .svg-icon-y {
+    color: green;
+  }
+  .ks-pricing-plans-card-features[data-has-icons="true"] .svg-icon-x {
+    color: red;
+  }
+  .ks-pricing-plans-card-button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .ks-pricing-plans-card-button.button--primary {
+    --color-button: var(--color-foreground);
+    --color-button-text: var(--color-background);
+  }
+  .ks-pricing-plans-card-button.button--secondary {
+    --color-button: var(--color-background);
+    --color-button-text: var(--color-foreground);
+  }
+  .ks-pricing-plans-card-note {
+    text-align: center;
+    font-size: .8em;
+    margin: 8px 0 -4px;
+    line-height: 1.2;
+  }
+  @media (max-width: 749px) {
+    .ks-pricing-plans[data-slider-partial-mobile="true"] .page-width,
+    .ks-pricing-plans[data-slider-partial-mobile="true"] .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .ks-pricing-plans[data-slider-partial-mobile="true"] .section-header {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .ks-pricing-plans[data-slider-partial-mobile="true"] .swiper [class*="swiper-button"] {
+      display: none !important; 
+    }
+  }
+  @media (min-width: 750px) {
+    
+  }
+</style>
+
+<style>
+  #ks-pricing-plans-{{ section.id }}  {
+    --color-background: {{ section.settings.background_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    --color-foreground: {{ section.settings.foreground_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    background-color: rgba(var(--color-background), 1);
+    color: rgba(var(--color-foreground), 1);
+  }
+  @media (max-width: 749px) {
+    #ks-pricing-plans-{{ section.id }} {
+      padding-top: {{ section.settings.pt | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.pb | times: 0.75 | round: 0 }}px;
+    }
+  }
+  @media (min-width: 750px) {
+    #ks-pricing-plans-{{ section.id }} {
+      padding-top: {{ section.settings.pt }}px;
+      padding-bottom: {{ section.settings.pb }}px;
+    }
+  }
+</style>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (!document.querySelector('#swiper-stylesheet')) {
+      const stylesheet = document.createElement('link')
+      stylesheet.setAttribute('href', 'https://cdn.jsdelivr.net/npm/swiper@11.1.4/swiper-bundle.min.css')
+      stylesheet.setAttribute('rel', 'stylesheet')
+      stylesheet.setAttribute('id', 'swiper-stylesheet')
+      stylesheet.setAttribute('integrity', 'sha256-5nkrwjVsiNfKz3NR1k2h5+qt5pS5SF2u9/TIT1hElow=')
+      stylesheet.setAttribute('crossorigin', 'anonymous')
+      document.head.appendChild(stylesheet)
+    }
+    if (!document.querySelector('#swiper-script')) {
+      const script = document.createElement('script')
+      script.setAttribute('src', 'https://cdn.jsdelivr.net/npm/swiper@11.1.4/swiper-bundle.min.js')
+      script.setAttribute('id', 'swiper-script')
+      script.setAttribute('integrity', 'sha256-rCACDWCp/VzIh0rsB+ipQCM9XBvO8HNe0fNSOa4sys0=')
+      script.setAttribute('crossorigin', 'anonymous')
+      document.head.appendChild(script)
+    }
+
+    const myInterval = setInterval(() => {
+      init()
+    }, 500)
+
+    document.addEventListener('shopify:section:load', () => {
+      if (event.target.querySelector('.ks-pricing-plans')) {
+        init()
+      }
+    })
+
+    function init () {
+      if (!window.Swiper) return
+      clearInterval(myInterval)
+      const swiperElem = document.querySelector('#ks-pricing-plans-{{ section.id }} .swiper')
+  
+      const slider = new window.Swiper(swiperElem, {
+        rewind: true,
+        speed: Number(swiperElem.dataset.sliderSpeed),
+        navigation: {
+          enabled: swiperElem.dataset.sliderNavigation === 'true',
+          prevEl: swiperElem.querySelector('.swiper-button-prev'),
+          nextEl: swiperElem.querySelector('.swiper-button-next'),
+        },
+        pagination: {
+          enabled: swiperElem.dataset.sliderPagination === 'true',
+          type: 'fraction',
+          el: '.swiper-pagination',
+          renderFraction: function (currentClass, totalClass) {
+            return `<span class="${currentClass}"></span>/<span class="${totalClass}"></span>`
+          }
+        },
+        scrollbar: {
+          enabled: swiperElem.dataset.sliderScrollbar === 'true',
+          el: '.swiper-scrollbar',
+          draggable: true
+          // hide: true
+        },
+        mousewheel: { enabled: true, forceToAxis: true },
+        spaceBetween: Number(swiperElem.dataset.sliderSpaceBetween),
+        breakpoints: {
+          0: { slidesPerView: Number(swiperElem.dataset.breakpointMobile) * (swiperElem.dataset.sliderPartialMobile === 'true' ? 1.2 : 1) },
+          750: { slidesPerView: Number(swiperElem.dataset.breakpointTablet) },
+          990: { slidesPerView: Number(swiperElem.dataset.breakpointDesktop) }
+        },
+        on: {
+          init: (slider) => {
+            if (slider.isLocked) {
+              swiperElem.setAttribute('swiper-controls-locked', true)
+            } else {
+              swiperElem.setAttribute('swiper-controls-locked', false)
+            }
+          },
+          resize: (slider) => {
+            if (slider.isLocked) {
+              swiperElem.setAttribute('swiper-controls-locked', true)
+            } else {
+              swiperElem.setAttribute('swiper-controls-locked', false)
+            }
+          }
+        }
+      })
+    }
+  })
+</script>
+ 
+<div 
+  id="ks-pricing-plans-{{ section.id }}"
+  class="ks-pricing-plans {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  data-slider-partial-mobile="{{ section.settings.slider_partial_mobile }}">
+  <div 
+    class="page-width container"
+    style="max-width: {{ section.settings.container_max_width | append: 'px' }}">
+    {% unless section.settings.title == blank and section.settings.description == blank %}
+      <div class="section-header">
+        {% unless section.settings.title == blank %}
+          <h2 class="section-header-title inline-richtext {{ section.settings.title_font_size }}">
+            {{ section.settings.title }}
+          </h2>
+        {% endunless %}
+        {% unless section.settings.description == blank %}
+          <div class="section-header-description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endunless %}
+      </div>
+    {% endunless %}
+    <div 
+      class="swiper"
+      data-slider-navigation="{{ section.settings.slider_navigation }}"
+      data-slider-pagination="{{ section.settings.slider_pagination }}"
+      data-slider-scrollbar="{{ section.settings.slider_scrollbar }}"
+      data-slider-partial-mobile="{{ section.settings.slider_partial_mobile }}"
+      data-slider-speed="{{ section.settings.slider_speed }}"
+      data-slider-space-between="{{ section.settings.slider_space_between }}"
+      data-breakpoint-mobile="{{ section.settings.breakpoint_mobile }}"
+      data-breakpoint-tablet="{{ section.settings.breakpoint_tablet }}"
+      data-breakpoint-desktop="{{ section.settings.breakpoint_desktop }}">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <style>
+            #ks-pricing-plans-card-{{ block.id }}  {
+              --color-background: {{ block.settings.background_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+              --color-foreground: {{ block.settings.foreground_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+              background-color: rgba(var(--color-background), 1);
+              color: rgba(var(--color-foreground), 1);
+              border-width: {{ block.settings.border_width | append: 'px' }};
+              border-color: {{ block.settings.border_color }};
+              border-radius: {{ block.settings.border_radius | append: 'px' }};
+            }
+          </style>
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+            <div 
+              id="ks-pricing-plans-card-{{ block.id }}"
+              class="ks-pricing-plans-card">
+              <div class="ks-pricing-plans-card-header">
+                {% unless block.settings.badge == blank -%}
+                  <p 
+                    class="ks-pricing-plans-card-badge"
+                    style="background-color: {{ block.settings.badge_color }}">
+                    {{ block.settings.badge }}
+                  </p>
+                {% endunless %}
+                {% unless block.settings.icon == blank -%}
+                  <p class="ks-pricing-plans-card-icon">
+                    <img
+                      src="{{ block.settings.icon | image_url: width: block.settings.icon_size }}"
+                      alt="{{ block.settings.alt }}"
+                      width="{{ block.settings.icon_size }}"
+                      height="{{ block.settings.icon_size }}"
+                      loading="lazy">
+                  </p>
+                {% endunless %}
+                {% unless block.settings.title == blank %}
+                  <h3 class="ks-pricing-plans-card-title {{ block.settings.title_font_size }}">
+                    {{ block.settings.title }}
+                  </h3>
+                {% endunless %}
+                {% unless block.settings.price == blank %}
+                  <p 
+                    class="ks-pricing-plans-card-price" 
+                    style="font-size: {{ block.settings.price_font_size | append: 'em' }};">
+                    {{ block.settings.price
+                      | replace: '[', '<s>'
+                      | replace: ']', '</s>' }}
+                  </p>
+                {% endunless %}
+                {% unless block.settings.description == blank %}
+                  <div class="ks-pricing-plans-card-description rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endunless %}
+              </div>
+              <hr>
+              <div class="ks-pricing-plans-card-body">
+                {% unless block.settings.features == blank %}
+                  <div 
+                    class="ks-pricing-plans-card-features rte"
+                    data-has-icons="{% if block.settings.features contains '[x]' or block.settings.features contains '[y]' %}true{% else %}false{% endif %}"
+                    style="text-align: {{ block.settings.features_text_align }};">
+                    {{ block.settings.features
+                      | replace: '[y]', '<svg xmlns="http://www.w3.org/2000/svg" class="svg-icon-y" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' 
+                      | replace: '[x]', '<svg xmlns="http://www.w3.org/2000/svg" class="svg-icon-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' 
+                    }}
+                  </div>
+                {% endunless %}
+              </div>
+              <div class="ks-pricing-plans-card-footer">
+                {% unless block.settings.btn_text == blank %}
+                  {% if block.settings.product == nil %}
+                    <a 
+                      href="{{ block.settings.btn_url }}" 
+                      class="ks-pricing-plans-card-button button btn {{ block.settings.btn_style }}">
+                      {{ block.settings.btn_text }}
+                    </a>
+                  {% else %}
+                    <product-form data-section-id="{{ section.id }}">
+                      {%- form 'product', block.settings.product, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                        <input type="hidden" name="id" value="{{ block.settings.variant_id | default: block.settings.product.first_available_variant.id }}">
+                        <button 
+                          type="submit" 
+                          name="add" 
+                          class="ks-pricing-plans-card-button button btn {{ block.settings.btn_style }}">
+                          <span>{{ block.settings.btn_text }}</span>
+                          {%- render 'loading-spinner' -%}
+                        </button>
+                      {% endform %}
+                    </product-form>
+                  {% endif %}
+                {% endunless %}
+                {% unless block.settings.note == blank %}
+                  <div class="ks-pricing-plans-card-note rte">
+                    {{ block.settings.note }}
+                  </div>
+                {% endunless %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-controls">
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KS - Pricing Plans",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "foreground_color",
+      "label": "Foreground color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "container_max_width",
+      "label": "Container max-width (px)",
+      "info": "Leave empty to use the default container width",
+      "default": "1200"
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Pricing plans"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title font-size",
+      "info": "The \"H0\" value is available in the Dawn theme",
+      "default": "h1",
+      "options": [
+        { "value": "h0", "label": "H0" },
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description (optional)",
+      "default": "<p>An optional description for this section</p>"
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_navigation",
+      "label": "Show navigation (arrows)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_pagination",
+      "label": "Show pagination (dots)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_scrollbar",
+      "label": "Show scrollbar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_partial_mobile",
+      "label": "Partial slides on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slider_speed",
+      "label": "Speed",
+      "default": 300,
+      "min": 0,
+      "max": 2000,
+      "step": 100,
+      "unit": "ms"
+    },
+    {
+      "type": "range",
+      "id": "slider_space_between",
+      "label": "Space between",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Breakpoints",
+      "info": "Adjust items per slide based on screen resolution"
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_mobile",
+      "label": "Items per slide / mobile",
+      "info": "Screen width: less than 750px",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_tablet",
+      "label": "Items per slide / tablet",
+      "info": "Screen width: ≥750px",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "breakpoint_desktop",
+      "label": "Items per slide / desktop",
+      "info": "Screen width: ≥990px",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "pt",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "pb",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "Ready to take your store to the next level? Check out our [Premium Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 KondaSoft.com"
+    }
+  ],
+"blocks": [
+    {
+      "type": "plan",
+      "name": "Plan",
+      "settings": [
+        {
+          "type": "header",
+          "content": "General"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "foreground_color",
+          "label": "Foreground color",
+          "default": "#121212"
+        },
+        {
+          "type": "range",
+          "id": "border_width",
+          "label": "Border width (px)",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "default": 1,
+          "unit": "px"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border color",
+          "default": "#121212"
+        },
+        {
+          "type": "range",
+          "id": "border_radius",
+          "label": "Border radius (px)",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "default": 16,
+          "unit": "px"
+        },
+        {
+          "type": "header",
+          "content": "Header"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Badge color",
+          "default": "#334FB4"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon (svg)",
+          "info": "You can get SVG icons from sources like the [Bootstrap icons](https://icons.getbootstrap.com/)"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size",
+          "default": 40,
+          "min": 8,
+          "max": 120,
+          "step": 2,
+          "unit": "px"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Plan Title"
+        },
+        {
+          "type": "select",
+          "id": "title_font_size",
+          "label": "Title font-size",
+          "default": "h3",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" },
+            { "value": "h5", "label": "H5" },
+            { "value": "h6", "label": "H6" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$19 USD"
+        },
+        {
+          "type": "range",
+          "id": "price_font_size",
+          "label": "Title font-size",
+          "default": 2,
+          "min": 1,
+          "max": 2,
+          "step": 0.1,
+          "unit": "em"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description (optional)",
+          "default": "<p>An optional description for this plan</p>"
+        },
+        {
+          "type": "header",
+          "content": "Body"
+        },
+        {
+          "type": "richtext",
+          "id": "features",
+          "label": "Features",
+          "default": "<ul><li>Feature 1</li><li>Feature 2</li><li>Feature 3</li><li>Feature 4</li><li>Feature 5</li></ul>"
+        },
+        {
+          "type": "text_alignment",
+          "id": "features_text_align",
+          "label": "Features text-align",
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Footer"
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button text",
+          "default": "Learn more"
+        },
+        {
+          "type": "select",
+          "id": "btn_style",
+          "label": "Button style",
+          "default": "button--primary btn-primary",
+          "options": [
+            { "value": "button--primary btn-primary", "label": "Primary" },
+            { "value": "button--secondary btn-secondary", "label": "Secondary" },
+          ]
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Select a product to switch the button into a \"Add to cart\" button. The URL setting above will not have effect."
+        },
+        {
+          "type": "text",
+          "id": "variant_id",
+          "label": "Product variant ID",
+          "info": "Specify here the variant ID that you want to add to the cart for the selected product above. If left blank the first available variant will be used."
+        },
+        {
+          "type": "richtext",
+          "id": "note",
+          "label": "Note (optional)",
+          "default": "<p>An optional note for this plan</p>"
+        },
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Pricing plan",
+      "blocks": [
+        { "type": "plan" },
+        { "type": "plan" },
+        { "type": "plan" }
+      ]
+    }
+  ]
+}
+{% endschema %}

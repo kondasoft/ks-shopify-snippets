@@ -1,0 +1,754 @@
+{% liquid 
+  # KS Table Compare
+  # © 2024 KondaSoft
+  # https://www.kondasoft.com
+%}
+
+{% liquid 
+  assign header_block = section.blocks | where: 'type', 'header' | first
+  
+  if header_block.settings.cell_7_text != blank or header_block.settings.cell_7_img != nil
+    assign cols_count = 7
+  elsif header_block.settings.cell_6_text != blank or header_block.settings.cell_6_img != nil
+    assign cols_count = 6
+  elsif header_block.settings.cell_5_text != blank or header_block.settings.cell_5_img != nil
+    assign cols_count = 5
+  elsif header_block.settings.cell_4_text != blank or header_block.settings.cell_4_img != nil
+    assign cols_count = 4
+  elsif header_block.settings.cell_3_text != blank or header_block.settings.cell_3_img != nil
+    assign cols_count = 3
+  elsif header_block.settings.cell_2_text != blank or header_block.settings.cell_2_img != nil
+    assign cols_count = 2
+  else
+    assign cols_count = 1
+  endif
+%} 
+
+{%- style -%}
+  #ks-table-compare-{{ section.id }} {
+    overflow: hidden;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .ks-table-compare .section-header .title {
+    margin: 0 0 .5rem;
+  }
+
+  .ks-table-compare .section-header .description {
+    margin-bottom: 1.75rem;
+  }
+
+  @media (min-width: 750px) {
+    #ks-table-compare-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    .ks-table-compare .section-header .title {
+      margin: 0 0 .5rem;
+    }
+    .ks-table-compare .section-header .description {
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  .ks-table-compare .section-header {
+    text-align: center;
+  }
+
+  .ks-table-compare .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ks-table-compare .table {
+    caption-side: bottom;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+    line-height: normal;
+    min-width: var(--table-min-width);
+  }
+
+  .ks-table-compare caption {
+    color: rgba(var(--color-foreground));
+    opacity: .7;
+    font-size: .85em;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .ks-table-compare .table > :not(caption) > * > * {
+    background-color: transparent;
+    color: currentColor;
+    border: 1px solid currentColor;
+    padding: 10px;
+  }
+
+  #ks-table-compare-{{ section.id }}  .table > :not(caption) > * > * {
+    {% assign table_border_opacity = section.settings.table_border_opacity | divided_by: 100.0 %}
+    border-color: {{ section.settings.table_text_color | color_modify: 'alpha', table_border_opacity }};
+  }
+
+  #ks-table-compare-{{ section.id }} .table-striped > tbody > tr:nth-of-type(odd) > * {
+    {% assign table_striped_bg_opacity = section.settings.table_striped_bg_opacity | divided_by: 100.0 %}
+    background-color: {{ section.settings.table_text_color | color_modify: 'alpha', table_striped_bg_opacity }};
+  }
+
+  .ks-table-compare .table thead tr {
+    border-top-color: rgba(var(--bg-color-rgb), 1);
+    border-bottom-color: rgba(var(--bg-color-rgb), 1);
+  }
+
+  .ks-table-compare .table thead th {
+  }
+
+  .ks-table-compare .table thead th:first-child {
+    width: var(--table-first-col-width);
+  }
+
+  .ks-table-compare .table thead th img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    display: block;
+  } 
+
+  .ks-able-compare .table thead th img + span {
+    display: block;
+  }
+
+  .ks-table-compare .table tbody th {
+  }
+
+  .ks-table-compare .table tbody td {
+  }
+
+  .ks-table-compare .table tbody td svg + span {
+    margin-top: .125rem;
+  }
+
+  .ks-table-compare .ks-icon-checked-circle {
+    color: var(--icon-checked-circle-color);
+  }
+
+  .ks-table-compare .ks-icon-checked {
+    color: var(--icon-checked-color);
+  }
+
+  .ks-table-compare .ks-icon-unchecked {
+    color: var(--icon-unchecked-color);
+  }
+
+  @media (max-width: 749px) {
+    .ks-table-compare .table-responsive {
+      padding: 0 1.5rem;
+      margin: 0 -1.5rem;
+    }
+    .ks-table-compare .table thead th {
+      font-size: .85em;
+    }
+  }
+{%- endstyle -%}
+ 
+<div 
+  id="ks-table-compare-{{ section.id }}"
+  class="ks-table-compare color-{{ section.settings.color_scheme }} gradient {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+  <div 
+    class="{% if section.settings.container %}page-width{% endif %}"
+    style="max-width: {{ section.settings.container_max_width | append: 'px' }}">
+    <div class="section-header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank %}
+        <div class="description rte">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="table-responsive">
+      <table 
+        class="table table-striped"
+        style="
+          background: {{ section.settings.table_bg_color }};
+          color: {{ section.settings.table_text_color }};
+          --table-min-width: {{ section.settings.table_min_width | append: 'px' }};
+          --table-first-col-width: {{ section.settings.table_first_col_width | append: '%' }};
+          --icon-checked-circle-color: {{ section.settings.icon_color_checked_circle }};
+          --icon-checked-color: {{ section.settings.icon_color_checked }};
+          --icon-unchecked-color: {{ section.settings.icon_color_unchecked }};
+        ">
+        {% unless section.settings.table_caption == blank %}
+          <caption class="">
+            {{ section.settings.table_caption }}
+          </caption>
+        {% endunless %}
+        <thead>
+          <tr>
+            {% for count in (1..cols_count) %}
+              {% liquid
+                case count
+                  when 1
+                    assign img = header_block.settings.cell_1_img
+                    assign text = header_block.settings.cell_1_text
+                  when 2
+                    assign img = header_block.settings.cell_2_img
+                    assign text = header_block.settings.cell_2_text
+                  when 3
+                    assign img = header_block.settings.cell_3_img
+                    assign text = header_block.settings.cell_3_text
+                  when 4
+                    assign img = header_block.settings.cell_4_img
+                    assign text = header_block.settings.cell_4_text
+                  when 5
+                    assign img = header_block.settings.cell_5_img
+                    assign text = header_block.settings.cell_5_text
+                  when 6
+                    assign img = header_block.settings.cell_6_img
+                    assign text = header_block.settings.cell_6_text
+                  when 7
+                    assign img = header_block.settings.cell_7_img
+                    assign text = header_block.settings.cell_7_text
+                endcase
+              %}
+              <th scope="col">
+                {% unless img == nil  %}
+                  <img
+                    src="{{ img | image_url: width: 400 }}"
+                    alt="{{ img.alt }}"
+                    width="200"
+                    height="{{ 200 | divided_by: img.aspect_ratio | round }}"
+                    loading="lazy">
+                {% endunless %}
+                {% unless text == blank or text == '#'  %}
+                  <span>
+                    {{ text }}
+                  </span>
+                {% endunless %}
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for block in section.blocks %}
+            {% if block.type == 'row' %}
+              <tr> 
+                <th scope="row" style="text-align: {{ section.settings.first_col_text_align }}">
+                  {{ block.settings.title }}
+                </th>
+                {% for count in (2..cols_count) %}
+                  {% liquid
+                    case count
+                      when 2
+                        assign checkbox = block.settings.cell_2_checkbox
+                        assign text = block.settings.cell_2_text
+                      when 3
+                        assign checkbox = block.settings.cell_3_checkbox
+                        assign text = block.settings.cell_3_text
+                      when 4
+                        assign checkbox = block.settings.cell_4_checkbox
+                        assign text = block.settings.cell_4_text
+                      when 5
+                        assign checkbox = block.settings.cell_5_checkbox
+                        assign text = block.settings.cell_5_text
+                      when 6
+                        assign checkbox = block.settings.cell_6_checkbox
+                        assign text = block.settings.cell_6_text
+                      when 7
+                        assign checkbox = block.settings.cell_7_checkbox
+                        assign text = block.settings.cell_7_text
+                    endcase
+                  %}
+                  <td>
+                    {{ block.settings.checkbox }}
+                    {% unless checkbox == blank  %}
+                      {% if checkbox == 'checked-circle' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="ks-icon ks-icon-checked-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                      {% elsif checkbox == 'checked' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="ks-icon ks-icon-checked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="ks-icon ks-icon-unchecked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                      {% endif %} 
+                    {% endunless %}
+                    {% unless text == blank  %}
+                      <span>
+                        {{ text }}
+                      </span>
+                    {% endunless %}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KS - Table Compare",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "container",
+      "label": "Wrap in a container",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "container_max_width",
+      "label": "Container max-width (px)",
+      "default": "1200",
+      "info": "Leave empty to use the default container width"
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Table Compare"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Optional description for this section</p>",
+      "info": "Leave empty to disable"
+    },
+    {
+      "type": "header",
+      "content": "Table"
+    },
+    {
+      "type": "text",
+      "id": "table_min_width",
+      "label": "Min-width (px)",
+      "info": "Prevent the table from shrinking too much on mobile",
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "table_first_col_width",
+      "label": "First column width",
+      "info": "Fine-tune the table propotions.",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "default": 30,
+      "unit": "%"
+    },
+    {
+      "type": "text_alignment",
+      "id": "first_col_text_align",
+      "label": "First column text-align",
+      "default": "center"
+    },
+    {
+      "type": "textarea",
+      "id": "table_caption",
+      "label": "Caption",
+      "default": "Add on optional caption explaining the table comparison. Leave empty to disable."
+    },
+    {
+      "type": "color",
+      "id": "table_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "table_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "table_border_opacity",
+      "label": "Border opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "table_striped_bg_opacity",
+      "label": "Striped rows bg opacity",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 5,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Icon colors"
+    },
+    {
+      "type": "color",
+      "id": "icon_color_checked_circle",
+      "label": "Checked circle",
+      "default": "#15803d"
+    },
+    {
+      "type": "color",
+      "id": "icon_color_checked",
+      "label": "Checked",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "icon_color_unchecked",
+      "label": "Unchecked",
+      "default": "#b91c1c"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Get Support",
+      "info": "Please use our [Community Forum](https://community.kondasoft.com) to get help from our support team."
+    },
+    {
+      "type": "header",
+      "content": "Shopify Snippets",
+      "info": "Check out our other [Shopify Snippets](https://www.kondasoft.com/collections/shopify-snippets)"
+    },
+    {
+      "type": "header",
+      "content": "Shopify Themes",
+      "info": "The most advanced Shopify themes you will ever find - [Browse our Shopify Themes](https://www.kondasoft.com/collections/shopify-themes)."
+    },
+    {
+      "type": "paragraph",
+      "content": "© 2024 KondaSoft.com"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "header",
+      "name": "Header",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Cell 1"
+        },
+        {
+          "type": "text",
+          "id": "cell_1_text",
+          "label": "Text",
+          "default": "#"
+        },
+        {
+          "type": "image_picker",
+          "id": "cell_1_img",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Cell 2"
+        },
+        {
+          "type": "text",
+          "id": "cell_2_text",
+          "label": "Text",
+          "default": "Our Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "cell_2_img",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Cell 3"
+        },
+        {
+          "type": "text",
+          "id": "cell_3_text",
+          "label": "Text",
+          "default": "Competitor 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "cell_3_img",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Cell 4"
+        },
+        {
+          "type": "text",
+          "id": "cell_4_text",
+          "label": "Text",
+          "default": "Competitor 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "cell_4_img",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Cell 5"
+        },
+        {
+          "type": "text",
+          "id": "cell_5_text",
+          "label": "Text",
+          "default": "Competitor 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "cell_5_img",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Cell 6"
+        },
+        {
+          "type": "text",
+          "id": "cell_6_text",
+          "label": "Text",
+          "default": "Competitor 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "cell_6_img",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Cell 7"
+        },
+        {
+          "type": "text",
+          "id": "cell_7_text",
+          "label": "Text",
+          "default": "Competitor 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "cell_7_img",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature name"
+        },
+        {
+          "type": "header",
+          "content": "Cell 2"
+        },
+        {
+          "type": "select",
+          "id": "cell_2_checkbox",
+          "label": "Checkbox",
+          "options": [
+            { "value": "", "label": "None" },
+            { "value": "checked-circle", "label": "Checked circle" },
+            { "value": "checked", "label": "Checked" },
+            { "value": "unchecked", "label": "Unchecked" },
+          ],
+          "default": "checked-circle"
+        },
+        {
+          "type": "text",
+          "id": "cell_2_text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Cell 3"
+        },
+        {
+          "type": "select",
+          "id": "cell_3_checkbox",
+          "label": "Checkbox",
+          "options": [
+            { "value": "", "label": "None" },
+            { "value": "checked-circle", "label": "Checked circle" },
+            { "value": "checked", "label": "Checked" },
+            { "value": "unchecked", "label": "Unchecked" }
+          ],
+           "default": "unchecked"
+        },
+        {
+          "type": "text",
+          "id": "cell_3_text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Cell 4"
+        },
+        {
+          "type": "select",
+          "id": "cell_4_checkbox",
+          "label": "Checkbox",
+          "options": [
+            { "value": "", "label": "None" },
+            { "value": "checked-circle", "label": "Checked circle" },
+            { "value": "checked", "label": "Checked" },
+            { "value": "unchecked", "label": "Unchecked" }
+          ],
+           "default": "unchecked"
+        },
+        {
+          "type": "text",
+          "id": "cell_4_text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Cell 5"
+        },
+        {
+          "type": "select",
+          "id": "cell_5_checkbox",
+          "label": "Checkbox",
+          "options": [
+            { "value": "", "label": "None" },
+            { "value": "checked-circle", "label": "Checked circle" },
+            { "value": "checked", "label": "Checked" },
+            { "value": "unchecked", "label": "Unchecked" }
+          ],
+           "default": "unchecked"
+        },
+        {
+          "type": "text",
+          "id": "cell_5_text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Cell 6"
+        },
+        {
+          "type": "select",
+          "id": "cell_6_checkbox",
+          "label": "Checkbox",
+          "options": [
+            { "value": "", "label": "None" },
+            { "value": "checked-circle", "label": "Checked circle" },
+            { "value": "checked", "label": "Checked" },
+            { "value": "unchecked", "label": "Unchecked" }
+          ],
+           "default": "unchecked"
+        },
+        {
+          "type": "text",
+          "id": "cell_6_text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Cell 7"
+        },
+        {
+          "type": "select",
+          "id": "cell_7_checkbox",
+          "label": "Checkbox",
+          "options": [
+            { "value": "", "label": "None" },
+            { "value": "checked-circle", "label": "Checked circle" },
+            { "value": "checked", "label": "Checked" },
+            { "value": "unchecked", "label": "Unchecked" }
+          ],
+           "default": "unchecked"
+        },
+        {
+          "type": "text",
+          "id": "cell_7_text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KS - Table Compare",
+      "blocks": [
+        { "type": "header" },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,152 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "ks_pricing_plans_txwiVE": {
+      "type": "ks-pricing-plans",
+      "blocks": {
+        "plan_fKKBfx": {
+          "type": "plan",
+          "settings": {
+            "background_color": "#ffffff",
+            "foreground_color": "#121212",
+            "border_width": 1,
+            "border_color": "#121212",
+            "border_radius": 16,
+            "badge": "",
+            "badge_color": "#334fb4",
+            "icon": "shopify:\/\/shop_images\/icon-book.svg",
+            "icon_size": 40,
+            "title": "Starter Plan",
+            "title_font_size": "h3",
+            "price": "$19 USD",
+            "price_font_size": 2,
+            "description": "<p>Ideal if you are just starting<\/p>",
+            "features": "<ul><li>[y] Access to feature 1<\/li><li>[x] Access to feature 2<\/li><li>[x] Access to feature 3<\/li><li>[x] The best Shopify themes<\/li><li>[x] Fast & professional support<\/li><\/ul>",
+            "features_text_align": "center",
+            "btn_text": "Add to cart",
+            "btn_style": "button--primary btn-primary",
+            "btn_url": "",
+            "product": "pricing-plans-demo-product",
+            "variant_id": "49246964547890",
+            "note": "<p>An optional note for this plan<\/p>"
+          }
+        },
+        "plan_89t6wA": {
+          "type": "plan",
+          "settings": {
+            "background_color": "#f4f6fd",
+            "foreground_color": "#334fb4",
+            "border_width": 3,
+            "border_color": "#334fb4",
+            "border_radius": 16,
+            "badge": "Best Value",
+            "badge_color": "#334fb4",
+            "icon": "shopify:\/\/shop_images\/iocn-star.svg",
+            "icon_size": 40,
+            "title": "Standard Plan",
+            "title_font_size": "h3",
+            "price": "$29 USD",
+            "price_font_size": 2,
+            "description": "<p>Save the most with this plan<\/p>",
+            "features": "<ul><li>[y] Access to feature 1<\/li><li>[y] Access to feature 2<\/li><li>[x] Access to feature 3<\/li><li>[x] The best Shopify themes<\/li><li>[x] Fast & professional support<\/li><\/ul>",
+            "features_text_align": "center",
+            "btn_text": "Add to cart",
+            "btn_style": "button--primary btn-primary",
+            "btn_url": "",
+            "product": "pricing-plans-demo-product",
+            "variant_id": "49246964646194",
+            "note": "<p>An optional note for this plan<\/p>"
+          }
+        },
+        "plan_R7NqUX": {
+          "type": "plan",
+          "settings": {
+            "background_color": "#ffffff",
+            "foreground_color": "#121212",
+            "border_width": 1,
+            "border_color": "#121212",
+            "border_radius": 16,
+            "badge": "",
+            "badge_color": "#334fb4",
+            "icon": "shopify:\/\/shop_images\/icon-code-slash.svg",
+            "icon_size": 40,
+            "title": "Developer Plan",
+            "title_font_size": "h3",
+            "price": "$49 USD",
+            "price_font_size": 2,
+            "description": "<p>The perfect plan for enterprenuers<\/p>",
+            "features": "<ul><li>[y] Access to feature 1<\/li><li>[y] Access to feature 2<\/li><li>[y] Access to feature 3<\/li><li>[y] The best Shopify themes<\/li><li>[y] Fast & professional support<\/li><\/ul>",
+            "features_text_align": "center",
+            "btn_text": "Add to cart",
+            "btn_style": "button--primary btn-primary",
+            "btn_url": "",
+            "product": "pricing-plans-demo-product",
+            "variant_id": "49246964744498",
+            "note": "<p>An optional note for this plan<\/p>"
+          }
+        },
+        "plan_pyMUm3": {
+          "type": "plan",
+          "disabled": true,
+          "settings": {
+            "background_color": "#ffffff",
+            "foreground_color": "#121212",
+            "border_width": 1,
+            "border_color": "#121212",
+            "border_radius": 16,
+            "badge": "",
+            "badge_color": "#334FB4",
+            "icon_size": 40,
+            "title": "Plan Title",
+            "title_font_size": "h3",
+            "price": "$19 USD",
+            "price_font_size": 2,
+            "description": "<p>An optional description for this plan<\/p>",
+            "features": "<ul><li>Feature 1<\/li><li>Feature 2<\/li><li>Feature 3<\/li><li>Feature 4<\/li><li>Feature 5<\/li><\/ul>",
+            "features_text_align": "center",
+            "btn_text": "Learn more",
+            "btn_style": "button--primary btn-primary",
+            "btn_url": "",
+            "product": "",
+            "variant_id": "",
+            "note": "<p>An optional note for this plan<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "plan_fKKBfx",
+        "plan_89t6wA",
+        "plan_R7NqUX",
+        "plan_pyMUm3"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "foreground_color": "#121212",
+        "container_max_width": "1200",
+        "title": "Pricing plans",
+        "title_font_size": "h1",
+        "description": "<p>An optional description for this section<\/p>",
+        "slider_navigation": true,
+        "slider_pagination": true,
+        "slider_speed": 300,
+        "slider_space_between": 16,
+        "breakpoint_mobile": 1,
+        "breakpoint_tablet": 2,
+        "breakpoint_desktop": 3,
+        "pt": 36,
+        "pb": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ks_pricing_plans_txwiVE"
+  ]
+}
