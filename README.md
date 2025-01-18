@@ -35,6 +35,9 @@ All you have to do to install our snippets is to copy and paste the code found m
 ## Demo (Password: ks)
 https://ks-snippets.myshopify.com
 
+## Downloads
+https://www.kondasoft.com/collections/shopify-snippets
+
 ## YouTube video playlist
 Overview/Installation/Configuration for each snippet
 
@@ -46,9 +49,6 @@ Unparalleled features, and customization options to transform your Shopify store
 15+ years of coding experience, 50k+ customers served!
 
 https://www.kondasoft.com/collections/shopify-themes
-
-## Downloads
-https://www.kondasoft.com/collections/shopify-snippets
 
 ## Support
 Please submit a [new issue](https://github.com/kondasoft/ks-shopify-snippets/issues/new) in case you want to submit a bug or feature request. Additionally, you may use our [Community Forum](https://community.kondasoft.com/) for further help.
