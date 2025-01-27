@@ -31,6 +31,7 @@ All you have to do to install our snippets is to copy and paste the code found m
 22. KS Sticky Image
 23. KS Media Slider
 23. KS Pricing Plans
+24. KS Fancy Slideshow
 
 ## Demo (Password: ks)
 https://ks-snippets.myshopify.com
