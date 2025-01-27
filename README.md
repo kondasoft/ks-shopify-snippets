@@ -7,7 +7,7 @@ All you have to do to install our snippets is to copy and paste the code found m
 
 
 ## Snippet list
-1. KS Countdown Sale
+1. KS Countdown Sale [](Learn more(
 2. KS Contact Form Builder
 3. KS Recently Viewed
 4. KS Product Custom Properties
@@ -33,11 +33,11 @@ All you have to do to install our snippets is to copy and paste the code found m
 23. KS Pricing Plans
 24. KS Fancy Slideshow
 
+## Learn more / Download
+https://www.kondasoft.com/collections/shopify-snippets
+
 ## Demo (Password: ks)
 https://ks-snippets.myshopify.com
-
-## Downloads
-https://www.kondasoft.com/collections/shopify-snippets
 
 ## YouTube video playlist
 Overview/Installation/Configuration for each snippet
